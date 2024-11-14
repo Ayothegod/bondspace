@@ -41,7 +41,6 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
     data: {
       email: email,
       username: username,
-      fullname: fullname,
       password: hashedPassword,
     },
   });

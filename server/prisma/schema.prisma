@@ -39,13 +39,16 @@ model Session {
 }
 
 model GameSession {
-  id        String    @id @default(uuid())
-  gameType  String
-  status    String // e.g., "ongoing", "finished"
-  createdAt DateTime  @default(now())
-  players   User[]    @relation("PlayerSessions")
-  rounds    Int
-  messages  Message[]
+  id          String    @id @default(uuid())
+  gameType    String //"chat", "message", "game"
+  status      String // e.g., "ongoing", "finished", "started"
+  createdAt   DateTime  @default(now())
+  players     User[]    @relation("PlayerSessions")
+  rounds      Int
+  name        String
+  isGroupGame Boolean   @default(true)
+  // lastMessage String
+  messages    Message[]
 }
 
 model Message {

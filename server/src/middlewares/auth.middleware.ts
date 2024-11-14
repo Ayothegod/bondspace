@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import jwt from "jsonwebtoken";
 import { validateSessionToken } from "../utils/authSession.js";
 
 export const verifyCookie = asyncHandler(
@@ -27,8 +26,3 @@ export const verifyCookie = asyncHandler(
   }
 );
 
-// TODO: test example
-// socket.on("hello!", () => {
-//   console.log(`hello from client: ${socket.}`);
-//   socket.emit("message", "Whats supp client!");
-// });
