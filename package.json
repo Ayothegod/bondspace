@@ -1,12 +1,23 @@
 {
   "name": "bondspace",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bondspace - social platform crafted for those seeking genuine connections in a relaxed, collaborative setting.",
   "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:frontend": "pnpm --filter client run dev",
+    "dev:backend": "pnpm --filter server run dev",
+    "dev": "concurrently \"pnpm --filter client run dev\" \"pnpm --filter server run dev\"",
+    "dev:single": "pnpm -r run dev",
+    "build:frontend": "pnpm --filter client run build",
+    "build:backend": "pnpm --filter server run build",
+    "build": "pnpm --filter server run build",
+    "real:build": "pnpm -r run build"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
 }
