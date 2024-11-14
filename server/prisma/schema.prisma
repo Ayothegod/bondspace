@@ -11,31 +11,27 @@ datasource db {
 }
 
 model User {
-  id                  String       @id @default(uuid())
-  username            String       @unique
-  email               String       @unique
+  id                  String         @id @default(uuid())
+  username            String         @unique
+  email               String         @unique
   password            String
-  createdAt           DateTime     @default(now())
+  createdAt           DateTime       @default(now())
   avatar              Avatar?
   avatarId            String?
-  // Connections where the user is the requester
-  outgoingConnections Connection[] @relation("RequestingConnections")
+  gameSessions        GameSession[]  @relation("PlayerSessions")
+  messages            Message[]
+  notifications       Notification[]
+  sessions            Session[]
+  outgoingConnections Connection[]   @relation("RequestingConnections")
 
-  // Connections where the user is the accepter
   incomingConnections Connection[] @relation("AcceptingConnections")
-
-  gameSessions  GameSession[]  @relation("PlayerSessions")
-  messages      Message[]
-  notifications Notification[]
-  sessions      Session[]
 }
 
 model Session {
   id        String   @id
   userId    String
   expiresAt DateTime
-
-  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 model GameSession {
@@ -47,7 +43,6 @@ model GameSession {
   rounds      Int
   name        String
   isGroupGame Boolean   @default(true)
-  // lastMessage String
   messages    Message[]
 }
 
@@ -56,9 +51,9 @@ model Message {
   content   String
   createdAt DateTime     @default(now())
   senderId  String
-  sender    User         @relation(fields: [senderId], references: [id])
+  sender    User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
   sessionId String?
-  session   GameSession? @relation(fields: [sessionId], references: [id])
+  session   GameSession? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sentiment String // e.g., "positive", "neutral", "negative"
 }
 
@@ -68,15 +63,15 @@ model Avatar {
   imageURL    String
   createdAt   DateTime @default(now())
   ownerId     String   @unique
-  owner       User     @relation(fields: [ownerId], references: [id])
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 }
 
 model Connection {
   id          String   @id @default(uuid())
   requesterId String
-  requester   User     @relation("RequestingConnections", fields: [requesterId], references: [id])
+  requester   User     @relation("RequestingConnections", fields: [requesterId], references: [id], onDelete: Cascade)
   accepterId  String
-  accepter    User     @relation("AcceptingConnections", fields: [accepterId], references: [id])
+  accepter    User     @relation("AcceptingConnections", fields: [accepterId], references: [id], onDelete: Cascade)
   status      String // e.g., "pending", "accepted", "declined"
   createdAt   DateTime @default(now())
 }
@@ -87,6 +82,6 @@ model Notification {
   type        String // e.g., "friend_request", "game_invite"
   createdAt   DateTime @default(now())
   recipientId String
-  recipient   User     @relation(fields: [recipientId], references: [id])
+  recipient   User     @relation(fields: [recipientId], references: [id], onDelete: Cascade)
   read        Boolean  @default(false)
 }
