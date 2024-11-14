@@ -1,0 +1,11 @@
+TODOS.md
+
+# ENVs
+client/.env
+server/.env
+.env
+
+# Node_modules
+node_modules
+server/node_modules
+client/node_modules
