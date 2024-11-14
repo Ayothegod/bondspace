@@ -4,6 +4,7 @@ import Home from "./routes/home.tsx";
 import Login from "./routes/login.tsx";
 import Register from "./routes/register.tsx";
 import Root, { RootError, Loader as rootLoader } from "./routes/root.tsx";
+import Play from "./routes/play.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/play",
+        element: <Play />,
       },
     ],
   },
