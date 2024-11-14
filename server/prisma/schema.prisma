@@ -11,17 +11,79 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id                  String       @id @default(uuid())
+  username            String       @unique
+  email               String       @unique
+  password            String
+  createdAt           DateTime     @default(now())
+  avatar              Avatar?
+  avatarId            String?
+  // Connections where the user is the requester
+  outgoingConnections Connection[] @relation("RequestingConnections")
+
+  // Connections where the user is the accepter
+  incomingConnections Connection[] @relation("AcceptingConnections")
+
+  gameSessions  GameSession[]  @relation("PlayerSessions")
+  messages      Message[]
+  notifications Notification[]
+  sessions      Session[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model GameSession {
+  id        String    @id @default(uuid())
+  gameType  String
+  status    String // e.g., "ongoing", "finished"
+  createdAt DateTime  @default(now())
+  players   User[]    @relation("PlayerSessions")
+  rounds    Int
+  messages  Message[]
+}
+
+model Message {
+  id        String       @id @default(uuid())
+  content   String
+  createdAt DateTime     @default(now())
+  senderId  String
+  sender    User         @relation(fields: [senderId], references: [id])
+  sessionId String?
+  session   GameSession? @relation(fields: [sessionId], references: [id])
+  sentiment String // e.g., "positive", "neutral", "negative"
+}
+
+model Avatar {
+  id          String   @id @default(uuid())
+  description String // Text input from the user
+  imageURL    String
+  createdAt   DateTime @default(now())
+  ownerId     String   @unique
+  owner       User     @relation(fields: [ownerId], references: [id])
+}
+
+model Connection {
+  id          String   @id @default(uuid())
+  requesterId String
+  requester   User     @relation("RequestingConnections", fields: [requesterId], references: [id])
+  accepterId  String
+  accepter    User     @relation("AcceptingConnections", fields: [accepterId], references: [id])
+  status      String // e.g., "pending", "accepted", "declined"
+  createdAt   DateTime @default(now())
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  content     String
+  type        String // e.g., "friend_request", "game_invite"
+  createdAt   DateTime @default(now())
+  recipientId String
+  recipient   User     @relation(fields: [recipientId], references: [id])
+  read        Boolean  @default(false)
 }
