@@ -7,6 +7,13 @@ import {
   createOrGetAOneOnOneChat,
   getGroupChatDetails,
   searchAvailableUsers,
+  addNewParticipantInGroupChat,
+  deleteGroupChat,
+  deleteOneOnOneChat,
+  getAllChats,
+  leaveGroupChat,
+  removeParticipantFromGroupChat,
+  renameGroupChat,
 } from "../controllers/chat.control.js";
 
 const router = Router();
@@ -25,10 +32,7 @@ router.route("/group").post(validate, createAGroupChat);
 router
   .route("/group/:chatId")
   .get(validate, getGroupChatDetails)
-  // .patch(
-  //   validate,
-  //   renameGroupChat
-  // )
-  // .delete(validate, deleteGroupChat);
+  .patch(validate, renameGroupChat)
+  .delete(validate, deleteGroupChat);
 
 export default router;
