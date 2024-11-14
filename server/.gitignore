@@ -3,3 +3,7 @@
 
 # Node_modules
 node_modules
+
+# Prisma related
+prisma/dev.db-journal
+prisma/dev.db
