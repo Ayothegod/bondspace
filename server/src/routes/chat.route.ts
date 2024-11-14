@@ -35,4 +35,13 @@ router
   .patch(validate, renameGroupChat)
   .delete(validate, deleteGroupChat);
 
+router
+  .route("/group/:chatId/:participantId")
+  .post(validate, addNewParticipantInGroupChat)
+  .delete(validate, removeParticipantFromGroupChat);
+
+router.route("/leave/group/:chatId").delete(validate, leaveGroupChat);
+
+router.route("/remove/:chatId").delete(validate, deleteOneOnOneChat);
+
 export default router;
