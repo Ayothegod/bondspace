@@ -7,6 +7,9 @@ import { getChatMessages, getUserChats } from "@/lib/fetch";
 import { fetcher, LocalStorage } from "@/lib/hook/useUtility";
 import { ChatListItemInterface, ChatMessageInterface } from "@/lib/types/chat";
 import { useEffect, useRef, useState } from "react";
+import Logout from "./logout";
+import { ChatItem } from "@/components/sections/chat/ChatItem";
+import { useChatStore } from "@/lib/store/stateStore";
 
 const CONNECTED_EVENT = "connected";
 const DISCONNECT_EVENT = "disconnect";
@@ -20,6 +23,7 @@ const UPDATE_GROUP_NAME_EVENT = "updateGroupName";
 const MESSAGE_DELETE_EVENT = "messageDeleted";
 
 export default function Play() {
+  const { chats, setChats } = useChatStore();
   const { socket } = useSocket();
   const { toast } = useToast();
 
@@ -30,7 +34,7 @@ export default function Play() {
   const [loadingChats, setLoadingChats] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
 
-  const [chats, setChats] = useState<ChatListItemInterface[]>([]);
+  // const [chats, setChats] = useState<ChatListItemInterface[]>([]);
   const [messages, setMessages] = useState<ChatMessageInterface[]>([]);
   const [unreadMessages, setUnreadMessages] = useState<ChatMessageInterface[]>(
     []
@@ -42,21 +46,10 @@ export default function Play() {
   const [message, setMessage] = useState("");
   const [localSearchQuery, setLocalSearchQuery] = useState("");
 
-  if (
-    isConnected ||
-    loadingChats ||
-    currentChat ||
-    typingTimeoutRef ||
-    chats.length ||
-    isTyping
-  ) {
-    console.log(isConnected, loadingChats, currentChat, chats.length, isTyping);
-  }
-
   // DONE:
   const updateChatLastMessage = (
     chatToUpdateId: string,
-    message: ChatMessageInterface // The new message to be set as the last message
+    message: ChatMessageInterface 
   ) => {
     const chatToUpdate = chats.find((chat) => chat.id === chatToUpdateId)!;
 
@@ -64,10 +57,7 @@ export default function Play() {
 
     chatToUpdate.updatedAt = message?.updatedAt;
 
-    setChats([
-      chatToUpdate,
-      ...chats.filter((chat) => chat.id !== chatToUpdateId),
-    ]);
+    setChats("updateChatLastMessage", chatToUpdate);
   };
 
   // DONE:
@@ -90,15 +80,13 @@ export default function Play() {
       }
 
       chatToUpdate.lastMessage = data?.data;
-      setChats([...chats]);
+      setChats("updateChat", ...chats);
     }
   };
 
   // DONE:
   const getChats = async () => {
-    const { error, isLoading, data } = await fetcher(
-      async () => await getUserChats()
-    );
+    const { error, data } = await fetcher(async () => await getUserChats());
 
     if (error) {
       return toast({
@@ -106,19 +94,27 @@ export default function Play() {
         variant: "destructive",
       });
     }
-    setChats(data?.data || []);
+    console.log("All user chat:", data?.data);
+    setChats("updateChat", data?.data || []);
   };
 
   // DONE:
   const getMessages = async () => {
-    if (!currentChat.current?.id) return alert("No chat is selected");
+    if (!currentChat.current?.id)
+      return toast({
+        description: `No chat is selected`,
+        variant: "destructive",
+      });
 
-    if (!socket) return alert("Socket not available");
+    if (!socket)
+      return toast({
+        description: `Socket not available`,
+        variant: "destructive",
+      });
 
     // Emit an event to join the current chat
     socket.emit(JOIN_CHAT_EVENT, currentChat.current?.id);
 
-    // Filter out unread messages from the current chat as those will be read
     setUnreadMessages(
       unreadMessages.filter((msg) => msg.chat !== currentChat.current?.id)
     );
@@ -268,44 +264,29 @@ export default function Play() {
 
   // DONE:
   const onNewChat = (chat: ChatListItemInterface) => {
-    setChats((prev) => [chat, ...prev]);
+    setChats("addChat", chat);
   };
 
   // DONE:
   const onChatLeave = (chat: ChatListItemInterface) => {
     if (chat.id === currentChat.current?.id) {
-      // If the user is in the group chat they're leaving, close the chat window.
       currentChat.current = null;
-      // Remove the currentChat from local storage.
       LocalStorage.remove("currentChat");
     }
-    // Update the chats by removing the chat that the user left.
-    setChats((prev) => prev.filter((c) => c.id !== chat.id));
+
+    setChats("filterChat", chat);
   };
 
-  // Function to handle changes in group name
+  // DONE:
   const onGroupNameChange = (chat: ChatListItemInterface) => {
-    // Check if the chat being changed is the currently active chat
     if (chat.id === currentChat.current?.id) {
-      // Update the current chat with the new details
       currentChat.current = chat;
 
       // Save the updated chat details to local storage
       LocalStorage.set("currentChat", chat);
     }
 
-    // Update the list of chats with the new chat details
-    setChats((prev) => [
-      // Map through the previous chats
-      ...prev.map((c) => {
-        // If the current chat in the map matches the chat being changed, return the updated chat
-        if (c.id === chat.id) {
-          return chat;
-        }
-        // Otherwise, return the chat as-is without any changes
-        return c;
-      }),
-    ]);
+    setChats("groupNameChange", chat);
   };
 
   useEffect(() => {
@@ -376,60 +357,104 @@ export default function Play() {
   return (
     <div className="min-h-screen flex w-full">
       <div className="w-full flex-grow flex gap-2">
-        <div className="w-48 flex-shrink-0  border flex items-center justify-center min-h-screen">
+        <div className="w-48 flex-shrink-0  border flex flex-col gap-4 items-center justify-center min-h-screen">
           <Button>Start game session</Button>
+          <Logout />
         </div>
 
-        <div className="border w-full">
+        <div className="border w-full ">
+          All Chats
           {loadingChats ? (
             <div className="flex justify-center items-center h-[calc(100%-88px)]">
-              <Skeleton className="w-14" />
+              <Skeleton className="w-14 h-4 rounded-full bg-primary" />
             </div>
           ) : (
-            [...chats]
-              // .filter((chat) =>
-              //   localSearchQuery
-              //     ? getChatObjectMetadata(chat, user!)
-              //         .title?.toLocaleLowerCase()
-              //         ?.includes(localSearchQuery)
-              //     : // If there's no localSearchQuery, include all chats
-              //       true
-              // )
-              .map((chat) => {
-                return (
-                  <ChatItem
-                    chat={chat}
-                    isActive={chat.id === currentChat.current?.id}
-                    unreadCount={
-                      unreadMessages.filter((n) => n.chat === chat.id).length
+            [...chats].map((chat) => (
+              <>
+                <p>Hello</p>
+                <ChatItem
+                  chat={chat}
+                  isActive={chat.id === currentChat.current?.id}
+                  unreadCount={
+                    unreadMessages.filter((n) => n.chat === chat.id).length
+                  }
+                  onClick={(chat) => {
+                    if (
+                      currentChat.current?.id &&
+                      currentChat.current?.id === chat.id
+                    )
+                      return;
+                    LocalStorage.set("currentChat", chat);
+                    currentChat.current = chat;
+                    setMessage("");
+                    getMessages();
+                  }}
+                  key={chat.id}
+                  onChatDelete={(chatId) => {
+                    setChats("filterChat", undefined, undefined, chatId);
+                    if (currentChat.current?.id === chatId) {
+                      currentChat.current = null;
+                      LocalStorage.remove("currentChat");
                     }
-                    onClick={(chat) => {
-                      if (
-                        currentChat.current?.id &&
-                        currentChat.current?.id === chat._id
-                      )
-                        return;
-                      LocalStorage.set("currentChat", chat);
-                      currentChat.current = chat;
-                      setMessage("");
-                      getMessages();
-                    }}
-                    key={chat.id}
-                    onChatDelete={(chatId) => {
-                      setChats((prev) =>
-                        prev.filter((chat) => chat.id !== chatId)
-                      );
-                      if (currentChat.current?.id === chatId) {
-                        currentChat.current = null;
-                        LocalStorage.remove("currentChat");
-                      }
-                    }}
-                  />
-                );
-              })
+                  }}
+                />
+              </>
+            ))
           )}
         </div>
       </div>
     </div>
   );
 }
+
+// const num = 30;
+// let res: string;
+// if (num < 10) {
+//   return (res = "less than 10");
+// } else if (num > 10 && num < 30) {
+//   return (res = "more than 10 and lesss than 30");
+// } else {
+//   return (res = "more than 30");
+// }
+
+// .filter((chat) =>
+//   localSearchQuery
+//     ? getChatObjectMetadata(chat, user!)
+//         .title?.toLocaleLowerCase()
+//         ?.includes(localSearchQuery)
+//     : // If there's no localSearchQuery, include all chats
+//       true
+// )
+
+// [...chats].map((chat) => {
+//   return (
+//     <ChatItem
+//       chat={chat}
+//       isActive={chat.id === currentChat.current?.id}
+//       unreadCount={
+//         unreadMessages.filter((n) => n.chat === chat.id).length
+//       }
+//       onClick={(chat) => {
+//         if (
+//           currentChat.current?.id &&
+//           currentChat.current?.id === chat.id
+//         )
+//           return;
+//         LocalStorage.set("currentChat", chat);
+//         currentChat.current = chat;
+//         setMessage("");
+//         getMessages();
+//       }}
+//       key={chat.id}
+//       onChatDelete={(chatId) => {
+//         setChats((prev) =>
+//           prev.filter((chat) => chat.id !== chatId)
+//         );
+//         if (currentChat.current?.id === chatId) {
+//           currentChat.current = null;
+//           LocalStorage.remove("currentChat");
+//         }
+//       }}
+//     />
+//   );
+// })

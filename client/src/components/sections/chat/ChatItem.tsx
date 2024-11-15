@@ -1,15 +1,14 @@
-import {
-  EllipsisVerticalIcon,
-  PaperClipIcon,
-  TrashIcon,
-} from "@heroicons/react/20/solid";
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import moment from "moment";
 import React, { useState } from "react";
-import { deleteOneOnOneChat } from "../../api";
-import { useAuth } from "../../context/AuthContext";
-import { ChatListItemInterface } from "../../interfaces/chat";
-import { classNames, getChatObjectMetadata, requestHandler } from "../../utils";
+import { ChatListItemInterface } from "@/lib/types/chat";
+import { deleteOneOnOneChat } from "@/lib/fetch";
+import { useAuthStore } from "@/lib/store/stateStore";
+import { fetcher, getChatObjectMetadata } from "@/lib/hook/useUtility";
+import { useToast } from "@/hooks/use-toast";
+import clsx from "clsx";
+import { Group, Link, Menu, Trash } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 // import GroupChatDetailsModal from "./GroupChatDetailsModal";
 
 export const ChatItem: React.FC<{
@@ -19,24 +18,26 @@ export const ChatItem: React.FC<{
   unreadCount?: number;
   onChatDelete: (chatId: string) => void;
 }> = ({ chat, onClick, isActive, unreadCount = 0, onChatDelete }) => {
-  const { user } = useAuth();
+  // PENDING:
+  const { toast } = useToast();
+  const { user } = useAuthStore();
   const [openOptions, setOpenOptions] = useState(false);
   const [openGroupInfo, setOpenGroupInfo] = useState(false);
+  // const [openGroupInfo, setOpenGroupInfo] = useState(false);
 
-  // Define an asynchronous function named 'deleteChat'.
+
   const deleteChat = async () => {
-    await requestHandler(
-      //  A callback function that performs the deletion of a one-on-one chat by its ID.
-      async () => await deleteOneOnOneChat(chat._id),
-      null,
-      // A callback function to be executed on success. It will call 'onChatDelete'
-      // function with the chat's ID as its parameter.
-      () => {
-        onChatDelete(chat._id);
-      },
-      // The 'alert' function (likely to display error messages to the user.
-      alert
+    const { error } = await fetcher(
+      async () => await deleteOneOnOneChat(chat.id)
     );
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+
+    onChatDelete(chat.id);
   };
 
   if (!chat) return;
@@ -54,7 +55,7 @@ export const ChatItem: React.FC<{
         role="button"
         onClick={() => onClick(chat)}
         onMouseLeave={() => setOpenOptions(false)}
-        className={classNames(
+        className={clsx(
           "group p-4 my-2 flex justify-between gap-3 items-start cursor-pointer rounded-3xl hover:bg-secondary",
           isActive ? "border-[1px] border-zinc-500 bg-secondary" : "",
           unreadCount > 0
@@ -69,9 +70,9 @@ export const ChatItem: React.FC<{
           }}
           className="self-center p-1 relative"
         >
-          <EllipsisVerticalIcon className="h-6 group-hover:w-6 group-hover:opacity-100 w-0 opacity-0 transition-all ease-in-out duration-100 text-zinc-300" />
+          <Menu className="h-6 group-hover:w-6 group-hover:opacity-100 w-0 opacity-0 transition-all ease-in-out duration-100 text-zinc-300" />
           <div
-            className={classNames(
+            className={clsx(
               "z-20 text-left absolute bottom-0 translate-y-full text-sm w-52 bg-dark rounded-2xl p-2 shadow-md border-[1px] border-secondary",
               openOptions ? "block" : "hidden"
             )}
@@ -85,7 +86,7 @@ export const ChatItem: React.FC<{
                 role="button"
                 className="p-4 w-full rounded-lg inline-flex items-center hover:bg-secondary"
               >
-                <InformationCircleIcon className="h-4 w-4 mr-2" /> About group
+                <Group className="h-4 w-4 mr-2" /> About group
               </p>
             ) : (
               <p
@@ -101,7 +102,7 @@ export const ChatItem: React.FC<{
                 role="button"
                 className="p-4 text-danger rounded-lg w-full inline-flex items-center hover:bg-secondary"
               >
-                <TrashIcon className="h-4 w-4 mr-2" />
+                <Trash className="h-4 w-4 mr-2" />
                 Delete chat
               </p>
             )}
@@ -110,30 +111,38 @@ export const ChatItem: React.FC<{
         <div className="flex justify-center items-center flex-shrink-0">
           {chat.isGroupChat ? (
             <div className="w-12 relative h-12 flex-shrink-0 flex justify-start items-center flex-nowrap">
-              {chat.participants.slice(0, 3).map((participant, i) => {
+              {chat.players.slice(0, 3).map((player) => {
                 return (
-                  <img
-                    key={participant._id}
-                    src={participant.avatar.url}
-                    className={classNames(
-                      "w-8 h-8 border-[1px] border-white rounded-full absolute outline outline-4 outline-dark group-hover:outline-secondary",
-                      i === 0
-                        ? "left-0 z-[3]"
-                        : i === 1
-                        ? "left-2.5 z-[2]"
-                        : i === 2
-                        ? "left-[18px] z-[1]"
-                        : ""
-                    )}
-                  />
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-8 w-8 bg-primary rounded-full " />
+                    <p className="text-xs font-bold">{player.username}</p>
+                  </div>
+                  // <img
+                  //   key={player.id}
+                  //   src={player.avatarId}
+                  //   className={clsx(
+                  //     "w-8 h-8 border-[1px] border-white rounded-full absolute outline outline-4 outline-dark group-hover:outline-secondary",
+                  //     i === 0
+                  //       ? "left-0 z-[3]"
+                  //       : i === 1
+                  //       ? "left-2.5 z-[2]"
+                  //       : i === 2
+                  //       ? "left-[18px] z-[1]"
+                  //       : ""
+                  //   )}
+                  // />
                 );
               })}
             </div>
           ) : (
-            <img
-              src={getChatObjectMetadata(chat, user!).avatar}
-              className="w-12 h-12 rounded-full"
-            />
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-8 bg-primary rounded-full " />
+              <p className="text-xs font-bold">Metadata image</p>
+            </div>
+            // <img
+            //   src={getChatObjectMetadata(chat, user!).avatar}
+            //   className="w-12 h-12 rounded-full"
+            // />
           )}
         </div>
         <div className="w-full">
@@ -143,7 +152,7 @@ export const ChatItem: React.FC<{
           <div className="w-full inline-flex items-center text-left">
             {chat.lastMessage && chat.lastMessage.attachments.length > 0 ? (
               // If last message is an attachment show paperclip
-              <PaperClipIcon className="text-white/50 h-3 w-3 mr-2 flex flex-shrink-0" />
+              <Link className="text-white/50 h-3 w-3 mr-2 flex flex-shrink-0" />
             ) : null}
             <small className="text-white/50 truncate-1 text-sm text-ellipsis inline-flex items-center">
               {getChatObjectMetadata(chat, user!).lastMessage}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AxiosResponse } from "axios";
-import { APIStatusResponseInterface } from "../types/chat";
+import { APIStatusResponseInterface, ChatListItemInterface, UserInterface } from "../types/chat";
 
 export const isBrowser = typeof window !== "undefined";
 
@@ -84,4 +84,33 @@ export const fetcher = async (
   return { data, error, isLoading };
 };
 
-// error = (err as Error).message || "An error occurred";
+export const getChatObjectMetadata = (
+  chat: ChatListItemInterface, 
+  loggedInUser: UserInterface 
+) => {
+  const lastMessage = chat.lastMessage?.content
+    ? chat.lastMessage?.content
+    :  "No messages yet"
+
+  if (chat.isGroupChat) {
+    return {
+      avatar: "https://via.placeholder.com/100x100.png",
+      title: chat.name, 
+      description: `${chat.players.length} members in the chat`,
+      lastMessage: chat.lastMessage
+        ? chat.lastMessage?.sender?.username + ": " + lastMessage
+        : lastMessage,
+    };
+  } else {
+    const player = chat.players.find(
+      (p) => p.id !== loggedInUser?.id
+    );
+
+    return {
+      avatar: player?.avatarId, 
+      title: player?.username, 
+      description: player?.email,
+      lastMessage,
+    };
+  }
+};

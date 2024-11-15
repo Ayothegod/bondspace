@@ -1,16 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { UserInterface } from "@/lib/types/chat";
-
-interface chatStore {
-  active: boolean;
-  setActive: () => void;
-}
-
-export const useChatStore = create<chatStore>((set) => ({
-  active: false,
-  setActive: () => set((state) => ({ active: !state.active })),
-}));
+import { ChatListItemInterface, UserInterface } from "@/lib/types/chat";
 
 interface authStore {
   user: UserInterface | null;
@@ -27,18 +17,18 @@ export const useAuthStore = create<authStore>()(
       token: null,
       setUser: (user) =>
         set(() => {
-          const name = "hello";
-          console.log(name);
-
           return { user: user };
         }),
       setToken: (token) => set(() => ({ token: token })),
       logout: () =>
         set((state) => {
+          console.log("logout cicked!");
+
           if (state.token || state.user) {
             return { token: null, user: null };
           }
-          return state;
+          return { token: null, user: null };
+          // return state;
         }),
     }),
     {
@@ -46,6 +36,55 @@ export const useAuthStore = create<authStore>()(
     }
   )
 );
+
+interface chatStore {
+  chats: ChatListItemInterface[];
+  setChats: (
+    updateType: string,
+    chat?: ChatListItemInterface,
+    chats?: ChatListItemInterface[],
+    chatId?: string
+  ) => void;
+}
+
+// WARN: conver setChats to switch case type - maybe?
+export const useChatStore = create<chatStore>((set) => ({
+  chats: [],
+  setChats: (updateType, chat, chats, chatId) =>
+    set((state) => {
+      if (updateType === "addChat" && chat) {
+        return { chats: [...state.chats, chat] };
+      }
+      if (updateType === "updateChat" && chats) {
+        return { chats: chats };
+      }
+      if (updateType === "filterChat") {
+        if (chat) {
+          return { chats: state.chats.filter((c) => c.id !== chat.id) };
+        } else {
+          return { chats: state.chats.filter((c) => c.id !== chatId) };
+        }
+      }
+      if (updateType === "updateChatLastMessage" && chat) {
+        return {
+          chats: [chat, ...state.chats.filter((c) => c.id !== chat.id)],
+        };
+      }
+      if (updateType === "groupNameChange" && chat) {
+        return {
+          chats: state.chats.map((c) => {
+            if (c.id === chat.id) {
+              return chat;
+            }
+            return c;
+          }),
+        };
+      }
+
+      // console.log("Returned chats state:", state.chats);
+      return { chats: state.chats };
+    }),
+}));
 
 // interface messageStore {
 //   isMessage: boolean;

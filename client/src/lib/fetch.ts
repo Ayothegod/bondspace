@@ -1,7 +1,11 @@
-import axios from "axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios, { AxiosResponse } from "axios";
+import { APIStatusResponseInterface } from "./types/chat";
 
 export const fetcher = (url: string) =>
   axiosInstance.get(url).then((res) => res.data);
+
+export type NewAxiosResponse = AxiosResponse<APIStatusResponseInterface, any>;
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -50,9 +54,7 @@ const addParticipantToGroup = (chatId: string, participantId: string) => {
 };
 
 const removeParticipantFromGroup = (chatId: string, participantId: string) => {
-  return axiosInstance.delete(
-    `chats/group/${chatId}/${participantId}`
-  );
+  return axiosInstance.delete(`chats/group/${chatId}/${participantId}`);
 };
 
 const getChatMessages = (chatId: string) => {

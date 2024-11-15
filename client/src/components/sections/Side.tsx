@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useToast } from "@/hooks/use-toast";
 // import { useSocket } from "@/lib/context/useSocketContext";
@@ -10,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import {
   createGroupChat,
   createUserChat,
@@ -17,15 +19,16 @@ import {
 } from "@/lib/fetch";
 import { fetcher } from "@/lib/hook/useUtility";
 import { UserInterface } from "@/lib/types/chat";
-import { useEffect, useState } from "react";
-import { Switch } from "@/components/ui/switch";
 import clsx from "clsx";
-import { Input } from "../ui/input";
-import { CircleAlert, Group, Users } from "lucide-react";
+import { CircleAlert, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { useChatStore } from "@/lib/store/stateStore";
 
 export default function Side() {
   // const { socket } = useSocket();
+  const { chats, setChats } = useChatStore();
   const { toast } = useToast();
   // console.log(socket);
   const [users, setUsers] = useState<UserInterface[]>([]);
@@ -36,7 +39,7 @@ export default function Side() {
   const [creatingChat, setCreatingChat] = useState(false);
 
   const getUsers = async () => {
-    const { error, isLoading, data } = await fetcher(
+    const { error, data } = await fetcher(
       async () => await getAvailableUsers()
     );
     if (error) {
@@ -60,7 +63,7 @@ export default function Side() {
       });
 
     setCreatingChat(true);
-    const { error, isLoading, data } = await fetcher(
+    const { error, data } = await fetcher(
       async () => await createUserChat(selectedUserId)
     );
     setCreatingChat(false);
@@ -78,6 +81,8 @@ export default function Side() {
         variant: "destructive",
       });
     }
+
+    setChats("updateChat", data?.data);
   };
 
   const createNewGroupChat = async () => {
@@ -94,7 +99,7 @@ export default function Side() {
       });
 
     setCreatingChat(true);
-    const { error, isLoading, data } = await fetcher(
+    const { error, data } = await fetcher(
       async () =>
         await createGroupChat({
           name: groupName,
@@ -110,12 +115,7 @@ export default function Side() {
       });
     }
 
-    if (data?.statusCode === 200) {
-      return toast({
-        description: `Chat with selected user already exists`,
-        variant: "destructive",
-      });
-    }
+    setChats("updateChat", data?.data);
   };
 
   const handleClose = () => {
@@ -137,7 +137,7 @@ export default function Side() {
   // console.log(users, dataUser)
 
   return (
-    <div className="w-[14em] sm:w-[24em] p-3 md:w-[26em] border min-h-screen bg-background-top flex-shrink-0">
+    <div className="w-[14em] sm:w-[16em] p-3 md:w-[22em] border min-h-screen bg-background-top flex-shrink-0">
       {/* Header */}
       <div>
         <div className="flex justify-between items-center">

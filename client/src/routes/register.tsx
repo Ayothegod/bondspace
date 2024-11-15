@@ -12,10 +12,12 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Logo from "@/components/build/Logo";
 import { useState } from "react";
+import { useAuthStore } from "@/lib/store/stateStore";
 
 type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default function Register() {
+  const { setUser, setToken } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -34,7 +36,8 @@ export default function Register() {
         username: data.username,
         password: data.password,
       });
-      // console.log(response.data);
+      setToken("jh7ws89shs7823jwe");
+      setUser(response.data.data);
 
       toast({
         title: `${response.data ? response.data.message : "Success"}`,

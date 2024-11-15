@@ -1,4 +1,4 @@
-import ThemeToggle from "@/components/build/ThemeToggle";
+// import ThemeToggle from "@/components/build/ThemeToggle";
 import Side from "@/components/sections/Side";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
@@ -11,7 +11,7 @@ export default function MainLayout() {
           <Side />
 
           <main className="w-full">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             <div className="w-full min-h-screen">
               <Outlet />
             </div>

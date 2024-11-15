@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosInstance } from "@/lib/fetch";
+import { axiosInstance, NewAxiosResponse } from "@/lib/fetch";
 import { loginUserSchema } from "@/lib/schema";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -31,13 +31,15 @@ export default function Login() {
     setLoading(!loading);
 
     try {
-      const response = await axiosInstance.post(`/auth/login`, {
-        username: data.username,
-        password: data.password,
-      });
-      setToken("jh7ws89shs7823jwe")
-      setUser(response.data.)
-      // console.log(response.data);
+      const response: NewAxiosResponse = await axiosInstance.post(
+        `/auth/login`,
+        {
+          username: data.username,
+          password: data.password,
+        }
+      );
+      setToken("jh7ws89shs7823jwe");
+      setUser(response.data.data);
 
       toast({
         title: `${response.data ? response.data.message : "Success"}`,
