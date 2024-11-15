@@ -30,7 +30,7 @@ const searchAvailableUsers = asyncHandler(
       },
     });
 
-    if (users) {
+    if (!users) {
       console.log(
         "searchAvailableUsers - Users not available. Invite a new user instead."
       );
@@ -177,7 +177,7 @@ const createOrGetAOneOnOneChat = asyncHandler(
     });
 
     return res
-      .status(200)
+      .status(201)
       .json(new ApiResponse(201, gameSession, "Chat retrieved successfully"));
   }
 );

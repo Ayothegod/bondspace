@@ -1,5 +1,5 @@
 import cookie from "cookie";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 import { Server, Socket } from "socket.io";
 ChatEventEnum;
 import { ApiError } from "../utils/ApiError.js";
@@ -102,7 +102,7 @@ const initializeSocketIO = (io: Server) => {
             "Something went wrong while connecting to the socket."
         );
       } else {
-        console.error("An unexpected error occurred");
+        console.error("An unexpected error occurred Here");
         socket.emit(
           ChatEventEnum.SOCKET_ERROR_EVENT,
           "Something went wrong while connecting to the socket."
@@ -118,6 +118,8 @@ const emitSocketEvent = (
   event: string,
   payload: any
 ) => {
+  console.log(`socket emitted from: roomID-${roomId}, with event: ${event}`);
+
   req.app.get("io").in(roomId).emit(event, payload);
 };
 

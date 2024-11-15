@@ -9,54 +9,54 @@ export const axiosInstance = axios.create({
   timeout: 12000,
 });
 
-const logoutUser = () => {
-  return axiosInstance.post("/users/logout");
-};
+// const logoutUser = () => {
+//   return axiosInstance.post("users/logout");
+// };
 
 const getAvailableUsers = () => {
-  return axiosInstance.get("/chat-app/chats/users");
+  return axiosInstance.get("/chat/users");
 };
 
 const getUserChats = () => {
-  return axiosInstance.get(`/chat-app/chats`);
+  return axiosInstance.get(`/chat`);
 };
 
 const createUserChat = (receiverId: string) => {
-  return axiosInstance.post(`/chat-app/chats/c/${receiverId}`);
+  return axiosInstance.post(`/chat/c/${receiverId}`);
 };
 
 const createGroupChat = (data: { name: string; participants: string[] }) => {
-  return axiosInstance.post(`/chat-app/chats/group`, data);
+  return axiosInstance.post(`/chat/group`, data);
 };
 
 const getGroupInfo = (chatId: string) => {
-  return axiosInstance.get(`/chat-app/chats/group/${chatId}`);
+  return axiosInstance.get(`/chat/group/${chatId}`);
 };
 
 const updateGroupName = (chatId: string, name: string) => {
-  return axiosInstance.patch(`/chat-app/chats/group/${chatId}`, { name });
+  return axiosInstance.patch(`/chat/group/${chatId}`, { name });
 };
 
 const deleteGroup = (chatId: string) => {
-  return axiosInstance.delete(`/chat-app/chats/group/${chatId}`);
+  return axiosInstance.delete(`/chats/group/${chatId}`);
 };
 
 const deleteOneOnOneChat = (chatId: string) => {
-  return axiosInstance.delete(`/chat-app/chats/remove/${chatId}`);
+  return axiosInstance.delete(`/chats/remove/${chatId}`);
 };
 
 const addParticipantToGroup = (chatId: string, participantId: string) => {
-  return axiosInstance.post(`/chat-app/chats/group/${chatId}/${participantId}`);
+  return axiosInstance.post(`chats/group/${chatId}/${participantId}`);
 };
 
 const removeParticipantFromGroup = (chatId: string, participantId: string) => {
   return axiosInstance.delete(
-    `/chat-app/chats/group/${chatId}/${participantId}`
+    `chats/group/${chatId}/${participantId}`
   );
 };
 
 const getChatMessages = (chatId: string) => {
-  return axiosInstance.get(`/chat-app/messages/${chatId}`);
+  return axiosInstance.get(`/messages/${chatId}`);
 };
 
 const sendMessage = (chatId: string, content: string, attachments: File[]) => {
@@ -85,7 +85,7 @@ export {
   getChatMessages,
   getGroupInfo,
   getUserChats,
-  logoutUser,
+  // logoutUser,
   removeParticipantFromGroup,
   sendMessage,
   updateGroupName,

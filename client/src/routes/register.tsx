@@ -30,7 +30,6 @@ export default function Register() {
 
     try {
       const response = await axiosInstance.post(`/auth/register`, {
-        fullname: data.fullname,
         email: data.email,
         username: data.username,
         password: data.password,
@@ -85,19 +84,6 @@ export default function Register() {
               onSubmit={handleSubmit(onSubmit)}
               className="mt-8 flex flex-col gap-y-4"
             >
-              <div>
-                <Label className="text-xs">Full Name</Label>
-                <Input
-                  type="text"
-                  {...register("fullname")}
-                  placeholder="Your full name, so others know who you are."
-                />
-                {errors.fullname && (
-                  <Label className="text-xs text-red-500">
-                    {errors.fullname?.message}
-                  </Label>
-                )}
-              </div>
               <div>
                 <Label className="text-xs">Email Address</Label>
                 <Input

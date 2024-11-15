@@ -11,14 +11,14 @@ import { comparePassword, hashPassword } from "../utils/services.js";
 import { AuthErrorEnum } from "../utils/constants.js";
 
 const registerController = asyncHandler(async (req: Request, res: Response) => {
-  const { email, username, password, fullname } = req.body;
+  const { email: userEmail, username: userName, password, fullname } = req.body;
 
   // Validate body data
   // console.log(email, username, password, fullname);
 
   const existingUser = await prisma.user.findFirst({
     where: {
-      OR: [{ email: email }, { username: username }],
+      OR: [{ email: userEmail }, { username: userName }],
     },
   });
 
@@ -39,8 +39,8 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
 
   const user = await prisma.user.create({
     data: {
-      email: email,
-      username: username,
+      email: userEmail,
+      username: userName,
       password: hashedPassword,
     },
   });
@@ -49,24 +49,31 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
+  const { avatarId, id, email, username } = user;
 
   // console.log(token, session);
   setSessionTokenCookie(res, token);
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "OK", "User registered successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        { avatarId, id, email, username },
+        "User registered successfully"
+      )
+    );
 });
 
 const loginController = asyncHandler(async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { username: userName, password } = req.body;
 
   // Validate body data
-  console.log(password, username);
+  // console.log(password, userName);
 
   // chcek for user
   const user = await prisma.user.findUnique({
-    where: { username: username },
+    where: { username: userName },
   });
 
   if (!user) {
@@ -89,16 +96,31 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
   if (!passwordCheck) {
     return res
       .status(400)
-      .json(new ApiResponse(400, AuthErrorEnum.INVALID_CREDENTIALS, "Invalid credentials!"));
+      .json(
+        new ApiResponse(
+          400,
+          AuthErrorEnum.INVALID_CREDENTIALS,
+          "Invalid credentials!"
+        )
+      );
   }
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
+  const { avatarId, id, email, username } = user;
 
-  console.log(token, session);
+  // console.log(token, session);
   setSessionTokenCookie(res, token);
 
-  return res.status(200).json(new ApiResponse(200, "OK", "Login successful!"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { avatarId, id, email, username },
+        "Login successful!"
+      )
+    );
 });
 
 const forgetPasswordController = asyncHandler(

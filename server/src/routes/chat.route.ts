@@ -20,7 +20,7 @@ const router = Router();
 
 router.use(verifyCookie);
 
-router.route("/").post();
+router.route("/").get(getAllChats);
 router.route("/forgot-password").post(validate, forgetPasswordController);
 
 router.route("/users").get(searchAvailableUsers);

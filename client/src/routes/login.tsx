@@ -12,10 +12,12 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Logo from "@/components/build/Logo";
 import { useState } from "react";
+import { useAuthStore } from "@/lib/store/stateStore";
 
 type LoginSchemaType = z.infer<typeof loginUserSchema>;
 
 export default function Login() {
+  const { setToken, setUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -33,6 +35,8 @@ export default function Login() {
         username: data.username,
         password: data.password,
       });
+      setToken("jh7ws89shs7823jwe")
+      setUser(response.data.)
       // console.log(response.data);
 
       toast({
@@ -40,7 +44,7 @@ export default function Login() {
         description: `welcome back, ${data.username}`,
       });
 
-      return navigate("/chat");
+      return navigate("/play");
     } catch (error: any) {
       // console.log(error.response.data);
 

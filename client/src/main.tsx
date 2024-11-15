@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import RootLayout from "./layouts/RootLayout.tsx";
@@ -9,7 +9,7 @@ import App from "./App.tsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <SocketProvider>
         <RootLayout>
@@ -18,5 +18,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </RootLayout>
       </SocketProvider>
     </ThemeProvider>
-  </React.StrictMode>
+  // {/* </React.StrictMode> */}
 );

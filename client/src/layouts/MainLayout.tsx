@@ -1,6 +1,6 @@
-// import ThemeToggle from "@/components/build/ThemeToggle";
-// import MainSidebar from "@/components/sections/MainSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import ThemeToggle from "@/components/build/ThemeToggle";
+import Side from "@/components/sections/Side";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
@@ -8,11 +8,10 @@ export default function MainLayout() {
     <div className="">
       <SidebarProvider>
         <div className="flex w-full">
-          {/* <MainSidebar /> */}
+          <Side />
 
           <main className="w-full">
-            {/* <SidebarTrigger/> */}
-            {/* <ThemeToggle /> */}
+            <ThemeToggle />
             <div className="w-full min-h-screen">
               <Outlet />
             </div>
