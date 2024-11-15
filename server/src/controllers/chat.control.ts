@@ -204,7 +204,7 @@ const createAGroupChat = asyncHandler(async (req: Request, res: Response) => {
       name: name,
       status: "started",
       players: {
-        connect: participants.map((participant: string) => ({
+        connect: members.map((participant: string) => ({
           id: participant,
         })),
       },
