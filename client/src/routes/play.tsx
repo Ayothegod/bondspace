@@ -23,7 +23,7 @@ const UPDATE_GROUP_NAME_EVENT = "updateGroupName";
 const MESSAGE_DELETE_EVENT = "messageDeleted";
 
 export default function Play() {
-  const { chats, setChats } = useChatStore();
+  const { allChats, setChats } = useChatStore();
   const { socket } = useSocket();
   const { toast } = useToast();
 
@@ -49,9 +49,9 @@ export default function Play() {
   // DONE:
   const updateChatLastMessage = (
     chatToUpdateId: string,
-    message: ChatMessageInterface 
+    message: ChatMessageInterface
   ) => {
-    const chatToUpdate = chats.find((chat) => chat.id === chatToUpdateId)!;
+    const chatToUpdate = allChats.find((chat) => chat.id === chatToUpdateId)!;
 
     chatToUpdate.lastMessage = message;
 
@@ -65,7 +65,7 @@ export default function Play() {
     chatToUpdateId: string, //ChatId to find the chat
     message: ChatMessageInterface //The deleted message
   ) => {
-    const chatToUpdate = chats.find((chat) => chat.id === chatToUpdateId)!;
+    const chatToUpdate = allChats.find((chat) => chat.id === chatToUpdateId)!;
 
     if (chatToUpdate.lastMessage?.id === message.id) {
       const { error, isLoading, data } = await fetcher(
@@ -80,7 +80,7 @@ export default function Play() {
       }
 
       chatToUpdate.lastMessage = data?.data;
-      setChats("updateChat", ...chats);
+      setChats("updateChat", ...allChats);
     }
   };
 
@@ -94,9 +94,10 @@ export default function Play() {
         variant: "destructive",
       });
     }
-    console.log("All user chat:", data?.data);
-    setChats("updateChat", data?.data || []);
+    // console.log("All user chat:", data?.data);
+    setChats("updateChat", undefined, data?.data);
   };
+  console.log("Chats from stateStore:", allChats);
 
   // DONE:
   const getMessages = async () => {
@@ -352,7 +353,7 @@ export default function Play() {
     // This will not cause infinite renders because the functions in the socket are getting mounted and not executed.
     // So, even if some socket callbacks are updating the `chats` state, it's not
     // updating on each `useEffect` call but on each socket call.
-  }, [socket, chats]);
+  }, [socket, allChats]);
 
   return (
     <div className="min-h-screen flex w-full">
@@ -369,36 +370,33 @@ export default function Play() {
               <Skeleton className="w-14 h-4 rounded-full bg-primary" />
             </div>
           ) : (
-            [...chats].map((chat) => (
-              <>
-                <p>Hello</p>
-                <ChatItem
-                  chat={chat}
-                  isActive={chat.id === currentChat.current?.id}
-                  unreadCount={
-                    unreadMessages.filter((n) => n.chat === chat.id).length
+            [...allChats].map((chat) => (
+              <ChatItem
+                chat={chat}
+                isActive={chat.id === currentChat.current?.id}
+                unreadCount={
+                  unreadMessages.filter((n) => n.chat === chat.id).length
+                }
+                onClick={(chat) => {
+                  if (
+                    currentChat.current?.id &&
+                    currentChat.current?.id === chat.id
+                  )
+                    return;
+                  LocalStorage.set("currentChat", chat);
+                  currentChat.current = chat;
+                  setMessage("");
+                  // getMessages();
+                }}
+                key={chat.id}
+                onChatDelete={(chatId) => {
+                  setChats("filterChat", undefined, undefined, chatId);
+                  if (currentChat.current?.id === chatId) {
+                    currentChat.current = null;
+                    LocalStorage.remove("currentChat");
                   }
-                  onClick={(chat) => {
-                    if (
-                      currentChat.current?.id &&
-                      currentChat.current?.id === chat.id
-                    )
-                      return;
-                    LocalStorage.set("currentChat", chat);
-                    currentChat.current = chat;
-                    setMessage("");
-                    getMessages();
-                  }}
-                  key={chat.id}
-                  onChatDelete={(chatId) => {
-                    setChats("filterChat", undefined, undefined, chatId);
-                    if (currentChat.current?.id === chatId) {
-                      currentChat.current = null;
-                      LocalStorage.remove("currentChat");
-                    }
-                  }}
-                />
-              </>
+                }}
+              />
             ))
           )}
         </div>

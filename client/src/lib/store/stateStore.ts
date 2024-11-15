@@ -38,7 +38,7 @@ export const useAuthStore = create<authStore>()(
 );
 
 interface chatStore {
-  chats: ChatListItemInterface[];
+  allChats: ChatListItemInterface[];
   setChats: (
     updateType: string,
     chat?: ChatListItemInterface,
@@ -49,30 +49,31 @@ interface chatStore {
 
 // WARN: conver setChats to switch case type - maybe?
 export const useChatStore = create<chatStore>((set) => ({
-  chats: [],
+  allChats: [],
   setChats: (updateType, chat, chats, chatId) =>
     set((state) => {
       if (updateType === "addChat" && chat) {
-        return { chats: [...state.chats, chat] };
+        return { chats: [...state.allChats, chat] };
       }
       if (updateType === "updateChat" && chats) {
-        return { chats: chats };
+        // console.log("try from updateChat:", chats);
+        return { allChats: chats };
       }
       if (updateType === "filterChat") {
         if (chat) {
-          return { chats: state.chats.filter((c) => c.id !== chat.id) };
+          return { allChats: state.allChats.filter((c) => c.id !== chat.id) };
         } else {
-          return { chats: state.chats.filter((c) => c.id !== chatId) };
+          return { allChats: state.allChats.filter((c) => c.id !== chatId) };
         }
       }
       if (updateType === "updateChatLastMessage" && chat) {
         return {
-          chats: [chat, ...state.chats.filter((c) => c.id !== chat.id)],
+          allChats: [chat, ...state.allChats.filter((c) => c.id !== chat.id)],
         };
       }
       if (updateType === "groupNameChange" && chat) {
         return {
-          chats: state.chats.map((c) => {
+          allChats: state.allChats.map((c) => {
             if (c.id === chat.id) {
               return chat;
             }
@@ -82,7 +83,7 @@ export const useChatStore = create<chatStore>((set) => ({
       }
 
       // console.log("Returned chats state:", state.chats);
-      return { chats: state.chats };
+      return { allChats: state.allChats };
     }),
 }));
 

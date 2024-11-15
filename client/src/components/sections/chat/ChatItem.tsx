@@ -18,13 +18,14 @@ export const ChatItem: React.FC<{
   unreadCount?: number;
   onChatDelete: (chatId: string) => void;
 }> = ({ chat, onClick, isActive, unreadCount = 0, onChatDelete }) => {
+  // console.log(chat);
+
   // PENDING:
   const { toast } = useToast();
   const { user } = useAuthStore();
   const [openOptions, setOpenOptions] = useState(false);
   const [openGroupInfo, setOpenGroupInfo] = useState(false);
   // const [openGroupInfo, setOpenGroupInfo] = useState(false);
-
 
   const deleteChat = async () => {
     const { error } = await fetcher(
@@ -36,7 +37,6 @@ export const ChatItem: React.FC<{
         variant: "destructive",
       });
     }
-
     onChatDelete(chat.id);
   };
 
@@ -63,6 +63,7 @@ export const ChatItem: React.FC<{
             : ""
         )}
       >
+        {/* NOTE: open group chat modal */}
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -77,7 +78,7 @@ export const ChatItem: React.FC<{
               openOptions ? "block" : "hidden"
             )}
           >
-            {chat.isGroupChat ? (
+            {chat.isGroupGame ? (
               <p
                 onClick={(e) => {
                   e.stopPropagation();
@@ -108,64 +109,60 @@ export const ChatItem: React.FC<{
             )}
           </div>
         </button>
+
+        {/* NOTE: set chat avatar  */}
         <div className="flex justify-center items-center flex-shrink-0">
-          {chat.isGroupChat ? (
+          {chat.isGroupGame ? (
             <div className="w-12 relative h-12 flex-shrink-0 flex justify-start items-center flex-nowrap">
-              {chat.players.slice(0, 3).map((player) => {
+              {chat.players.slice(0, 3).map((player, i) => {
+                // console.log(player);
+
                 return (
-                  <div className="flex items-center gap-2">
-                    <Skeleton className="h-8 w-8 bg-primary rounded-full " />
-                    <p className="text-xs font-bold">{player.username}</p>
+                  <div key={player.id} className="flex items-center gap-2">
+                    <Skeleton 
+                    className={clsx(
+                      "w-8 h-8 border-[1px] bg-primary  border-white rounded-full absolute outline outline-4 outline-dark group-hover:outline-secondary",
+                      i === 0
+                        ? "left-0 z-[3]"
+                        : i === 1
+                        ? "left-2.5 z-[2]"
+                        : i === 2
+                        ? "left-[18px] z-[1]"
+                        : ""
+                    )}
+                     />
                   </div>
-                  // <img
-                  //   key={player.id}
-                  //   src={player.avatarId}
-                  //   className={clsx(
-                  //     "w-8 h-8 border-[1px] border-white rounded-full absolute outline outline-4 outline-dark group-hover:outline-secondary",
-                  //     i === 0
-                  //       ? "left-0 z-[3]"
-                  //       : i === 1
-                  //       ? "left-2.5 z-[2]"
-                  //       : i === 2
-                  //       ? "left-[18px] z-[1]"
-                  //       : ""
-                  //   )}
-                  // />
                 );
               })}
             </div>
           ) : (
             <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-8 bg-primary rounded-full " />
-              <p className="text-xs font-bold">Metadata image</p>
             </div>
-            // <img
-            //   src={getChatObjectMetadata(chat, user!).avatar}
-            //   className="w-12 h-12 rounded-full"
-            // />
           )}
         </div>
+
+        {/* NOTE: set cover name/dat on chat */}
         <div className="w-full">
           <p className="truncate-1">
             {getChatObjectMetadata(chat, user!).title}
           </p>
           <div className="w-full inline-flex items-center text-left">
-            {chat.lastMessage && chat.lastMessage.attachments.length > 0 ? (
-              // If last message is an attachment show paperclip
-              <Link className="text-white/50 h-3 w-3 mr-2 flex flex-shrink-0" />
-            ) : null}
             <small className="text-white/50 truncate-1 text-sm text-ellipsis inline-flex items-center">
               {getChatObjectMetadata(chat, user!).lastMessage}
             </small>
           </div>
         </div>
+
+        {/* NOTE: time ago and unread messages */}
         <div className="flex text-white/50 h-full text-sm flex-col justify-between items-end">
           <small className="mb-2 inline-flex flex-shrink-0 w-max">
             {moment(chat.updatedAt).add("TIME_ZONE", "hours").fromNow(true)}
           </small>
 
-          {/* Unread count will be > 0 when user is on another chat and there is new message in a chat which is not currently active on user's screen */}
-          {unreadCount <= 0 ? null : (
+          {unreadCount <= 0 ? (
+            "null"
+          ) : (
             <span className="bg-success h-2 w-2 aspect-square flex-shrink-0 p-2 text-white text-xs rounded-full inline-flex justify-center items-center">
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>

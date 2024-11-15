@@ -28,7 +28,7 @@ import { useChatStore } from "@/lib/store/stateStore";
 
 export default function Side() {
   // const { socket } = useSocket();
-  const { chats, setChats } = useChatStore();
+  const { allChats, setChats } = useChatStore();
   const { toast } = useToast();
   // console.log(socket);
   const [users, setUsers] = useState<UserInterface[]>([]);
@@ -38,6 +38,7 @@ export default function Side() {
   const [selectedUserId, setSelectedUserId] = useState<null | string>(null);
   const [creatingChat, setCreatingChat] = useState(false);
 
+  // DONE:
   const getUsers = async () => {
     const { error, data } = await fetcher(
       async () => await getAvailableUsers()
@@ -49,12 +50,9 @@ export default function Side() {
       });
     }
     setUsers(data?.data || null);
-
-    // console.log(data);
-    // console.log(error, isLoading);
   };
-  // console.log(groupParticipants, selectedUserId);
 
+  // PENDING:
   const createNewChat = async () => {
     if (!selectedUserId)
       return toast({
@@ -82,9 +80,12 @@ export default function Side() {
       });
     }
 
+    console.log("Single chat creation", data?.data);
+
     setChats("updateChat", data?.data);
   };
 
+  // DONE:
   const createNewGroupChat = async () => {
     if (!groupName)
       return toast({
@@ -115,7 +116,9 @@ export default function Side() {
       });
     }
 
-    setChats("updateChat", data?.data);
+    console.log("Group chat creation");
+
+    setChats("addChat", data?.data);
   };
 
   const handleClose = () => {
@@ -127,7 +130,6 @@ export default function Side() {
   };
 
   useEffect(() => {
-    // if (!open) return;
     getUsers();
   }, []);
 
@@ -225,7 +227,7 @@ export default function Side() {
               {users
                 .filter((user) => groupParticipants.includes(user.id))
                 ?.map((participant) => {
-                  console.log(participant);
+                  // console.log(participant.username);
 
                   return (
                     <div

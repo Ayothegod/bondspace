@@ -745,21 +745,41 @@ const removeParticipantFromGroupChat = asyncHandler(
 
 const getAllChats = asyncHandler(async (req: Request, res: Response) => {
   // get all chats that have logged in user as a participant
+
   const chats = await prisma.gameSession.findMany({
     where: {
       players: {
-        every: {
+        some: {
           id: req.user?.id,
         },
       },
     },
+    include: {
+      players: {
+        select: {
+          id: true,
+          avatarId: true,
+          email: true,
+          username: true,
+        },
+      },
+      messages: true,
+    },
   });
+
+  // const trial = await prisma.gameSession.findMany({
+  //   where: {
+  //     players: {
+  //       none: {
+  //         id: req.user?.id,
+  //       },
+  //     },
+  //   },
+  // });
 
   return res
     .status(200)
-    .json(
-      new ApiResponse(200, chats || [], "User chats fetched successfully!")
-    );
+    .json(new ApiResponse(200, chats, "User chats fetched successfully!"));
 });
 
 export {

@@ -72,9 +72,9 @@ export const fetcher = async (
     const response = await api();
     data = response.data;
 
-    console.log(data);
+    // console.log(data);
   } catch (err: any) {
-    console.log(err?.response?.data);
+    // console.log(err?.response?.data);
 
     error = (err?.response?.data.message as string) || "An error occurred";
   } finally {
@@ -92,7 +92,7 @@ export const getChatObjectMetadata = (
     ? chat.lastMessage?.content
     :  "No messages yet"
 
-  if (chat.isGroupChat) {
+  if (chat.isGroupGame) {
     return {
       avatar: "https://via.placeholder.com/100x100.png",
       title: chat.name, 

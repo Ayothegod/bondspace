@@ -1224,3 +1224,317 @@
 [15 Nov, 2024 - 22:12:43:1243] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.104 ms[39m
 [15 Nov, 2024 - 22:13:33:1333] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.376 ms[39m
 [15 Nov, 2024 - 22:13:34:1334] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.793 ms[39m
+[15 Nov, 2024 - 22:14:40:1440] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:14:40:1440] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:14:48:1448] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 16.924 ms[39m
+[15 Nov, 2024 - 22:14:48:1448] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.759 ms[39m
+[15 Nov, 2024 - 22:14:55:1455] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.457 ms[39m
+[15 Nov, 2024 - 22:14:55:1455] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.819 ms[39m
+[15 Nov, 2024 - 22:15:59:1559] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/group 200 - 173.164 ms[39m
+[15 Nov, 2024 - 22:16:06:166] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/group 200 - 156.026 ms[39m
+[15 Nov, 2024 - 22:17:15:1715] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 7.464 ms[39m
+[15 Nov, 2024 - 22:17:19:1719] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.478 ms[39m
+[15 Nov, 2024 - 22:18:07:187] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.414 ms[39m
+[15 Nov, 2024 - 22:18:14:1814] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.172 ms[39m
+[15 Nov, 2024 - 22:18:22:1822] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 13.140 ms[39m
+[15 Nov, 2024 - 22:18:27:1827] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.346 ms[39m
+[15 Nov, 2024 - 22:18:32:1832] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.119 ms[39m
+[15 Nov, 2024 - 22:18:36:1836] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 3.855 ms[39m
+[15 Nov, 2024 - 22:18:38:1838] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.519 ms[39m
+[15 Nov, 2024 - 22:19:59:1959] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.646 ms[39m
+[15 Nov, 2024 - 22:20:36:2036] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.862 ms[39m
+[15 Nov, 2024 - 22:20:36:2036] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.991 ms[39m
+[15 Nov, 2024 - 22:20:52:2052] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/group 200 - 210.651 ms[39m
+[15 Nov, 2024 - 22:22:57:2257] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.894 ms[39m
+[15 Nov, 2024 - 22:23:00:230] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.481 ms[39m
+[15 Nov, 2024 - 22:23:01:231] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.480 ms[39m
+[15 Nov, 2024 - 22:23:30:2330] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/group 200 - 168.962 ms[39m
+[15 Nov, 2024 - 22:23:49:2349] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 8.494 ms[39m
+[15 Nov, 2024 - 22:25:06:256] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.064 ms[39m
+[15 Nov, 2024 - 22:25:15:2515] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.524 ms[39m
+[15 Nov, 2024 - 22:25:55:2555] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 9.947 ms[39m
+[15 Nov, 2024 - 22:25:55:2555] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 11.598 ms[39m
+[15 Nov, 2024 - 22:25:55:2555] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.298 ms[39m
+[15 Nov, 2024 - 22:26:00:260] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.980 ms[39m
+[15 Nov, 2024 - 22:26:00:260] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 5.785 ms[39m
+[15 Nov, 2024 - 22:26:00:260] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.528 ms[39m
+[15 Nov, 2024 - 22:26:23:2623] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.566 ms[39m
+[15 Nov, 2024 - 22:26:31:2631] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 3.843 ms[39m
+[15 Nov, 2024 - 22:27:35:2735] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 3.972 ms[39m
+[15 Nov, 2024 - 22:27:35:2735] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.645 ms[39m
+[15 Nov, 2024 - 22:29:31:2931] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 4.587 ms[39m
+[15 Nov, 2024 - 22:29:31:2931] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.507 ms[39m
+[15 Nov, 2024 - 22:30:22:3022] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:30:22:3022] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:30:32:3032] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:30:32:3032] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:31:04:314] [31merror[39m: [31mUnauthorized request[39m
+[15 Nov, 2024 - 22:31:04:314] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 401 - 22.981 ms[39m
+[15 Nov, 2024 - 22:31:17:3117] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/auth/login 200 - 711.859 ms[39m
+[15 Nov, 2024 - 22:31:22:3122] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 13.940 ms[39m
+[15 Nov, 2024 - 22:35:29:3529] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:35:29:3529] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:35:39:3539] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:35:39:3539] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:35:43:3543] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:35:43:3543] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:35:51:3551] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:35:51:3551] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:35:58:3558] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:35:58:3558] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:36:35:3635] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:36:35:3635] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:37:16:3716] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:37:16:3716] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:37:23:3723] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:37:23:3723] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:37:29:3729] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:37:29:3729] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:37:44:3744] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:37:44:3744] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:37:46:3746] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:37:46:3746] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:37:47:3747] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 24.325 ms[39m
+[15 Nov, 2024 - 22:38:09:389] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:38:09:389] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:38:15:3815] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:38:15:3815] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:38:17:3817] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:38:17:3817] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:38:23:3823] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:38:23:3823] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:38:25:3825] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:38:25:3825] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:38:46:3846] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:38:46:3846] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:38:50:3850] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:38:50:3850] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:38:51:3851] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 47.713 ms[39m
+[15 Nov, 2024 - 22:39:32:3932] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:39:32:3932] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:39:40:3940] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:39:40:3940] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:39:46:3946] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:39:46:3946] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:39:51:3951] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:39:51:3951] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:39:59:3959] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:39:59:3959] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:40:03:403] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 32.292 ms[39m
+[15 Nov, 2024 - 22:41:14:4114] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 14.240 ms[39m
+[15 Nov, 2024 - 22:41:14:4114] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 18.052 ms[39m
+[15 Nov, 2024 - 22:41:27:4127] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 14.251 ms[39m
+[15 Nov, 2024 - 22:41:27:4127] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 20.219 ms[39m
+[15 Nov, 2024 - 22:41:49:4149] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 9.550 ms[39m
+[15 Nov, 2024 - 22:41:49:4149] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 22.888 ms[39m
+[15 Nov, 2024 - 22:41:53:4153] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.946 ms[39m
+[15 Nov, 2024 - 22:41:53:4153] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 16.830 ms[39m
+[15 Nov, 2024 - 22:41:59:4159] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 7.179 ms[39m
+[15 Nov, 2024 - 22:41:59:4159] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 12.022 ms[39m
+[15 Nov, 2024 - 22:42:03:423] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.098 ms[39m
+[15 Nov, 2024 - 22:42:03:423] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 11.390 ms[39m
+[15 Nov, 2024 - 22:42:08:428] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 7.057 ms[39m
+[15 Nov, 2024 - 22:42:08:428] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 9.983 ms[39m
+[15 Nov, 2024 - 22:42:30:4230] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 7.989 ms[39m
+[15 Nov, 2024 - 22:42:30:4230] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 23.775 ms[39m
+[15 Nov, 2024 - 22:43:16:4316] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:43:16:4316] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:43:20:4320] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:43:20:4320] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:43:34:4334] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:43:34:4334] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:43:36:4336] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:43:36:4336] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:43:42:4342] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:43:42:4342] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:43:49:4349] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:43:49:4349] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:43:51:4351] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 20.747 ms[39m
+[15 Nov, 2024 - 22:45:13:4513] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:45:13:4513] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:45:16:4516] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:45:16:4516] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:45:20:4520] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:45:20:4520] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:45:48:4548] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:45:48:4548] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:45:54:4554] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:45:54:4554] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:45:59:4559] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:45:59:4559] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:46:06:466] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:46:06:466] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:46:07:467] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:46:07:467] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:46:12:4612] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 34.403 ms[39m
+[15 Nov, 2024 - 22:46:45:4645] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 23.395 ms[39m
+[15 Nov, 2024 - 22:46:45:4645] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 20.279 ms[39m
+[15 Nov, 2024 - 22:46:50:4650] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 10.155 ms[39m
+[15 Nov, 2024 - 22:46:50:4650] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 22.033 ms[39m
+[15 Nov, 2024 - 22:46:54:4654] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 7.441 ms[39m
+[15 Nov, 2024 - 22:46:54:4654] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 21.551 ms[39m
+[15 Nov, 2024 - 22:48:12:4812] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.056 ms[39m
+[15 Nov, 2024 - 22:48:12:4812] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 23.510 ms[39m
+[15 Nov, 2024 - 22:48:15:4815] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 11.254 ms[39m
+[15 Nov, 2024 - 22:48:15:4815] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 19.623 ms[39m
+[15 Nov, 2024 - 22:48:50:4850] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.746 ms[39m
+[15 Nov, 2024 - 22:48:50:4850] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 17.222 ms[39m
+[15 Nov, 2024 - 22:49:15:4915] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.009 ms[39m
+[15 Nov, 2024 - 22:49:15:4915] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 14.659 ms[39m
+[15 Nov, 2024 - 22:49:27:4927] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 13.359 ms[39m
+[15 Nov, 2024 - 22:49:42:4942] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.606 ms[39m
+[15 Nov, 2024 - 22:49:42:4942] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 13.708 ms[39m
+[15 Nov, 2024 - 22:49:46:4946] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 9.492 ms[39m
+[15 Nov, 2024 - 22:49:46:4946] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 17.348 ms[39m
+[15 Nov, 2024 - 22:50:03:503] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 7.498 ms[39m
+[15 Nov, 2024 - 22:50:03:503] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 11.674 ms[39m
+[15 Nov, 2024 - 22:51:21:5121] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:51:21:5121] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:51:27:5127] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:51:27:5127] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:51:33:5133] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:51:33:5133] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:51:37:5137] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[15 Nov, 2024 - 22:51:37:5137] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[15 Nov, 2024 - 22:51:45:5145] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 28.579 ms[39m
+[15 Nov, 2024 - 22:51:45:5145] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 24.227 ms[39m
+[15 Nov, 2024 - 22:52:20:5220] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 22.702 ms[39m
+[15 Nov, 2024 - 22:52:20:5220] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 7.769 ms[39m
+[15 Nov, 2024 - 22:52:47:5247] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.971 ms[39m
+[15 Nov, 2024 - 22:52:47:5247] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 17.924 ms[39m
+[15 Nov, 2024 - 22:52:55:5255] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.221 ms[39m
+[15 Nov, 2024 - 22:52:56:5256] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 20.654 ms[39m
+[15 Nov, 2024 - 22:52:58:5258] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.026 ms[39m
+[15 Nov, 2024 - 22:52:58:5258] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 16.355 ms[39m
+[15 Nov, 2024 - 22:53:01:531] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.913 ms[39m
+[15 Nov, 2024 - 22:53:01:531] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 11.173 ms[39m
+[15 Nov, 2024 - 22:53:05:535] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 7.017 ms[39m
+[15 Nov, 2024 - 22:53:05:535] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.882 ms[39m
+[15 Nov, 2024 - 22:53:45:5345] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 11.121 ms[39m
+[15 Nov, 2024 - 22:53:45:5345] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 13.914 ms[39m
+[15 Nov, 2024 - 22:53:45:5345] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.205 ms[39m
+[15 Nov, 2024 - 22:53:47:5347] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.706 ms[39m
+[15 Nov, 2024 - 22:53:47:5347] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.922 ms[39m
+[15 Nov, 2024 - 22:53:47:5347] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 17.784 ms[39m
+[15 Nov, 2024 - 22:53:49:5349] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 15.433 ms[39m
+[15 Nov, 2024 - 22:53:50:5350] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 16.172 ms[39m
+[15 Nov, 2024 - 22:53:50:5350] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 3.045 ms[39m
+[15 Nov, 2024 - 22:53:58:5358] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 13.637 ms[39m
+[15 Nov, 2024 - 22:53:58:5358] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 6.165 ms[39m
+[15 Nov, 2024 - 22:53:58:5358] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 28.675 ms[39m
+[15 Nov, 2024 - 22:54:03:543] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 9.112 ms[39m
+[15 Nov, 2024 - 22:54:03:543] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 2.354 ms[39m
+[15 Nov, 2024 - 22:54:03:543] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 15.163 ms[39m
+[15 Nov, 2024 - 22:54:05:545] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 9.887 ms[39m
+[15 Nov, 2024 - 22:54:05:545] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.157 ms[39m
+[15 Nov, 2024 - 22:54:05:545] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.202 ms[39m
+[15 Nov, 2024 - 22:54:06:546] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 11.738 ms[39m
+[15 Nov, 2024 - 22:54:06:546] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.457 ms[39m
+[15 Nov, 2024 - 22:54:06:546] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 18.779 ms[39m
+[15 Nov, 2024 - 22:54:09:549] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 9.360 ms[39m
+[15 Nov, 2024 - 22:54:09:549] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 9.704 ms[39m
+[15 Nov, 2024 - 22:54:09:549] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.273 ms[39m
+[15 Nov, 2024 - 23:01:38:138] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.732 ms[39m
+[15 Nov, 2024 - 23:01:38:138] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 5.755 ms[39m
+[15 Nov, 2024 - 23:02:25:225] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 10.708 ms[39m
+[15 Nov, 2024 - 23:02:26:226] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.363 ms[39m
+[15 Nov, 2024 - 23:02:27:227] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.964 ms[39m
+[15 Nov, 2024 - 23:02:27:227] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 17.586 ms[39m
+[15 Nov, 2024 - 23:02:29:229] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 6.969 ms[39m
+[15 Nov, 2024 - 23:02:29:229] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.794 ms[39m
+[15 Nov, 2024 - 23:02:34:234] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 2.313 ms[39m
+[15 Nov, 2024 - 23:02:34:234] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 13.008 ms[39m
+[15 Nov, 2024 - 23:02:38:238] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 7.256 ms[39m
+[15 Nov, 2024 - 23:02:38:238] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.078 ms[39m
+[15 Nov, 2024 - 23:03:49:349] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 8.882 ms[39m
+[15 Nov, 2024 - 23:03:49:349] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 9.926 ms[39m
+[15 Nov, 2024 - 23:03:49:349] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.903 ms[39m
+[15 Nov, 2024 - 23:04:07:47] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 10.412 ms[39m
+[15 Nov, 2024 - 23:04:07:47] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.441 ms[39m
+[15 Nov, 2024 - 23:04:11:411] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.364 ms[39m
+[15 Nov, 2024 - 23:04:11:411] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 7.952 ms[39m
+[15 Nov, 2024 - 23:04:58:458] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 11.426 ms[39m
+[15 Nov, 2024 - 23:04:58:458] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.869 ms[39m
+[15 Nov, 2024 - 23:05:56:556] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/c/95551d28-2391-4dbc-bdd7-cf324ea9ffe7 201 - 171.901 ms[39m
+[15 Nov, 2024 - 23:06:02:62] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/c/95551d28-2391-4dbc-bdd7-cf324ea9ffe7 200 - 15.447 ms[39m
+[15 Nov, 2024 - 23:06:07:67] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.761 ms[39m
+[15 Nov, 2024 - 23:06:07:67] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 200 - 6.546 ms[39m
+[15 Nov, 2024 - 23:07:15:715] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 2.793 ms[39m
+[15 Nov, 2024 - 23:07:15:715] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 22.519 ms[39m
+[15 Nov, 2024 - 23:08:12:812] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 9.098 ms[39m
+[15 Nov, 2024 - 23:08:26:826] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 10.727 ms[39m
+[15 Nov, 2024 - 23:08:26:826] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 2.285 ms[39m
+[15 Nov, 2024 - 23:11:54:1154] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 7.605 ms[39m
+[15 Nov, 2024 - 23:11:54:1154] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.857 ms[39m
+[15 Nov, 2024 - 23:12:07:127] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.479 ms[39m
+[15 Nov, 2024 - 23:12:07:127] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 6.334 ms[39m
+[15 Nov, 2024 - 23:12:07:127] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.835 ms[39m
+[15 Nov, 2024 - 23:12:09:129] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.631 ms[39m
+[15 Nov, 2024 - 23:12:09:129] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 11.134 ms[39m
+[15 Nov, 2024 - 23:12:09:129] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 1.392 ms[39m
+[15 Nov, 2024 - 23:12:20:1220] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.494 ms[39m
+[15 Nov, 2024 - 23:12:20:1220] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 6.689 ms[39m
+[15 Nov, 2024 - 23:12:57:1257] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 7.342 ms[39m
+[15 Nov, 2024 - 23:12:57:1257] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.841 ms[39m
+[15 Nov, 2024 - 23:13:00:130] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 7.538 ms[39m
+[15 Nov, 2024 - 23:13:00:130] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.757 ms[39m
+[15 Nov, 2024 - 23:13:55:1355] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 9.545 ms[39m
+[15 Nov, 2024 - 23:13:55:1355] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.745 ms[39m
+[15 Nov, 2024 - 23:14:25:1425] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/cdfdb924-476e-4610-9bd6-1ddbdb81878b 404 - 0.762 ms[39m
+[15 Nov, 2024 - 23:14:25:1425] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 24.207 ms[39m
+[15 Nov, 2024 - 23:15:15:1515] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.542 ms[39m
+[15 Nov, 2024 - 23:15:15:1515] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 6.856 ms[39m
+[15 Nov, 2024 - 23:20:35:2035] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.996 ms[39m
+[15 Nov, 2024 - 23:20:35:2035] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.448 ms[39m
+[15 Nov, 2024 - 23:20:40:2040] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.232 ms[39m
+[15 Nov, 2024 - 23:20:40:2040] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 6.946 ms[39m
+[15 Nov, 2024 - 23:20:42:2042] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/fe6a7e39-d0c4-49fe-8a72-16164d7e82e2 404 - 2.252 ms[39m
+[15 Nov, 2024 - 23:20:46:2046] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 3.544 ms[39m
+[15 Nov, 2024 - 23:22:11:2211] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 13.711 ms[39m
+[15 Nov, 2024 - 23:22:11:2211] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 0.781 ms[39m
+[15 Nov, 2024 - 23:22:15:2215] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 9.987 ms[39m
+[15 Nov, 2024 - 23:22:15:2215] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 1.247 ms[39m
+[15 Nov, 2024 - 23:22:18:2218] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.150 ms[39m
+[15 Nov, 2024 - 23:22:18:2218] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 5.984 ms[39m
+[15 Nov, 2024 - 23:22:37:2237] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/fe6a7e39-d0c4-49fe-8a72-16164d7e82e2 404 - 2.143 ms[39m
+[15 Nov, 2024 - 23:22:39:2239] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 1.939 ms[39m
+[15 Nov, 2024 - 23:24:30:2430] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/fe6a7e39-d0c4-49fe-8a72-16164d7e82e2 404 - 1.151 ms[39m
+[15 Nov, 2024 - 23:24:40:2440] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 1.164 ms[39m
+[15 Nov, 2024 - 23:24:46:2446] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/fe6a7e39-d0c4-49fe-8a72-16164d7e82e2 404 - 1.032 ms[39m
+[15 Nov, 2024 - 23:29:37:2937] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/group 200 - 164.030 ms[39m
+[15 Nov, 2024 - 23:30:30:3030] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 4.740 ms[39m
+[15 Nov, 2024 - 23:32:34:3234] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/c/95551d28-2391-4dbc-bdd7-cf324ea9ffe7 200 - 16.273 ms[39m
+[15 Nov, 2024 - 23:33:07:337] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/chat/c/7e487921-bc5e-451f-8841-6f2eaaaa6c35 200 - 9.222 ms[39m
+[15 Nov, 2024 - 23:34:00:340] [35mhttp[39m: [35m::1 POST /api/v1/auth/login 200 - 347.932 ms[39m
+[15 Nov, 2024 - 23:34:00:340] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 4.977 ms[39m
+[15 Nov, 2024 - 23:34:00:340] [35mhttp[39m: [35m::1 GET /api/v1/chat 200 - 11.030 ms[39m
+[15 Nov, 2024 - 23:34:58:3458] [35mhttp[39m: [35m::1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 1.556 ms[39m
+[15 Nov, 2024 - 23:37:09:379] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 5.126 ms[39m
+[15 Nov, 2024 - 23:37:09:379] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 8.609 ms[39m
+[15 Nov, 2024 - 23:39:27:3927] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 12.593 ms[39m
+[15 Nov, 2024 - 23:39:27:3927] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 13.829 ms[39m
+[15 Nov, 2024 - 23:41:52:4152] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 7.244 ms[39m
+[15 Nov, 2024 - 23:41:52:4152] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 10.510 ms[39m
+[15 Nov, 2024 - 23:41:52:4152] [35mhttp[39m: [35m::1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 0.830 ms[39m
+[15 Nov, 2024 - 23:41:52:4152] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.120 ms[39m
+[15 Nov, 2024 - 23:41:52:4152] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 13.318 ms[39m
+[15 Nov, 2024 - 23:41:52:4152] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/fe6a7e39-d0c4-49fe-8a72-16164d7e82e2 404 - 0.757 ms[39m
+[15 Nov, 2024 - 23:43:01:431] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 6.406 ms[39m
+[15 Nov, 2024 - 23:43:01:431] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 11.664 ms[39m
+[15 Nov, 2024 - 23:43:02:432] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.404 ms[39m
+[15 Nov, 2024 - 23:43:02:432] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 7.631 ms[39m
+[15 Nov, 2024 - 23:47:12:4712] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 9.233 ms[39m
+[15 Nov, 2024 - 23:47:13:4713] [35mhttp[39m: [35m::1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 3.882 ms[39m
+[15 Nov, 2024 - 23:47:13:4713] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 16.174 ms[39m
+[15 Nov, 2024 - 23:51:06:516] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 12.298 ms[39m
+[15 Nov, 2024 - 23:51:06:516] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 16.779 ms[39m
+[15 Nov, 2024 - 23:51:06:516] [35mhttp[39m: [35m::1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 0.717 ms[39m
+[15 Nov, 2024 - 23:51:07:517] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 6.467 ms[39m
+[15 Nov, 2024 - 23:51:07:517] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.801 ms[39m
+[15 Nov, 2024 - 23:51:07:517] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/fe6a7e39-d0c4-49fe-8a72-16164d7e82e2 404 - 1.810 ms[39m
+[15 Nov, 2024 - 23:58:47:5847] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 6.451 ms[39m
+[15 Nov, 2024 - 23:58:47:5847] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/messages/fe6a7e39-d0c4-49fe-8a72-16164d7e82e2 404 - 0.790 ms[39m
+[15 Nov, 2024 - 23:58:47:5847] [35mhttp[39m: [35m::1 GET /api/v1/messages/0474ee87-f4f7-4636-b61b-2b7a98bea9e1 404 - 11.251 ms[39m
+[15 Nov, 2024 - 23:58:47:5847] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 12.120 ms[39m
+[15 Nov, 2024 - 23:58:53:5853] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat/users 304 - 5.425 ms[39m
+[15 Nov, 2024 - 23:58:53:5853] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/chat 304 - 8.109 ms[39m

@@ -14,13 +14,17 @@ export interface APIStatusResponseInterface {
 }
 
 export interface ChatListItemInterface {
-  createdAt: string;
-  isGroupChat: true;
-  lastMessage?: ChatMessageInterface;
+  id: string;
+  gameType: string
+  status: boolean
+  createdAt: Date
   name: string;
+  isGroupGame: boolean;
+
+  lastMessage?: ChatMessageInterface
+  messages: ChatMessageInterface[]
   players: UserInterface[];
   updatedAt: string;
-  id: string;
 }
 
 export interface ChatMessageInterface {
