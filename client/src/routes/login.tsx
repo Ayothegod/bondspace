@@ -48,7 +48,7 @@ export default function Login() {
 
       return navigate("/play");
     } catch (error: any) {
-      // console.log(error.response.data);
+      console.log(error);
 
       if (error.request) {
         toast({

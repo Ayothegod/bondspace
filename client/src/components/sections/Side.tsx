@@ -28,10 +28,8 @@ import { Input } from "../ui/input";
 import { useChatStore } from "@/lib/store/stateStore";
 
 export default function Side() {
-  // const { socket } = useSocket();
   const { allChats, setChats, creatingChat, setCreatingChat } = useChatStore();
   const { toast } = useToast();
-  // console.log(socket);
   const [users, setUsers] = useState<UserInterface[]>([]);
   const [groupName, setGroupName] = useState("");
   const [isGroupChat, setIsGroupChat] = useState(true);

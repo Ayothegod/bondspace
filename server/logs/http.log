@@ -2598,3 +2598,14 @@
 [16 Nov, 2024 - 01:59:42:5942] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 9.689 ms[39m
 [16 Nov, 2024 - 01:59:42:5942] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 7.586 ms[39m
 [16 Nov, 2024 - 01:59:42:5942] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 6.207 ms[39m
+[16 Nov, 2024 - 12:27:19:2719] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[16 Nov, 2024 - 12:27:19:2719] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[16 Nov, 2024 - 12:27:43:2743] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 304 - 36.999 ms[39m
+[16 Nov, 2024 - 12:27:43:2743] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 90.376 ms[39m
+[16 Nov, 2024 - 12:27:43:2743] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 5.353 ms[39m
+[16 Nov, 2024 - 12:31:13:3113] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[16 Nov, 2024 - 12:31:13:3113] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[16 Nov, 2024 - 12:31:38:3138] [35mhttp[39m: [35m::1 POST /api/v1/auth/login 200 - 366.164 ms[39m
+[16 Nov, 2024 - 12:31:38:3138] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 200 - 17.522 ms[39m
+[16 Nov, 2024 - 12:31:38:3138] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 29.312 ms[39m
+[16 Nov, 2024 - 12:31:38:3138] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 15.007 ms[39m

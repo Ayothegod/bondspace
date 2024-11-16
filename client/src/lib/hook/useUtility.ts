@@ -35,28 +35,6 @@ export class LocalStorage {
   }
 }
 
-export const requestHandler = async (
-  api: () => Promise<AxiosResponse<APIStatusResponseInterface, any>>,
-  setLoading: ((loading: boolean) => void) | null,
-  onSuccess: (data: APIStatusResponseInterface) => void,
-  onError: (error: string) => void
-) => {
-  setLoading && setLoading(true);
-
-  try {
-    const response = await api();
-
-    const { data } = response;
-    if (data?.success) {
-      onSuccess(data);
-    }
-  } catch (error: any) {
-    onError(error?.response?.data?.message || "Something went wrong");
-  } finally {
-    setLoading && setLoading(false);
-  }
-};
-
 export const fetcher = async (
   api: () => Promise<AxiosResponse<APIStatusResponseInterface, any>>
 ): Promise<{

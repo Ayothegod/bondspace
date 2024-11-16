@@ -78,6 +78,7 @@ export default function Play() {
         });
       }
 
+      setLoadingChats(isLoading)
       chatToUpdate.lastMessage = data?.data;
       setChats("updateChat", ...allChats);
     }
@@ -85,7 +86,7 @@ export default function Play() {
 
   // DONE:
   const getChats = async () => {
-    const { error, data } = await fetcher(async () => await getUserChats());
+    const { error, data, isLoading } = await fetcher(async () => await getUserChats());
 
     if (error) {
       return toast({
@@ -93,6 +94,7 @@ export default function Play() {
         variant: "destructive",
       });
     }
+    setLoadingChats(isLoading)
     // console.log("All user chat:", data?.data);
     setChats("updateChat", undefined, data?.data);
   };
@@ -308,7 +310,7 @@ export default function Play() {
       // Fetch the messages for the current chat.
       // getMessages();
     }
-  }, [creatingChat]);
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
