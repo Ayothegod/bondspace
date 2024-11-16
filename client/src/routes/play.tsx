@@ -23,7 +23,7 @@ const UPDATE_GROUP_NAME_EVENT = "updateGroupName";
 const MESSAGE_DELETE_EVENT = "messageDeleted";
 
 export default function Play() {
-  const { allChats, setChats } = useChatStore();
+  const { allChats, setChats, creatingChat } = useChatStore();
   const { socket } = useSocket();
   const { toast } = useToast();
 
@@ -34,7 +34,6 @@ export default function Play() {
   const [loadingChats, setLoadingChats] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
 
-  // const [chats, setChats] = useState<ChatListItemInterface[]>([]);
   const [messages, setMessages] = useState<ChatMessageInterface[]>([]);
   const [unreadMessages, setUnreadMessages] = useState<ChatMessageInterface[]>(
     []
@@ -97,7 +96,6 @@ export default function Play() {
     // console.log("All user chat:", data?.data);
     setChats("updateChat", undefined, data?.data);
   };
-  console.log("Chats from stateStore:", allChats);
 
   // DONE:
   const getMessages = async () => {
@@ -265,6 +263,8 @@ export default function Play() {
 
   // DONE:
   const onNewChat = (chat: ChatListItemInterface) => {
+    // console.log("New chat", chat);
+
     setChats("addChat", chat);
   };
 
@@ -306,9 +306,9 @@ export default function Play() {
       // If the socket connection exists, emit an event to join the specific chat using its ID.
       socket?.emit(JOIN_CHAT_EVENT, _currentChat.current?._id);
       // Fetch the messages for the current chat.
-      getMessages();
+      // getMessages();
     }
-  }, []);
+  }, [creatingChat]);
 
   useEffect(() => {
     if (!socket) return;

@@ -45,15 +45,20 @@ interface chatStore {
     chats?: ChatListItemInterface[],
     chatId?: string
   ) => void;
+  creatingChat: boolean;
+  setCreatingChat: () => void;
 }
 
 // WARN: conver setChats to switch case type - maybe?
 export const useChatStore = create<chatStore>((set) => ({
+  creatingChat: false,
+  setCreatingChat: () =>
+    set((state) => ({ creatingChat: !state.creatingChat })),
   allChats: [],
   setChats: (updateType, chat, chats, chatId) =>
     set((state) => {
       if (updateType === "addChat" && chat) {
-        return { chats: [...state.allChats, chat] };
+        return { allChats: [...state.allChats, chat] };
       }
       if (updateType === "updateChat" && chats) {
         // console.log("try from updateChat:", chats);

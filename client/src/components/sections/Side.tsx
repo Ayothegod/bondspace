@@ -16,6 +16,7 @@ import {
   createGroupChat,
   createUserChat,
   getAvailableUsers,
+  getUserChats,
 } from "@/lib/fetch";
 import { fetcher } from "@/lib/hook/useUtility";
 import { UserInterface } from "@/lib/types/chat";
@@ -28,7 +29,7 @@ import { useChatStore } from "@/lib/store/stateStore";
 
 export default function Side() {
   // const { socket } = useSocket();
-  const { allChats, setChats } = useChatStore();
+  const { allChats, setChats, creatingChat, setCreatingChat } = useChatStore();
   const { toast } = useToast();
   // console.log(socket);
   const [users, setUsers] = useState<UserInterface[]>([]);
@@ -36,7 +37,7 @@ export default function Side() {
   const [isGroupChat, setIsGroupChat] = useState(true);
   const [groupParticipants, setGroupParticipants] = useState<string[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<null | string>(null);
-  const [creatingChat, setCreatingChat] = useState(false);
+  // const [creatingChat, setCreatingChat] = useState(false);
 
   // DONE:
   const getUsers = async () => {
@@ -49,7 +50,22 @@ export default function Side() {
         variant: "destructive",
       });
     }
+    // console.log(data?.data);
     setUsers(data?.data || null);
+  };
+
+  // DONE:
+  const getChats = async () => {
+    const { error, data } = await fetcher(async () => await getUserChats());
+
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    // console.log("All user chat:", data?.data);
+    setChats("updateChat", undefined, data?.data);
   };
 
   // PENDING:
@@ -60,11 +76,10 @@ export default function Side() {
         variant: "destructive",
       });
 
-    setCreatingChat(true);
+    setCreatingChat();
     const { error, data } = await fetcher(
       async () => await createUserChat(selectedUserId)
     );
-    setCreatingChat(false);
 
     if (error) {
       return toast({
@@ -80,9 +95,8 @@ export default function Side() {
       });
     }
 
-    console.log("Single chat creation", data?.data);
-
-    setChats("updateChat", data?.data);
+    setChats("addChat", data?.data);
+    setCreatingChat();
   };
 
   // DONE:
@@ -99,7 +113,7 @@ export default function Side() {
         variant: "destructive",
       });
 
-    setCreatingChat(true);
+    setCreatingChat();
     const { error, data } = await fetcher(
       async () =>
         await createGroupChat({
@@ -107,7 +121,6 @@ export default function Side() {
           participants: groupParticipants,
         })
     );
-    setCreatingChat(false);
 
     if (error) {
       return toast({
@@ -116,9 +129,8 @@ export default function Side() {
       });
     }
 
-    console.log("Group chat creation");
-
     setChats("addChat", data?.data);
+    setCreatingChat();
   };
 
   const handleClose = () => {
@@ -131,12 +143,8 @@ export default function Side() {
 
   useEffect(() => {
     getUsers();
-  }, []);
-
-  // const dataUser = users.filter((user) =>
-  //   groupParticipants.map((participant) => participant.id).includes(user.id)
-  // );
-  // console.log(users, dataUser)
+    getChats();
+  }, [creatingChat]);
 
   return (
     <div className="w-[14em] sm:w-[16em] p-3 md:w-[22em] border min-h-screen bg-background-top flex-shrink-0">
