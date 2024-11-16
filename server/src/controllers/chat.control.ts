@@ -12,14 +12,6 @@ import { emitSocketEvent } from "../utils/socket.js";
 // if accepted () => start chatting
 // if !user or !ourFriend () => invite user
 
-// const getAllChats = asyncHandler(async (req: Request, res: Response) => {
-//   const { email, username, password, fullname } = req.body;
-
-//   return res
-//     .status(200)
-//     .json(new ApiResponse(200, "OK", "User registered successfully"));
-// });
-
 const searchAvailableUsers = asyncHandler(
   async (req: Request, res: Response) => {
     const users = await prisma.user.findMany({

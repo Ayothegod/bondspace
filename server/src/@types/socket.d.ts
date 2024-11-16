@@ -6,5 +6,3 @@ declare module "socket.io" {
     user?: User
   }
 }
-
-// { id: string; username: string; email: string; password: string | null; fullname: string | null; }
