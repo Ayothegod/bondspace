@@ -70,12 +70,14 @@ import { errorHandler } from "./middlewares/error.middleware";
 import defaultRoute from "./routes/default.route.js";
 import authRoute from "./routes/auth.route.js";
 import chatRoute from "./routes/chat.route.js";
+import spaceRoute from "./routes/space.route.js";
 
 // ROUTES
 
 app.use("/default", defaultRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/chat", chatRoute);
+app.use("/api/v1/space", spaceRoute);
 
 const startServer = () => {
   httpServer.listen(process.env.PORT || 8090, () => {
