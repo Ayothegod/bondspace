@@ -17,7 +17,7 @@ import { useAuthStore } from "@/lib/store/stateStore";
 type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default function Register() {
-  const { setUser, setToken } = useAuthStore();
+  const { setUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -36,15 +36,14 @@ export default function Register() {
         username: data.username,
         password: data.password,
       });
-      setToken("jh7ws89shs7823jwe");
       setUser(response.data.data);
 
       toast({
         title: `${response.data ? response.data.message : "Success"}`,
-        description: `welcome to converse, ${data.username}`,
+        description: `welcome to bondspace, ${data.username}`,
       });
 
-      return navigate("/login");
+      return navigate("/onboard");
     } catch (error: any) {
       // console.log(error.response.data);
 

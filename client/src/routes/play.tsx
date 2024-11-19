@@ -362,7 +362,7 @@ export default function Play() {
       <div className="w-full flex-grow flex gap-2">
         <div className="w-48 flex-shrink-0  border flex flex-col gap-4 items-center justify-center min-h-screen">
           <Button>Start game session</Button>
-          <Logout />
+          {/* <Logout /> */}
         </div>
 
         <div className="border w-full ">

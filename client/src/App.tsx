@@ -4,6 +4,9 @@ import Login from "./routes/login.tsx";
 import Play from "./routes/play.tsx";
 import Register from "./routes/register.tsx";
 import Root, { RootError, Loader as rootLoader } from "./routes/root.tsx";
+import Onboard from "./routes/onboard.tsx";
+import JoinSpace from "./routes/joinSpace.tsx";
+import CreateSpace from "./routes/createSpace.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +24,21 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
     errorElement: <RootError />,
+  },
+  {
+    path: "/onboard",
+    element: <Onboard />,
+    errorElement: <RootError />,
+    children: [
+      {
+        path: "join",
+        element: <JoinSpace />,
+      },
+      {
+        path: "create",
+        element: <CreateSpace />,
+      },
+    ],
   },
   {
     element: <MainLayout />,

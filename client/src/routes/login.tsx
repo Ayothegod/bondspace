@@ -17,7 +17,7 @@ import { useAuthStore } from "@/lib/store/stateStore";
 type LoginSchemaType = z.infer<typeof loginUserSchema>;
 
 export default function Login() {
-  const { setToken, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -38,7 +38,6 @@ export default function Login() {
           password: data.password,
         }
       );
-      setToken("jh7ws89shs7823jwe");
       setUser(response.data.data);
 
       toast({
@@ -46,7 +45,7 @@ export default function Login() {
         description: `welcome back, ${data.username}`,
       });
 
-      return navigate("/play");
+      return navigate("/onboard");
     } catch (error: any) {
       console.log(error);
 
@@ -75,7 +74,7 @@ export default function Login() {
         <div className="h-full w-full px-2 py-4 sm:w-2/3 md:w-1/2">
           <div className="mx-auto flex flex-col justify-center px-2">
             <div className="mb-2">
-              <Logo className="" text="Converse" />
+              <Logo className="" text="BondSpace" />
             </div>
 
             <h1 className="text-2xl font-medium">Welcome back!</h1>

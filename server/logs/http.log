@@ -2609,3 +2609,50 @@
 [16 Nov, 2024 - 12:31:38:3138] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 200 - 17.522 ms[39m
 [16 Nov, 2024 - 12:31:38:3138] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 29.312 ms[39m
 [16 Nov, 2024 - 12:31:38:3138] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 15.007 ms[39m
+[19 Nov, 2024 - 02:39:39:3939] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[19 Nov, 2024 - 02:39:39:3939] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[19 Nov, 2024 - 02:44:39:4439] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[19 Nov, 2024 - 02:44:39:4439] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[19 Nov, 2024 - 02:45:10:4510] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:45:10:4510] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 39.767 ms[39m
+[19 Nov, 2024 - 02:45:10:4510] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:45:10:4510] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 17.663 ms[39m
+[19 Nov, 2024 - 02:45:10:4510] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:45:10:4510] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 401 - 16.501 ms[39m
+[19 Nov, 2024 - 02:46:42:4642] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:42:4642] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 401 - 7.942 ms[39m
+[19 Nov, 2024 - 02:46:42:4642] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:42:4642] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 10.177 ms[39m
+[19 Nov, 2024 - 02:46:42:4642] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:42:4642] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 10.758 ms[39m
+[19 Nov, 2024 - 02:46:47:4647] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:47:4647] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 401 - 6.277 ms[39m
+[19 Nov, 2024 - 02:46:47:4647] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:47:4647] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 7.750 ms[39m
+[19 Nov, 2024 - 02:46:47:4647] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:47:4647] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 14.161 ms[39m
+[19 Nov, 2024 - 02:46:51:4651] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:51:4651] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 401 - 17.213 ms[39m
+[19 Nov, 2024 - 02:46:51:4651] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:51:4651] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 21.857 ms[39m
+[19 Nov, 2024 - 02:46:51:4651] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:46:51:4651] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 9.405 ms[39m
+[19 Nov, 2024 - 02:47:03:473] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:47:03:473] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 401 - 6.637 ms[39m
+[19 Nov, 2024 - 02:47:03:473] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:47:03:473] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 11.855 ms[39m
+[19 Nov, 2024 - 02:47:03:473] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 02:47:03:473] [35mhttp[39m: [35m::1 GET /api/v1/chat 401 - 10.752 ms[39m
+[19 Nov, 2024 - 02:48:21:4821] [35mhttp[39m: [35m::1 POST /api/v1/auth/login 200 - 518.429 ms[39m
+[19 Nov, 2024 - 02:48:21:4821] [35mhttp[39m: [35m::1 GET /api/v1/chat/users 200 - 24.749 ms[39m
+[19 Nov, 2024 - 02:48:21:4821] [35mhttp[39m: [35m::1 GET /api/v1/chat 200 - 67.234 ms[39m
+[19 Nov, 2024 - 02:48:22:4822] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 9.011 ms[39m
+[19 Nov, 2024 - 13:13:05:135] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[19 Nov, 2024 - 13:13:05:135] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[19 Nov, 2024 - 13:14:44:1444] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 13.590 ms[39m
+[19 Nov, 2024 - 13:17:34:1734] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 13.025 ms[39m
+[19 Nov, 2024 - 13:18:03:183] [35mhttp[39m: [35m::1 GET /api/v1/chat 304 - 6.976 ms[39m
+[19 Nov, 2024 - 13:40:11:4011] [35mhttp[39m: [35m::1 POST /api/v1/auth/login 400 - 5.734 ms[39m
+[19 Nov, 2024 - 13:40:14:4014] [35mhttp[39m: [35m::1 POST /api/v1/auth/login 400 - 5.138 ms[39m
+[19 Nov, 2024 - 13:40:15:4015] [35mhttp[39m: [35m::1 POST /api/v1/auth/login 400 - 3.406 ms[39m
+[19 Nov, 2024 - 13:41:45:4145] [35mhttp[39m: [35m::1 POST /api/v1/auth/register 200 - 651.375 ms[39m

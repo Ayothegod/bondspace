@@ -10,6 +10,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        special:"pink",
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
@@ -23,6 +24,10 @@ export default {
         },
         secondary: {
           DEFAULT: "var(--secondary)",
+          foreground: "var(--secondary-foreground)",
+        },
+        "secondary-top": {
+          DEFAULT: "var(--secondary-top)",
           foreground: "var(--secondary-foreground)",
         },
         destructive: {
