@@ -4135,3 +4135,99 @@
 [20 Nov, 2024 - 20:19:13:1913] [35mhttp[39m: [35m::1 POST /api/v1/space/ 200 - 186.865 ms[39m
 [20 Nov, 2024 - 20:20:24:2024] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
 [20 Nov, 2024 - 20:20:24:2024] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 20:48:18:4818] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 20:48:18:4818] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 20:48:20:4820] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 20:48:20:4820] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:02:14:214] [35mhttp[39m: [35m::1 GET /api/v1/space/:f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 27.114 ms[39m
+[20 Nov, 2024 - 21:02:56:256] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:02:56:256] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:03:04:34] [35mhttp[39m: [35m::1 GET /api/v1/space/:f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 19.641 ms[39m
+[20 Nov, 2024 - 21:03:43:343] [35mhttp[39m: [35m::1 GET /api/v1/space/:f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 14.494 ms[39m
+[20 Nov, 2024 - 21:03:46:346] [35mhttp[39m: [35m::1 GET /api/v1/space/:f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 8.016 ms[39m
+[20 Nov, 2024 - 21:03:51:351] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 16.281 ms[39m
+[20 Nov, 2024 - 21:03:57:357] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 10.122 ms[39m
+[20 Nov, 2024 - 21:04:00:40] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 17.605 ms[39m
+[20 Nov, 2024 - 21:04:02:42] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 18.416 ms[39m
+[20 Nov, 2024 - 21:04:03:43] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 7.421 ms[39m
+[20 Nov, 2024 - 21:04:50:450] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 19.646 ms[39m
+[20 Nov, 2024 - 21:04:54:454] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 10.825 ms[39m
+[20 Nov, 2024 - 21:04:56:456] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 11.058 ms[39m
+[20 Nov, 2024 - 21:06:44:644] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 12.097 ms[39m
+[20 Nov, 2024 - 21:06:46:646] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 8.152 ms[39m
+[20 Nov, 2024 - 21:06:52:652] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 8.488 ms[39m
+[20 Nov, 2024 - 21:06:57:657] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 13.248 ms[39m
+[20 Nov, 2024 - 21:07:10:710] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 16.926 ms[39m
+[20 Nov, 2024 - 21:07:11:711] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 7.057 ms[39m
+[20 Nov, 2024 - 21:07:15:715] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 8.215 ms[39m
+[20 Nov, 2024 - 21:07:18:718] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 22.347 ms[39m
+[20 Nov, 2024 - 21:07:28:728] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 10.161 ms[39m
+[20 Nov, 2024 - 21:07:31:731] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 7.536 ms[39m
+[20 Nov, 2024 - 21:07:35:735] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 11.803 ms[39m
+[20 Nov, 2024 - 21:07:36:736] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 7.920 ms[39m
+[20 Nov, 2024 - 21:07:43:743] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 6.728 ms[39m
+[20 Nov, 2024 - 21:07:50:750] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 23.529 ms[39m
+[20 Nov, 2024 - 21:07:57:757] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 9.093 ms[39m
+[20 Nov, 2024 - 21:08:01:81] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 6.586 ms[39m
+[20 Nov, 2024 - 21:08:11:811] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 13.684 ms[39m
+[20 Nov, 2024 - 21:08:13:813] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 8.273 ms[39m
+[20 Nov, 2024 - 21:11:11:1111] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 11.610 ms[39m
+[20 Nov, 2024 - 21:11:12:1112] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 6.102 ms[39m
+[20 Nov, 2024 - 21:11:14:1114] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 11.345 ms[39m
+[20 Nov, 2024 - 21:11:16:1116] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 6.421 ms[39m
+[20 Nov, 2024 - 21:11:19:1119] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 8.327 ms[39m
+[20 Nov, 2024 - 21:11:25:1125] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 11.153 ms[39m
+[20 Nov, 2024 - 21:11:35:1135] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 10.471 ms[39m
+[20 Nov, 2024 - 21:11:38:1138] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 10.020 ms[39m
+[20 Nov, 2024 - 21:13:58:1358] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:13:58:1358] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:14:03:143] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:14:03:143] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:14:07:147] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:14:07:147] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:14:12:1412] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:14:12:1412] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:14:14:1414] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:14:14:1414] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:14:16:1416] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:14:16:1416] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:14:30:1430] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:14:30:1430] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:18:41:1841] [31merror[39m: [31mInvalid access token[39m
+[20 Nov, 2024 - 21:18:41:1841] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/undefined 401 - 10.923 ms[39m
+[20 Nov, 2024 - 21:18:52:1852] [31merror[39m: [31mInvalid access token[39m
+[20 Nov, 2024 - 21:18:52:1852] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/undefined 401 - 7.058 ms[39m
+[20 Nov, 2024 - 21:20:10:2010] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/auth/register 200 - 776.066 ms[39m
+[20 Nov, 2024 - 21:24:26:2426] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 21:24:26:2426] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 21:25:27:2527] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e/5095a973-21e6-44bf-9745-a1666c5350cd 200 - 229.754 ms[39m
+[20 Nov, 2024 - 21:25:27:2527] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/undefined 200 - 15.486 ms[39m
+[20 Nov, 2024 - 21:28:08:288] [35mhttp[39m: [35m::1 GET /api/v1/space/undefined 200 - 9.183 ms[39m
+[20 Nov, 2024 - 21:28:15:2815] [35mhttp[39m: [35m::1 GET /api/v1/space/undefined 304 - 6.613 ms[39m
+[20 Nov, 2024 - 21:28:23:2823] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/undefined 304 - 6.834 ms[39m
+[20 Nov, 2024 - 21:28:56:2856] [35mhttp[39m: [35m::1 GET /api/v1/space/undefined 304 - 12.408 ms[39m
+[20 Nov, 2024 - 21:28:56:2856] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/undefined 304 - 15.441 ms[39m
+[20 Nov, 2024 - 21:29:13:2913] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 11.058 ms[39m
+[20 Nov, 2024 - 21:29:13:2913] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 14.816 ms[39m
+[20 Nov, 2024 - 21:29:16:2916] [35mhttp[39m: [35m::1 GET /api/v1/space/undefined 304 - 9.904 ms[39m
+[20 Nov, 2024 - 21:29:36:2936] [35mhttp[39m: [35m::1 GET /api/v1/space/undefined 304 - 12.234 ms[39m
+[20 Nov, 2024 - 21:29:37:2937] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/undefined 304 - 5.568 ms[39m
+[20 Nov, 2024 - 21:29:44:2944] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 7.992 ms[39m
+[20 Nov, 2024 - 21:29:45:2945] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 7.289 ms[39m
+[20 Nov, 2024 - 21:29:48:2948] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 6.077 ms[39m
+[20 Nov, 2024 - 21:30:11:3011] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 7.104 ms[39m
+[20 Nov, 2024 - 21:30:12:3012] [31merror[39m: [31mInvalid access token[39m
+[20 Nov, 2024 - 21:30:12:3012] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 401 - 7.515 ms[39m
+[20 Nov, 2024 - 21:30:17:3017] [31merror[39m: [31mInvalid access token[39m
+[20 Nov, 2024 - 21:30:17:3017] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 401 - 3.586 ms[39m
+[20 Nov, 2024 - 21:31:21:3121] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/auth/register 200 - 600.475 ms[39m
+[20 Nov, 2024 - 21:31:53:3153] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e/3cdb22a5-8457-40de-b6d0-a3d50d5f07af 200 - 195.340 ms[39m
+[20 Nov, 2024 - 21:31:53:3153] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 9.214 ms[39m
+[20 Nov, 2024 - 21:32:25:3225] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 6.435 ms[39m
+[20 Nov, 2024 - 21:32:35:3235] [31merror[39m: [31mInvalid access token[39m
+[20 Nov, 2024 - 21:32:35:3235] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 401 - 6.441 ms[39m
+[20 Nov, 2024 - 21:33:30:3330] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/auth/register 200 - 609.369 ms[39m
+[20 Nov, 2024 - 21:33:41:3341] [35mhttp[39m: [35m::ffff:127.0.0.1 POST /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e/b8decedc-3e40-4ce6-9c2f-20970cb12e19 200 - 180.270 ms[39m
+[20 Nov, 2024 - 21:33:42:3342] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 7.589 ms[39m
+[20 Nov, 2024 - 21:40:20:4020] [35mhttp[39m: [35m::1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 200 - 7.973 ms[39m
+[20 Nov, 2024 - 21:40:21:4021] [35mhttp[39m: [35m::ffff:127.0.0.1 GET /api/v1/space/f2247338-f38f-4f9f-a8b8-7689b6659a5e 304 - 7.863 ms[39m

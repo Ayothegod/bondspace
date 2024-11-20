@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Createpace() {
-  const { setSpace, space } = useSpaceStore();
+  const { setSpace } = useSpaceStore();
   // const { socket } = useSocket();
   const { toast } = useToast();
   const navigate = useNavigate();

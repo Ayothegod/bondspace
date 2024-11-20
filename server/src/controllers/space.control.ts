@@ -98,6 +98,8 @@ const createASpace = asyncHandler(async (req: Request, res: Response) => {
 const addNewParticipantToSpace = asyncHandler(
   async (req: Request, res: Response) => {
     const { spaceId, participantId } = req.params;
+    console.log(spaceId, participantId);
+    
 
     const space = await prisma.space.findUnique({
       where: {
@@ -172,6 +174,8 @@ const addNewParticipantToSpace = asyncHandler(
     }
 
     updatedSpace.participants.forEach((participant) => {
+       if (participant.id === req.user?.id) return;
+
       emitSocketEvent(
         req,
         participant.id,
@@ -266,6 +270,8 @@ const removeParticipantFromSpace = asyncHandler(
     }
 
     updatedSpace.participants.forEach((participant) => {
+      if (participant.id === req.user?.id) return;
+
       emitSocketEvent(
         req,
         participant.id,
@@ -283,6 +289,8 @@ const removeParticipantFromSpace = asyncHandler(
 // DONE:
 const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
   const { spaceId } = req.params;
+  console.log(spaceId);
+  
 
   const space = await prisma.space.findUnique({
     where: {

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useSocket } from "@/lib/context/useSocketContext";
-import { getChatMessages, getUserChats } from "@/lib/fetch";
+import { getChatMessages, getSpaceDetails, getUserChats } from "@/lib/fetch";
 import { fetcher, LocalStorage } from "@/lib/hook/useUtility";
 import {
   ChatListItemInterface,
@@ -14,7 +14,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import Logout from "./logout";
 import { ChatItem } from "@/components/sections/chat/ChatItem";
-import { useChatStore } from "@/lib/store/stateStore";
+import { useChatStore, useSpaceStore } from "@/lib/store/stateStore";
 import Header from "@/components/sections/Header";
 
 const CONNECTED_EVENT = "connected";
@@ -35,16 +35,25 @@ const JOIN_SPACE_EVENT = "joinSpace";
 const LEAVE_SPACE_EVENT = "leaveSpace";
 const SOCKET_ERROR_EVENT = "socketError";
 
+interface CurrentSpace {
+  state: {
+    space: SpaceInterface;
+  };
+}
+
 export default function Play() {
   const { allChats, setChats, creatingChat } = useChatStore();
+  const { space, setSpace } = useSpaceStore();
+
   const { socket } = useSocket();
   const { toast } = useToast();
 
   const [isConnected, setIsConnected] = useState(false);
-  const currentSpace = useRef<SpaceInterface | null>(null);
+  const currentSpace = useRef<CurrentSpace | null>(null);
   // const currentChat = useRef<ChatListItemInterface | null>(null);
 
-  const [loadingChats, setLoadingChats] = useState(false);
+  const [loadingSpace, setLoadingSpace] = useState(false);
+  // const [loadingChats, setLoadingChats] = useState(false);
 
   // const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -131,21 +140,21 @@ export default function Play() {
   //   setMessages(data?.data || []);
   // };
 
-  const getChats = async () => {
-    const { error, data, isLoading } = await fetcher(
-      async () => await getUserChats()
-    );
+  // const getChats = async () => {
+  //   const { error, data, isLoading } = await fetcher(
+  //     async () => await getUserChats()
+  //   );
 
-    if (error) {
-      return toast({
-        description: `${error}`,
-        variant: "destructive",
-      });
-    }
-    setLoadingChats(isLoading);
-    // console.log("All user chat:", data?.data);
-    setChats("updateChat", undefined, data?.data);
-  };
+  //   if (error) {
+  //     return toast({
+  //       description: `${error}`,
+  //       variant: "destructive",
+  //     });
+  //   }
+  //   setLoadingChats(isLoading);
+  //   // console.log("All user chat:", data?.data);
+  //   setChats("updateChat", undefined, data?.data);
+  // };
 
   // const sendChatMessage = async () => {
   //   if (!currentChat.current?.id || !socket) return;
@@ -289,29 +298,51 @@ export default function Play() {
 
   //   setChats("groupNameChange", chat);
   // };
+  // console.log(currentSpace.current?.state.space.id);
 
+  // DONE:
+  const getSpace = async () => {
+    const { error, data, isLoading } = await fetcher(
+      async () =>
+        await getSpaceDetails(space?.id as string)
+    );
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    setLoadingSpace(isLoading);
+    setSpace("updateStore", data?.data);
+  };
+
+  // WARN:
   const onNewSpace = (space: any) => {
     console.log(space);
   };
 
-  const onJoinSpace = () => {};
+  // DONE:
+  const onJoinSpace = (space: SpaceInterface) => {
+    toast({
+      description: "A new user joined the space.",
+    });
+    setSpace("updateStore", space);
+  };
 
   const onLeaveSpace = () => {};
 
-  // console.log(currentSpace);
-
+  // console.log(currentSpace.current?.state.space.name);
   useEffect(() => {
-    // getChats();
-    // getSpace()
+    getSpace();
 
     const _currentSpace = LocalStorage.get("active-space");
 
     if (_currentSpace) {
-      console.log("Current chat: ", _currentSpace);
+      // console.log("Current chat: ", _currentSpace.state);
 
       currentSpace.current = _currentSpace;
       // If the socket connection exists, emit an event to join the specific chat using its ID.
-      socket?.emit(JOIN_CHAT_EVENT, _currentSpace.current?._id);
+      socket?.emit(JOIN_CHAT_EVENT, _currentSpace?.state.space.id);
       // getChat()
       // getMessages();
     }
@@ -362,7 +393,13 @@ export default function Play() {
       <Header />
 
       <div className="flex w-full py-2 h-body">
-        <div className="max-w-[70%] w-full border flex-shrink-0">Hello</div>
+        <div className="max-w-[70%] w-full border flex-shrink-0">
+          {space?.participants.map((participant) => (
+            <div key={participant.id}>
+              <p>{participant.username}</p>
+            </div>
+          ))}
+        </div>
 
         <div className="w-full flex-gro flex gap-2">
           {/* <div className="border w-full ">

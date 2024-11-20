@@ -23,24 +23,24 @@ const createSpace = (name: string) => {
 };
 
 const getSpaceDetails = (spaceId: string) => {
-  return axiosInstance.get(`/space/:${spaceId}`);
+  return axiosInstance.get(`/space/${spaceId}`);
 };
 
 const renameSpace = (spaceId: string) => {
-  return axiosInstance.patch(`/space/:${spaceId}`);
+  return axiosInstance.patch(`/space/${spaceId}`);
 };
 
 const endSpace = (spaceId: string) => {
-  return axiosInstance.delete(`/space/:${spaceId}`);
+  return axiosInstance.delete(`/space/${spaceId}`);
 };
 
 // NOTE: space participants
 const joinSpace = (spaceId: string, participantId: string) => {
-  return axiosInstance.post(`/space/:${spaceId}/${participantId}`);
+  return axiosInstance.post(`/space/${spaceId}/${participantId}`);
 };
 
 const leaveSpace = (spaceId: string, participantId: string) => {
-  return axiosInstance.post(`/space/:${spaceId}/${participantId}`);
+  return axiosInstance.post(`/space/${spaceId}/${participantId}`);
 };
 
 // NOTE: users

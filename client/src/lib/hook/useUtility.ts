@@ -85,7 +85,7 @@ export const getChatObjectMetadata = (
     );
 
     return {
-      avatar: player?.avatarId, 
+      avatar: player?.avatar, 
       title: player?.username, 
       description: player?.email,
       lastMessage,
