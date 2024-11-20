@@ -11,7 +11,7 @@ import { comparePassword, hashPassword } from "../utils/services.js";
 import { AuthErrorEnum } from "../utils/constants.js";
 
 const registerController = asyncHandler(async (req: Request, res: Response) => {
-  const { email: userEmail, username: userName, password, fullname } = req.body;
+  const { email: userEmail, username: userName, password, fullname: fullName } = req.body;
 
   // Validate body data
   // console.log(email, username, password, fullname);
@@ -42,6 +42,7 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
       email: userEmail,
       username: userName,
       password: hashedPassword,
+      fullname: fullName, 
     },
   });
 
@@ -49,7 +50,7 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
-  const { avatarId, id, email, username } = user;
+  const {  id, email, username , fullname} = user;
 
   // console.log(token, session);
   setSessionTokenCookie(res, token);
@@ -59,7 +60,7 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
     .json(
       new ApiResponse(
         200,
-        { avatarId, id, email, username },
+        {  id, email, username },
         "User registered successfully"
       )
     );
@@ -107,7 +108,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
-  const { avatarId, id, email, username } = user;
+  const { id, email, username, fullname } = user;
 
   // console.log(token, session);
   setSessionTokenCookie(res, token);
@@ -117,7 +118,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
     .json(
       new ApiResponse(
         200,
-        { avatarId, id, email, username },
+        { id, email, username },
         "Login successful!"
       )
     );

@@ -16,3 +16,100 @@
 [19 Nov, 2024 - 02:47:03:473] [31merror[39m: [31mInvalid access token[39m
 [19 Nov, 2024 - 02:47:03:473] [31merror[39m: [31mInvalid access token[39m
 [19 Nov, 2024 - 02:47:03:473] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 16:03:31:331] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 16:04:07:47] [31merror[39m: [31mcrypto is not defined[39m
+[19 Nov, 2024 - 16:26:30:2630] [31merror[39m: [31mUnexpected token } in JSON at position 105[39m
+[19 Nov, 2024 - 16:26:44:2644] [31merror[39m: [31mUnexpected token } in JSON at position 65[39m
+[19 Nov, 2024 - 16:27:12:2712] [31merror[39m: [31mUnexpected token } in JSON at position 59[39m
+[19 Nov, 2024 - 16:27:22:2722] [31merror[39m: [31mUnexpected token } in JSON at position 63[39m
+[19 Nov, 2024 - 16:29:00:290] [31merror[39m: [31mUnexpected token } in JSON at position 62[39m
+[19 Nov, 2024 - 16:46:17:4617] [31merror[39m: [31m[39m
+[31mInvalid `prisma.user.create()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/auth.control.ts:40:34[39m
+
+[31m  37 [39m
+[31m  38 const hashedPassword = await hashPassword(password);[39m
+[31m  39 [39m
+[31m→ 40 const user = await prisma.user.create({[39m
+[31m       data: {[39m
+[31m         email: "Ayodasilva12@gmail.com",[39m
+[31m         username: "Ayomide",[39m
+[31m         password: "$argon2id$v=19$m=65536,t=3,p=4$RgrpHnXUAFDDzIUK0HkTSA$dyIs/7lZYGE4XLDFT2tjyAx1WQ+IM2AuSiVobNWuA3Y",[39m
+[31m     +   fullname: String[39m
+[31m       }[39m
+[31m     })[39m
+
+[31mArgument `fullname` is missing.[39m
+[19 Nov, 2024 - 17:14:05:145] [31merror[39m: [31mUnexpected token } in JSON at position 39[39m
+[19 Nov, 2024 - 17:14:48:1448] [31merror[39m: [31m[39m
+[31mInvalid `prisma.space.create()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/space.control.ts:26:39[39m
+
+[31m  23 [39m
+[31m  24 // NOTE: once a new user joins space they becomes a participant of the space[39m
+[31m  25 [39m
+[31m→ 26 const newSpace = await prisma.space.create({[39m
+[31m       data: {[39m
+[31m         status: "started",[39m
+[31m         spaceDuration: undefined,[39m
+[31m         Chat: {[39m
+[31m           create: {[39m
+[31m             participants: {[39m
+[31m               connect: {[39m
+[31m                 id: "a7420f00-7b6f-4e96-b434-14b7af9e6e1a"[39m
+[31m               }[39m
+[31m             },[39m
+[31m             status: "started"[39m
+[31m           }[39m
+[31m         },[39m
+[31m     +   name: String[39m
+[31m       },[39m
+[31m       include: {[39m
+[31m         participants: true,[39m
+[31m         Chat: true[39m
+[31m       }[39m
+[31m     })[39m
+
+[31mArgument `name` is missing.[39m
+[19 Nov, 2024 - 17:16:23:1623] [31merror[39m: [31mUnexpected token } in JSON at position 39[39m
+[19 Nov, 2024 - 17:16:26:1626] [31merror[39m: [31mUnexpected token } in JSON at position 39[39m
+[19 Nov, 2024 - 17:17:01:171] [31merror[39m: [31mUnexpected token } in JSON at position 39[39m
+[19 Nov, 2024 - 17:30:28:3028] [31merror[39m: [31mInvalid access token[39m
+[19 Nov, 2024 - 17:46:14:4614] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:47:42:4742] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:47:50:4750] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:48:44:4844] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:49:55:4955] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:51:04:514] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:52:07:527] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:52:30:5230] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:52:32:5232] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:54:23:5423] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:56:31:5631] [31merror[39m: [31m[39m
+[31mInvalid `prisma.space.update()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/space.control.ts:102:45[39m
+
+[31m   99   throw new ApiError(400, "Participant already in the space.");[39m
+[31m  100 }[39m
+[31m  101 [39m
+[31m→ 102 const updatedSpace = await prisma.space.update([39m
+[31mAn operation failed because it depends on one or more records that were required but not found. Expected 1 records to be connected, found only 0.[39m
+[19 Nov, 2024 - 17:57:10:5710] [31merror[39m: [31mParticipant already in the space.[39m
+[19 Nov, 2024 - 17:57:31:5731] [31merror[39m: [31m[39m
+[31mInvalid `prisma.space.update()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/space.control.ts:102:45[39m
+
+[31m   99   throw new ApiError(400, "Participant already in the space.");[39m
+[31m  100 }[39m
+[31m  101 [39m
+[31m→ 102 const updatedSpace = await prisma.space.update([39m
+[31mAn operation failed because it depends on one or more records that were required but not found. No 'Chat' record to connect was found for a nested connect on one-to-one relation 'ChatToSpace'.[39m
+[19 Nov, 2024 - 17:59:08:598] [31merror[39m: [31m[39m
+[31mInvalid `prisma.space.update()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/space.control.ts:100:45[39m
+
+[31m   97   throw new ApiError(400, "Participant already in the space.");[39m
+[31m   98 }[39m
+[31m   99 [39m
+[31m→ 100 const updatedSpace = await prisma.space.update([39m
+[31mAn operation failed because it depends on one or more records that were required but not found. No 'Chat' record to connect was found for a nested connect on one-to-one relation 'ChatToSpace'.[39m

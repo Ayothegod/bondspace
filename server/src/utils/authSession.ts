@@ -9,6 +9,13 @@ import type { User, Session } from "@prisma/client";
 import { prisma } from "./client";
 import { Response } from "express";
 
+export function generate10RandomValues(): string {
+  const bytes = new Uint8Array(6);
+  crypto.getRandomValues(bytes);
+  const token = encodeBase32LowerCaseNoPadding(bytes);
+  return token;
+}
+
 export function generateSessionToken(): string {
   const bytes = new Uint8Array(20);
   crypto.getRandomValues(bytes);

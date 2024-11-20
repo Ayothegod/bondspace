@@ -1,27 +1,25 @@
 import { Router } from "express";
-import { forgetPasswordController } from "../controllers/auth.control.js";
-import { verifyCookie } from "../middlewares/auth.middleware.js";
-import { validate } from "../utils/validate.js";
 import {
+  addNewParticipantInGroupChat,
   createAGroupChat,
   createOrGetAOneOnOneChat,
-  getGroupChatDetails,
-  searchAvailableUsers,
-  addNewParticipantInGroupChat,
   deleteGroupChat,
   deleteOneOnOneChat,
   getAllChats,
+  getGroupChatDetails,
   leaveGroupChat,
   removeParticipantFromGroupChat,
   renameGroupChat,
+  searchAvailableUsers,
 } from "../controllers/chat.control.js";
+import { verifyCookie } from "../middlewares/auth.middleware.js";
+import { validate } from "../utils/validate.js";
 
 const router = Router();
 
 router.use(verifyCookie);
 
 router.route("/").get(getAllChats);
-router.route("/forgot-password").post(validate, forgetPasswordController);
 
 router.route("/users").get(searchAvailableUsers);
 

@@ -42,15 +42,16 @@ model Session {
 }
 
 model Space {
-  id           String   @id @default(uuid())
-  status       String // "ongoing", "finished", "started"
-  participants User[]   @relation("UserSpaces")
-  name         String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  endedAt      DateTime
-  chatId       String?
-  Chat         Chat?
+  id            String    @id @default(uuid())
+  status        String // "ongoing", "finished", "started"
+  participants  User[]    @relation("UserSpaces")
+  spaceDuration DateTime?
+  name          String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  endedAt       DateTime?
+  chatId        String?
+  Chat          Chat?
 }
 
 // model UserSpace {
@@ -67,8 +68,7 @@ model Chat {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   messages      Message[]
-  participantId String
-  participant   User      @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  participants  User[]
   spaceId       String    @unique
   Space         Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
 }

@@ -17,7 +17,7 @@ export default function JoinSpace() {
 
         <div className="bg-secondary rounded p-4 mt-4 w-1/2">
           <p className="text-sm mb-1">Enter the spaceId to get started.</p>
-          <Input placeholder="RoomId here" />
+          <Input placeholder="SpaceId here" />
 
           <Button
             // onClick={joinSpace}

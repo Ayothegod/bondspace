@@ -6,12 +6,6 @@ import { AuthErrorEnum, ChatEventEnum } from "../utils/constants.js";
 import { ApiError } from "../utils/ApiError.js";
 import { emitSocketEvent } from "../utils/socket.js";
 
-// on client -> as a user that wants to chat
-// -> search available user
-// if user () => send welcome message and also invite
-// if accepted () => start chatting
-// if !user or !ourFriend () => invite user
-
 const searchAvailableUsers = asyncHandler(
   async (req: Request, res: Response) => {
     const users = await prisma.user.findMany({

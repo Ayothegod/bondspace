@@ -3,7 +3,7 @@ import cookie from "cookie";
 import { Server, Socket } from "socket.io";
 ChatEventEnum;
 import { ApiError } from "../utils/ApiError.js";
-import { ChatEventEnum } from "./constants.js";
+import { ChatEventEnum, SpaceEventEnum } from "./constants.js";
 import { Request } from "express";
 import { validateSessionToken } from "./authSession.js";
 
@@ -56,11 +56,11 @@ const initializeSocketIO = (io: Server) => {
       }
 
       const { user } = validateToken;
-      console.log("token: ", token);
-
       socket.user = user;
 
       socket.join(user.id.toString());
+      socket.emit(SpaceEventEnum.CONNECTED_EVENT, `${user.id.toString()}`);
+
       socket.emit(ChatEventEnum.CONNECTED_EVENT, `${user.id.toString()}`);
       console.log("User connected 🗼. userId: ", user.id.toString());
 
@@ -75,20 +75,16 @@ const initializeSocketIO = (io: Server) => {
         }
       });
     } catch (error) {
-      if (error instanceof MyCustomError) {
-        console.error(error);
-        socket.emit(
-          ChatEventEnum.SOCKET_ERROR_EVENT,
-          error?.message ||
-            "Something went wrong while connecting to the socket."
-        );
-      } else {
-        console.error("An unexpected error occurred Here");
-        socket.emit(
-          ChatEventEnum.SOCKET_ERROR_EVENT,
-          "Something went wrong while connecting to the socket."
-        );
-      }
+      console.error("An unexpected error occurred Here");
+      socket.emit(
+        SpaceEventEnum.SOCKET_ERROR_EVENT,
+        "Something went wrong while connecting the space to the socket."
+      );
+
+      socket.emit(
+        ChatEventEnum.SOCKET_ERROR_EVENT,
+        "Something went wrong while connecting the chat to the socket."
+      );
     }
   });
 };
@@ -99,7 +95,7 @@ const emitSocketEvent = (
   event: string,
   payload: any
 ) => {
-  console.log(`socket emitted from: roomID-${roomId}, with event: ${event}`);
+  console.log(`NOTE: roomID-${roomId} on event ${event}`);
 
   req.app.get("io").in(roomId).emit(event, payload);
 };
