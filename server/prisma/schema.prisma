@@ -24,6 +24,7 @@ model User {
   // outgoingConnections Connection[] @relation("RequestingConnections")
   // incomingConnections Connection[] @relation("AcceptingConnections")
 }
+
 model Space {
   id            String    @id @default(uuid())
   status        String // "ongoing", "finished", "started"
@@ -33,18 +34,18 @@ model Space {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   endedAt       DateTime?
-  // chatId        String?
   Chat          Chat?
 }
+
 model Chat {
-  id            String    @id @default(uuid())
-  status        String // e.g., "ongoing", "finished", "startedu"
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  messages      Message[]
-  participants  User[]
-  spaceId       String    @unique
-  Space         Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  id           String    @id @default(uuid())
+  status       String // e.g., "ongoing", "finished", "startedu"
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  messages     Message[]
+  participants User[]
+  spaceId      String    @unique
+  Space        Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
 }
 
 model Avatar {
@@ -52,6 +53,7 @@ model Avatar {
   description String // Text input from the user
   imageURL    String
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   ownerId     String   @unique
   owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 }
@@ -63,7 +65,6 @@ model Session {
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
-
 // model UserSpace {
 //   userId    String
 //   spaceId    String
@@ -71,7 +72,6 @@ model Session {
 //   space      Space      @relation(fields: [spaceId], references: [id], onDelete: Cascade)
 //   @@id([userId, spaceId]) 
 // }
-
 
 model Message {
   id        String   @id @default(uuid())

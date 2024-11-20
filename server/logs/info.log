@@ -1421,3 +1421,68 @@
 [20 Nov, 2024 - 16:59:22:5922] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
 [20 Nov, 2024 - 16:59:22:5922] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
 [20 Nov, 2024 - 17:04:44:444] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:06:26:626] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:06:36:636] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:12:52:1252] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:13:21:1321] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:13:24:1324] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:13:27:1327] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:25:07:257] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 17:25:07:257] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 17:25:15:2515] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 17:25:15:2515] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 17:25:34:2534] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 17:25:34:2534] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 17:25:39:2539] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 17:25:39:2539] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 17:36:25:3625] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 17:36:25:3625] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 17:38:03:383] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 17:38:03:383] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 18:48:17:4817] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 18:48:17:4817] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 18:48:51:4851] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 18:48:51:4851] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:00:17:017] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:00:17:017] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:00:21:021] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:00:21:021] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:01:23:123] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:01:23:123] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:01:31:131] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:01:31:131] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:01:35:135] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:01:35:135] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:01:39:139] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:01:39:139] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:01:52:152] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:01:52:152] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:01:57:157] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:01:57:157] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:02:07:27] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:02:07:27] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:02:10:210] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:02:12:212] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:02:12:212] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:02:17:217] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:02:17:217] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:03:28:328] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:03:28:328] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:03:32:332] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:03:32:332] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:03:39:339] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:03:39:339] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:03:42:342] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:03:42:342] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:03:48:348] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:03:48:348] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:03:54:354] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:03:54:354] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:04:02:42] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:04:02:42] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:04:10:410] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:04:10:410] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:04:18:418] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:04:18:418] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m
+[20 Nov, 2024 - 19:04:31:431] [34minfo[39m: [34m📑 Visit the documentation at: http://localhost:8080[39m
+[20 Nov, 2024 - 19:04:31:431] [34minfo[39m: [34m⚙️  Server is running on port: 8080[39m

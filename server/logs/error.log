@@ -142,3 +142,9 @@
 [31m→ 200 const updatedSpace = await prisma.space.update([39m
 [31mThe change you are trying to make would violate the required relation 'ChatToSpace' between the `Chat` and `Space` models.[39m
 [20 Nov, 2024 - 17:04:44:444] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:06:26:626] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:06:36:636] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:12:52:1252] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:13:21:1321] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:13:24:1324] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m
+[20 Nov, 2024 - 17:13:27:1327] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m

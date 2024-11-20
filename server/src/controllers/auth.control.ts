@@ -11,7 +11,12 @@ import { comparePassword, hashPassword } from "../utils/services.js";
 import { AuthErrorEnum } from "../utils/constants.js";
 
 const registerController = asyncHandler(async (req: Request, res: Response) => {
-  const { email: userEmail, username: userName, password, fullname: fullName } = req.body;
+  const {
+    email: userEmail,
+    username: userName,
+    password,
+    fullname: fullName,
+  } = req.body;
 
   // Validate body data
   // console.log(email, username, password, fullname);
@@ -42,7 +47,16 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
       email: userEmail,
       username: userName,
       password: hashedPassword,
-      fullname: fullName, 
+      fullname: fullName,
+    },
+    include: {
+      avatar: {
+        select: {
+          imageURL: true,
+          description: true,
+          id: true,
+        },
+      },
     },
   });
 
@@ -50,7 +64,7 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
-  const {  id, email, username , fullname} = user;
+  const { id, email, username, avatar } = user;
 
   // console.log(token, session);
   setSessionTokenCookie(res, token);
@@ -60,7 +74,7 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
     .json(
       new ApiResponse(
         200,
-        {  id, email, username },
+        { id, email, username, avatar },
         "User registered successfully"
       )
     );
@@ -75,6 +89,15 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
   // chcek for user
   const user = await prisma.user.findUnique({
     where: { username: userName },
+    include: {
+      avatar: {
+        select: {
+          imageURL: true,
+          description: true,
+          id: true,
+        },
+      },
+    },
   });
 
   if (!user) {
@@ -108,7 +131,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
-  const { id, email, username, fullname } = user;
+  const { id, email, username, avatar } = user;
 
   // console.log(token, session);
   setSessionTokenCookie(res, token);
@@ -116,11 +139,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(
-        200,
-        { id, email, username },
-        "Login successful!"
-      )
+      new ApiResponse(200, { id, email, username, avatar }, "Login successful!")
     );
 });
 

@@ -16,6 +16,22 @@ import { generate10RandomValues } from "../utils/authSession.js";
 // const today = new Date().getTime()
 // const diff = today - yesterday
 // // const endAt = new Date() - new Date("11-19-2024")
+
+// participants: {
+//   select: {
+//     id: true,
+//     username: true,
+//     avatar: {
+//       select: {
+//         id: true,
+//         description: true,
+//         imageURL: true,
+//       },
+//     },
+//     email: true,
+//   },
+// },
+
 const createASpace = asyncHandler(async (req: Request, res: Response) => {
   const { name, spaceDuration } = req.body;
   const newSpace = await prisma.space.create({
@@ -40,8 +56,20 @@ const createASpace = asyncHandler(async (req: Request, res: Response) => {
       },
     },
     include: {
-      participants: true,
-      Chat: true,
+      participants: {
+        select: {
+          id: true,
+          username: true,
+          avatar: {
+            select: {
+              id: true,
+              description: true,
+              imageURL: true,
+            },
+          },
+          email: true,
+        },
+      },
     },
   });
 
@@ -124,18 +152,14 @@ const addNewParticipantToSpace = asyncHandler(
           select: {
             id: true,
             username: true,
-            // avatar: true,
-            // email: true,
-          },
-        },
-        Chat: {
-          select: {
-            id: true,
-            participants: {
+            avatar: {
               select: {
-                username: true,
+                id: true,
+                description: true,
+                imageURL: true,
               },
             },
+            email: true,
           },
         },
       },
@@ -222,18 +246,14 @@ const removeParticipantFromSpace = asyncHandler(
           select: {
             id: true,
             username: true,
-            // avatar: true,
-            // email: true,
-          },
-        },
-        Chat: {
-          select: {
-            id: true,
-            participants: {
+            avatar: {
               select: {
-                username: true,
+                id: true,
+                description: true,
+                imageURL: true,
               },
             },
+            email: true,
           },
         },
       },
@@ -271,17 +291,14 @@ const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
         select: {
           id: true,
           username: true,
-          // avatar: true,
+          avatar: {
+            select: {
+              id: true,
+              description: true,
+              imageURL: true,
+            },
+          },
           email: true,
-        },
-      },
-      Chat: {
-        where: {
-          spaceId: spaceId,
-        },
-        include: {
-          messages: true,
-          participants: true,
         },
       },
     },
@@ -323,17 +340,14 @@ const renameSpace = asyncHandler(async (req: Request, res: Response) => {
         select: {
           id: true,
           username: true,
-          // avatar: true,
+          avatar: {
+            select: {
+              id: true,
+              description: true,
+              imageURL: true,
+            },
+          },
           email: true,
-        },
-      },
-      Chat: {
-        where: {
-          spaceId: spaceId,
-        },
-        include: {
-          messages: true,
-          participants: true,
         },
       },
     },

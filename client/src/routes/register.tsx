@@ -35,6 +35,7 @@ export default function Register() {
         email: data.email,
         username: data.username,
         password: data.password,
+        fullname: data.fullname
       });
       setUser(response.data.data);
 
@@ -96,6 +97,19 @@ export default function Register() {
                 {errors.email && (
                   <Label className="text-xs text-red-500">
                     {errors.email?.message}
+                  </Label>
+                )}
+              </div>
+              <div>
+                <Label className="text-xs">Fullname</Label>
+                <Input
+                  type="text"
+                  {...register("fullname")}
+                  placeholder="Enter your full name."
+                />
+                {errors.fullname && (
+                  <Label className="text-xs text-red-500">
+                    {errors.fullname?.message}
                   </Label>
                 )}
               </div>

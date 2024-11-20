@@ -5,6 +5,10 @@ export const registerSchema = z.object({
     .string({ message: "Username is required" })
     .min(3, { message: "Username is too short" })
     .max(60, { message: "Username is too long" }),
+  fullname: z
+    .string({ message: "Fullname is required" })
+    .min(3, { message: "Fullname is too short" })
+    .max(60, { message: "Fullname is too long" }),
   email: z
     .string()
     .email({ message: "Invalid email address" })
@@ -22,7 +26,6 @@ export const loginUserSchema = z.object({
     .string({ required_error: "Password is required" })
     .min(6, { message: "Password must be up to 6 characters" }),
 });
-
 
 // module.exports = {
 //   darkMode: ["class"],

@@ -1,6 +1,10 @@
+import {
+  ChatListItemInterface,
+  SpaceInterface,
+  UserInterface,
+} from "@/lib/types/chat";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ChatListItemInterface, UserInterface } from "@/lib/types/chat";
 
 interface authStore {
   user: UserInterface | null;
@@ -21,7 +25,7 @@ export const useAuthStore = create<authStore>()(
           console.log("logout cicked!");
 
           if (state.user) {
-            return {user: null };
+            return { user: null };
           }
           return { user: null };
           // return state;
@@ -29,6 +33,33 @@ export const useAuthStore = create<authStore>()(
     }),
     {
       name: "auth-data",
+    }
+  )
+);
+
+interface spaceStore {
+  space: SpaceInterface | null;
+  setSpace: (
+    updateType: string,
+    space?: SpaceInterface
+    // chatId?: string
+  ) => void;
+}
+
+export const useSpaceStore = create<spaceStore>()(
+  persist(
+    (set) => ({
+      space: null,
+      setSpace: (updateType, space) =>
+        set((state) => {
+          if (updateType === "updateStore" && space) {
+            return { space: space };
+          }
+          return { space: state.space };
+        }),
+    }),
+    {
+      name: "active-space",
     }
   )
 );
@@ -87,13 +118,3 @@ export const useChatStore = create<chatStore>((set) => ({
       return { allChats: state.allChats };
     }),
 }));
-
-// interface messageStore {
-//   isMessage: boolean;
-//   setIsMessage: () => void;
-// }
-
-// export const useMessageStore = create<messageStore>((set) => ({
-//   isMessage: false,
-//   setIsMessage: () => set((state) => ({ isMessage: !state.isMessage })),
-// }));
