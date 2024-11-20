@@ -20,7 +20,7 @@ router
   .route("/:spaceId")
   .get(validate, getSpaceDetails)
   .patch(validate, renameSpace)
-  .delete();
+  .delete(validate);
 
 // NOTE: space participants
 router

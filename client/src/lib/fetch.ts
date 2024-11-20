@@ -17,6 +17,33 @@ export const axiosInstance = axios.create({
 //   return axiosInstance.post("users/logout");
 // };
 
+// NOTE: space resource
+const createSpace = (name: string) => {
+  return axiosInstance.post("/space/", { name });
+};
+
+const getSpaceDetails = (spaceId: string) => {
+  return axiosInstance.get(`/space/:${spaceId}`);
+};
+
+const renameSpace = (spaceId: string) => {
+  return axiosInstance.patch(`/space/:${spaceId}`);
+};
+
+const endSpace = (spaceId: string) => {
+  return axiosInstance.delete(`/space/:${spaceId}`);
+};
+
+// NOTE: space participants
+const joinSpace = (spaceId: string, participantId: string) => {
+  return axiosInstance.post(`/space/:${spaceId}/${participantId}`);
+};
+
+const leaveSpace = (spaceId: string, participantId: string) => {
+  return axiosInstance.post(`/space/:${spaceId}/${participantId}`);
+};
+
+// NOTE: users
 const getAvailableUsers = () => {
   return axiosInstance.get("/chat/users");
 };
@@ -92,6 +119,12 @@ export {
   sendMessage,
   updateGroupName,
   deleteMessage,
+  createSpace,
+  joinSpace,
+  leaveSpace,
+  endSpace,
+  getSpaceDetails,
+  renameSpace,
 };
 
 // const fetchData = async () => {

@@ -8,6 +8,9 @@ export default function JoinSpace() {
   // const [disable, setDisable] = useState(true);
   // const groupSpace = () => {};
 
+    // create a modal with url to give the link, let them enter the space etc
+
+
   return (
     <div>
       <div className=" flex flex-col items-center justify-center ">

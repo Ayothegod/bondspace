@@ -32,13 +32,15 @@ import { generate10RandomValues } from "../utils/authSession.js";
 //   },
 // },
 
+// create an endspace endpoint - compute (spaceDuration)
+
 const createASpace = asyncHandler(async (req: Request, res: Response) => {
-  const { name, spaceDuration } = req.body;
+  const { name } = req.body;
+  
   const newSpace = await prisma.space.create({
     data: {
       name: name,
       status: "started",
-      spaceDuration: spaceDuration ? spaceDuration : undefined,
       participants: {
         connect: {
           id: req.user?.id,
