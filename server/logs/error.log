@@ -113,3 +113,32 @@
 [31m   99 [39m
 [31m→ 100 const updatedSpace = await prisma.space.update([39m
 [31mAn operation failed because it depends on one or more records that were required but not found. No 'Chat' record to connect was found for a nested connect on one-to-one relation 'ChatToSpace'.[39m
+[20 Nov, 2024 - 15:56:53:5653] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 15:57:28:5728] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 15:57:55:5755] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 15:59:00:590] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 15:59:10:5910] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 15:59:48:5948] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:00:44:044] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:01:04:14] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:01:27:127] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:02:41:241] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:03:01:31] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:03:07:37] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:03:51:351] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:04:28:428] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:04:57:457] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:06:04:64] [31merror[39m: [31mParticipant does not exist in the space[39m
+[20 Nov, 2024 - 16:14:41:1441] [31merror[39m: [31mParticipant already in the space.[39m
+[20 Nov, 2024 - 16:20:47:2047] [31merror[39m: [31mSpace does not exist[39m
+[20 Nov, 2024 - 16:21:48:2148] [31merror[39m: [31mParticipant already in the space.[39m
+[20 Nov, 2024 - 16:28:45:2845] [31merror[39m: [31m[39m
+[31mInvalid `prisma.space.update()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/space.control.ts:200:45[39m
+
+[31m  197   throw new ApiError(400, "Participant does not exist in the space");[39m
+[31m  198 }[39m
+[31m  199 [39m
+[31m→ 200 const updatedSpace = await prisma.space.update([39m
+[31mThe change you are trying to make would violate the required relation 'ChatToSpace' between the `Chat` and `Space` models.[39m
+[20 Nov, 2024 - 17:04:44:444] [31merror[39m: [31mCannot read properties of undefined (reading 'findMany')[39m

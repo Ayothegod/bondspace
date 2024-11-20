@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { forgetPasswordController } from "../controllers/auth.control.js";
-import { verifyCookie } from "../middlewares/auth.middleware.js";
-import { validate } from "../utils/validate.js";
 import {
   addNewParticipantToSpace,
   createASpace,
+  getSpaceDetails,
+  removeParticipantFromSpace,
+  renameSpace,
 } from "../controllers/space.control.js";
+import { verifyCookie } from "../middlewares/auth.middleware.js";
+import { validate } from "../utils/validate.js";
 
 const router = Router();
 
@@ -13,17 +15,50 @@ router.use(verifyCookie);
 
 router.route("/").post(validate, createASpace);
 
-router.route("/:spaceId").get().patch().delete();
+// NOTE: space resource
+router
+  .route("/:spaceId")
+  .get(validate, getSpaceDetails)
+  .patch(validate, renameSpace)
+  .delete();
 
+// NOTE: space participants
 router
   .route("/:spaceId/:participantId")
   .post(validate, addNewParticipantToSpace)
-  .delete(validate);
+  .delete(validate, removeParticipantFromSpace);
 
-router.route("/leave/s/:spaceId").delete(validate);
-
-router.route("/remove/:spaceId").delete(validate);
-
-router.route("/forgot-password").post(validate, forgetPasswordController);
+// router.route("/leave/s/:spaceId").delete(validate);
 
 export default router;
+
+// why does the user get added to the spaxc but the user is not added to the chat under the space??
+
+//     const updatedSpace = await prisma.space.update({
+//       where: {
+//         id: spaceId,
+//       },
+//       data: {
+//         participants: {
+//           connect: {
+//             id: participantId,
+//           },
+//         },
+//         Chat: {
+//           update: {
+//             id: participantId,
+//           },
+//         },
+//       },
+//       include: {
+//         participants: {
+//           select: {
+//             id: true,
+//             username: true,
+//             avatar: true,
+//             email: true,
+//           },
+//         },
+//         Chat: true
+//       },
+//     });

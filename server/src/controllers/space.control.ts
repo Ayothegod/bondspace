@@ -12,14 +12,12 @@ import { emitSocketEvent } from "../utils/socket.js";
 import { generate10RandomValues } from "../utils/authSession.js";
 
 // DONE:
+// const yesterday = new Date("11-19-2024").getTime();
+// const today = new Date().getTime()
+// const diff = today - yesterday
+// // const endAt = new Date() - new Date("11-19-2024")
 const createASpace = asyncHandler(async (req: Request, res: Response) => {
   const { name, spaceDuration } = req.body;
-
-  // const yesterday = new Date("11-19-2024").getTime();
-  // const today = new Date().getTime()
-  // const diff = today - yesterday
-  // // const endAt = new Date() - new Date("11-19-2024")
-
   const newSpace = await prisma.space.create({
     data: {
       name: name,
@@ -108,7 +106,16 @@ const addNewParticipantToSpace = asyncHandler(
         },
         Chat: {
           update: {
-            id: participantId,
+            where: {
+              spaceId: spaceId,
+            },
+            data: {
+              participants: {
+                connect: {
+                  id: participantId,
+                },
+              },
+            },
           },
         },
       },
@@ -117,8 +124,18 @@ const addNewParticipantToSpace = asyncHandler(
           select: {
             id: true,
             username: true,
-            avatar: true,
-            email: true,
+            // avatar: true,
+            // email: true,
+          },
+        },
+        Chat: {
+          select: {
+            id: true,
+            participants: {
+              select: {
+                username: true,
+              },
+            },
           },
         },
       },
@@ -143,90 +160,266 @@ const addNewParticipantToSpace = asyncHandler(
         new ApiResponse(
           200,
           updatedSpace,
-          "Participant added to space successfully."
+          `Participant added to space successfully.`
         )
       );
   }
 );
 
-// const removeParticipantFromGroupChat = asyncHandler(
-//   async (req: Request, res: Response) => {
-//     const { chatId, participantId } = req.params;
+// DONE:
+const removeParticipantFromSpace = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { spaceId, participantId } = req.params;
 
-//     const chat = await prisma.gameSession.findUnique({
-//       where: {
-//         id: chatId,
-//         isGroupGame: true,
-//       },
-//       include: {
-//         players: {
-//           select: {
-//             id: true,
-//           },
-//         },
-//       },
-//     });
+    const space = await prisma.space.findUnique({
+      where: {
+        id: spaceId,
+      },
+      include: {
+        participants: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
 
-//     if (!chat) {
-//       throw new ApiError(404, "Group chat does not exist");
-//     }
+    if (!space) {
+      throw new ApiError(404, "Space does not exist");
+    }
 
-//     // // check if user who is adding is a group admin
-//     // if (groupChat.admin?.toString() !== req.user._id?.toString()) {
-//     //   throw new ApiError(404, "You are not an admin");
-//     // }
+    const isParticipant = space.participants.some(
+      (participant) => participant.id === participantId
+    );
+    console.log(isParticipant);
 
-//     const notAParticipant = chat.players.filter(
-//       (player) => player.id !== participantId
-//     );
+    if (!isParticipant) {
+      throw new ApiError(400, "Participant does not exist in the space");
+    }
 
-//     if (notAParticipant) {
-//       throw new ApiError(400, "Player does not exist in the group chat");
-//     }
+    const updatedSpace = await prisma.space.update({
+      where: {
+        id: spaceId,
+      },
+      data: {
+        participants: {
+          disconnect: {
+            id: participantId,
+          },
+        },
+        Chat: {
+          update: {
+            participants: {
+              disconnect: {
+                id: participantId,
+              },
+            },
+          },
+        },
+      },
+      include: {
+        participants: {
+          select: {
+            id: true,
+            username: true,
+            // avatar: true,
+            // email: true,
+          },
+        },
+        Chat: {
+          select: {
+            id: true,
+            participants: {
+              select: {
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
-//     const updatedChat = await prisma.gameSession.update({
-//       where: {
-//         id: chatId,
-//       },
-//       data: {
-//         players: {
-//           disconnect: {
-//             id: participantId,
-//           },
-//         },
-//       },
-//       include: {
-//         players: {
-//           select: {
-//             id: true,
-//             username: true,
-//             avatar: true,
-//             email: true,
-//           },
-//         },
-//       },
-//     });
+    if (!updatedSpace) {
+      throw new ApiError(500, "Unable to remove user from space.");
+    }
 
-//     if (!updatedChat) {
-//       throw new ApiError(500, "Internal server error");
-//     }
+    updatedSpace.participants.forEach((participant) => {
+      emitSocketEvent(
+        req,
+        participant.id,
+        SpaceEventEnum.LEAVE_SPACE_EVENT,
+        updatedSpace
+      );
+    });
 
-//     // emit leave chat event to the removed participant only
-//     // emitSocketEvent(req, participantId, ChatEventEnum.LEAVE_CHAT_EVENT, payload);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, updatedSpace, "Player removed successfully"));
+  }
+);
 
-//     updatedChat.players.forEach((player) => {
-//       emitSocketEvent(
-//         req,
-//         player.id?.toString(),
-//         ChatEventEnum.LEAVE_CHAT_EVENT,
-//         updatedChat
-//       );
-//     });
+// DONE:
+const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
+  const { spaceId } = req.params;
 
-//     return res
-//       .status(200)
-//       .json(new ApiResponse(200, updatedChat, "Player removed successfully"));
+  const space = await prisma.space.findUnique({
+    where: {
+      id: spaceId,
+    },
+    include: {
+      participants: {
+        select: {
+          id: true,
+          username: true,
+          // avatar: true,
+          email: true,
+        },
+      },
+      Chat: {
+        where: {
+          spaceId: spaceId,
+        },
+        include: {
+          messages: true,
+          participants: true,
+        },
+      },
+    },
+  });
+
+  if (!getSpaceDetails) {
+    throw new ApiError(404, "Space does not exist");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, space, "Space fetched successfully"));
+});
+
+// DONE:
+const renameSpace = asyncHandler(async (req: Request, res: Response) => {
+  const { spaceId } = req.params;
+  const { name } = req.body;
+
+  const space = await prisma.space.findUnique({
+    where: {
+      id: spaceId,
+    },
+  });
+
+  if (!space) {
+    throw new ApiError(404, "Space does not exist");
+  }
+
+  const updatedSpace = await prisma.space.update({
+    where: {
+      id: spaceId,
+    },
+    data: {
+      name: name,
+    },
+    include: {
+      participants: {
+        select: {
+          id: true,
+          username: true,
+          // avatar: true,
+          email: true,
+        },
+      },
+      Chat: {
+        where: {
+          spaceId: spaceId,
+        },
+        include: {
+          messages: true,
+          participants: true,
+        },
+      },
+    },
+  });
+
+  if (!updatedSpace) {
+    throw new ApiError(500, "Error occured while updating space.");
+  }
+
+  updatedSpace.participants.forEach((participant) => {
+    emitSocketEvent(
+      req,
+      participant.id,
+      ChatEventEnum.UPDATE_GROUP_NAME_EVENT,
+      updatedSpace
+    );
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedSpace, "Space name updated successfully")
+    );
+});
+
+// DANGER:
+// const deleteGroupChat = asyncHandler(async (req: Request, res: Response) => {
+//   const { chatId } = req.params;
+
+//   const groupChat = await prisma.gameSession.findUnique({
+//     where: {
+//       id: chatId,
+//       isGroupGame: true,
+//     },
+//   });
+
+//   if (!groupChat) {
+//     throw new ApiError(404, "Group chat does not exist");
 //   }
-// );
 
-export { createASpace, addNewParticipantToSpace };
+//   // // only admin can change the name
+//   // if (groupChat.admin?.toString() !== req.user._id?.toString()) {
+//   //   throw new ApiError(404, "You are not an admin");
+//   // }
+
+//   const deletedGroupChat = await prisma.gameSession.delete({
+//     where: {
+//       id: chatId,
+//     },
+//     include: {
+//       players: {
+//         select: {
+//           id: true,
+//           username: true,
+//           avatar: true,
+//           email: true,
+//         },
+//       },
+//     },
+//   });
+
+//   if (!deletedGroupChat) {
+//     throw new ApiError(500, "Internal server error");
+//   }
+
+//   deletedGroupChat.players.forEach((player) => {
+//     // if (player.id.toString() === req.user?.id.toString()) return;
+
+//     // emit event to other participants with new chat as a payload
+//     emitSocketEvent(
+//       req,
+//       player.id?.toString(),
+//       ChatEventEnum.LEAVE_CHAT_EVENT,
+//       deletedGroupChat
+//     );
+//   });
+
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, {}, "Group chat deleted successfully"));
+// });
+
+export {
+  createASpace,
+  addNewParticipantToSpace,
+  removeParticipantFromSpace,
+  getSpaceDetails,
+  renameSpace,
+};

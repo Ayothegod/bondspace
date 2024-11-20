@@ -24,6 +24,28 @@ model User {
   // outgoingConnections Connection[] @relation("RequestingConnections")
   // incomingConnections Connection[] @relation("AcceptingConnections")
 }
+model Space {
+  id            String    @id @default(uuid())
+  status        String // "ongoing", "finished", "started"
+  participants  User[]    @relation("UserSpaces")
+  spaceDuration DateTime?
+  name          String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  endedAt       DateTime?
+  // chatId        String?
+  Chat          Chat?
+}
+model Chat {
+  id            String    @id @default(uuid())
+  status        String // e.g., "ongoing", "finished", "startedu"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  messages      Message[]
+  participants  User[]
+  spaceId       String    @unique
+  Space         Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+}
 
 model Avatar {
   id          String   @id @default(uuid())
@@ -41,18 +63,6 @@ model Session {
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
-model Space {
-  id            String    @id @default(uuid())
-  status        String // "ongoing", "finished", "started"
-  participants  User[]    @relation("UserSpaces")
-  spaceDuration DateTime?
-  name          String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  endedAt       DateTime?
-  chatId        String?
-  Chat          Chat?
-}
 
 // model UserSpace {
 //   userId    String
@@ -62,16 +72,6 @@ model Space {
 //   @@id([userId, spaceId]) 
 // }
 
-model Chat {
-  id            String    @id @default(uuid())
-  status        String // e.g., "ongoing", "finished", "startedu"
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  messages      Message[]
-  participants  User[]
-  spaceId       String    @unique
-  Space         Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-}
 
 model Message {
   id        String   @id @default(uuid())
