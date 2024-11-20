@@ -44,8 +44,21 @@ model Chat {
   updatedAt    DateTime  @updatedAt
   messages     Message[]
   participants User[]
+  name         String?
   spaceId      String    @unique
   Space        Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  chatId    String?
+  chat      Chat?    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sentiment String // e.g., "positive", "neutral", "negative"
 }
 
 model Avatar {
@@ -72,18 +85,6 @@ model Session {
 //   space      Space      @relation(fields: [spaceId], references: [id], onDelete: Cascade)
 //   @@id([userId, spaceId]) 
 // }
-
-model Message {
-  id        String   @id @default(uuid())
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  senderId  String
-  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
-  chatId    String?
-  chat      Chat?    @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  sentiment String // e.g., "positive", "neutral", "negative"
-}
 
 // model Connection {
 //   id          String   @id @default(uuid())

@@ -16,6 +16,8 @@ import Logout from "./logout";
 import { ChatItem } from "@/components/sections/chat/ChatItem";
 import { useChatStore, useSpaceStore } from "@/lib/store/stateStore";
 import Header from "@/components/sections/Header";
+import { MessageCircle, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const CONNECTED_EVENT = "connected";
 const DISCONNECT_EVENT = "disconnect";
@@ -303,8 +305,7 @@ export default function Play() {
   // DONE:
   const getSpace = async () => {
     const { error, data, isLoading } = await fetcher(
-      async () =>
-        await getSpaceDetails(space?.id as string)
+      async () => await getSpaceDetails(space?.id as string)
     );
     if (error) {
       return toast({
@@ -392,7 +393,7 @@ export default function Play() {
     <div className="contain">
       <Header />
 
-      <div className="flex w-full py-2 h-body">
+      <div className="flex w-full py-2 h-body gap-2">
         <div className="max-w-[70%] w-full border flex-shrink-0">
           {space?.participants.map((participant) => (
             <div key={participant.id}>
@@ -401,7 +402,41 @@ export default function Play() {
           ))}
         </div>
 
-        <div className="w-full flex-gro flex gap-2">
+        <div className="w-full flex-grow flex flex-col gap-1">
+          <div className="bg-secondary p-1 w-full rounded-md">
+            <p className="w-max bg-secondary-top p-1 rounded-lg text-primary">
+              Camera
+            </p>
+          </div>
+
+          <div className="bg-secondary p-2 w-full rounded-md">
+            <p className="">
+              Show: <span className="text-special">All Table</span>
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <div className="bg-secondary w-full p-1 rounded-md">Chat</div>
+            <div className="bg-secondary w-full p-1 rounded-md">Chat</div>
+            <div className="bg-secondary w-full p-1 rounded-md">Chat</div>
+          </div>
+
+          <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col gap-1">
+            <div className="flex items-center gap-2 text-primary">
+              <MessageCircle />
+              <p>Space chat</p>
+            </div>
+
+            <div>Hello, chat here</div>
+
+            <div className="flex mt-auto items-center gap-2">
+              <Input className="" placeholder="Send a message" />
+              <aside className="bg-special text-black p-1 rounded cursor-pointer group">
+                <Send className="w-max group-hover:translate-x-1 duration-300 group-hover:rotate-45" />
+              </aside>
+            </div>
+          </div>
+
           {/* <div className="border w-full ">
           All Chats
           {loadingChats ? (
