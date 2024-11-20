@@ -6,11 +6,16 @@ import { useToast } from "@/hooks/use-toast";
 import { useSocket } from "@/lib/context/useSocketContext";
 import { getChatMessages, getUserChats } from "@/lib/fetch";
 import { fetcher, LocalStorage } from "@/lib/hook/useUtility";
-import { ChatListItemInterface, ChatMessageInterface } from "@/lib/types/chat";
+import {
+  ChatListItemInterface,
+  ChatMessageInterface,
+  SpaceInterface,
+} from "@/lib/types/chat";
 import { useEffect, useRef, useState } from "react";
 import Logout from "./logout";
 import { ChatItem } from "@/components/sections/chat/ChatItem";
 import { useChatStore } from "@/lib/store/stateStore";
+import Header from "@/components/sections/Header";
 
 const CONNECTED_EVENT = "connected";
 const DISCONNECT_EVENT = "disconnect";
@@ -36,7 +41,7 @@ export default function Play() {
   const { toast } = useToast();
 
   const [isConnected, setIsConnected] = useState(false);
-  const currentSpace = useRef<ChatListItemInterface | null>(null);
+  const currentSpace = useRef<SpaceInterface | null>(null);
   // const currentChat = useRef<ChatListItemInterface | null>(null);
 
   const [loadingChats, setLoadingChats] = useState(false);
@@ -293,11 +298,13 @@ export default function Play() {
 
   const onLeaveSpace = () => {};
 
+  // console.log(currentSpace);
+
   useEffect(() => {
     // getChats();
     // getSpace()
 
-    const _currentSpace = LocalStorage.get("currentSpace");
+    const _currentSpace = LocalStorage.get("active-space");
 
     if (_currentSpace) {
       console.log("Current chat: ", _currentSpace);
@@ -305,24 +312,9 @@ export default function Play() {
       currentSpace.current = _currentSpace;
       // If the socket connection exists, emit an event to join the specific chat using its ID.
       socket?.emit(JOIN_CHAT_EVENT, _currentSpace.current?._id);
-      // Fetch the messages for the current chat.
       // getChat()
       // getMessages();
     }
-
-    // const _currentChat = LocalStorage.get("currentChat");
-
-    // // If there's a current chat saved in local storage:
-    // if (_currentChat) {
-    //   console.log("Current chat: ", _currentChat);
-
-    //   // Set the current chat reference to the one from local storage.
-    //   currentChat.current = _currentChat;
-    //   // If the socket connection exists, emit an event to join the specific chat using its ID.
-    //   socket?.emit(JOIN_CHAT_EVENT, _currentChat.current?._id);
-    //   // Fetch the messages for the current chat.
-    //   // getMessages();
-    // }
   }, []);
 
   useEffect(() => {
@@ -366,9 +358,14 @@ export default function Play() {
   }, [socket, allChats]);
 
   return (
-    <div className="min-h-screen flex w-full">
-      <div className="w-full flex-grow flex gap-2">
-        {/* <div className="border w-full ">
+    <div className="contain">
+      <Header />
+
+      <div className="flex w-full py-2 h-body">
+        <div className="max-w-[70%] w-full border flex-shrink-0">Hello</div>
+
+        <div className="w-full flex-gro flex gap-2">
+          {/* <div className="border w-full ">
           All Chats
           {loadingChats ? (
             <div className="flex justify-center items-center h-[calc(100%-88px)]">
@@ -405,6 +402,7 @@ export default function Play() {
             ))
           )}
         </div> */}
+        </div>
       </div>
     </div>
   );
