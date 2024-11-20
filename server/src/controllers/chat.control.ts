@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { prisma } from "../utils/client.js";
-import { ChatEventEnum } from "../utils/constants.js";
+import { SocketEventEnum } from "../utils/constants.js";
 import { emitSocketEvent } from "../utils/socket.js";
 
 // DONE:
@@ -24,8 +24,6 @@ const getChatDetails = asyncHandler(async (req: Request, res: Response) => {
               username: true,
               avatar: {
                 select: {
-                  id: true,
-                  description: true,
                   imageURL: true,
                 },
               },
@@ -36,7 +34,6 @@ const getChatDetails = asyncHandler(async (req: Request, res: Response) => {
         orderBy: {
           createdAt: "asc",
         },
-        take: 15,
       },
       participants: {
         select: {
@@ -44,8 +41,6 @@ const getChatDetails = asyncHandler(async (req: Request, res: Response) => {
           username: true,
           avatar: {
             select: {
-              id: true,
-              description: true,
               imageURL: true,
             },
           },
@@ -96,8 +91,6 @@ const renameChat = asyncHandler(async (req: Request, res: Response) => {
               username: true,
               avatar: {
                 select: {
-                  id: true,
-                  description: true,
                   imageURL: true,
                 },
               },
@@ -108,7 +101,6 @@ const renameChat = asyncHandler(async (req: Request, res: Response) => {
         orderBy: {
           createdAt: "asc",
         },
-        take: 15,
       },
       participants: {
         select: {
@@ -116,8 +108,6 @@ const renameChat = asyncHandler(async (req: Request, res: Response) => {
           username: true,
           avatar: {
             select: {
-              id: true,
-              description: true,
               imageURL: true,
             },
           },
@@ -137,7 +127,7 @@ const renameChat = asyncHandler(async (req: Request, res: Response) => {
     emitSocketEvent(
       req,
       participant.id,
-      ChatEventEnum.UPDATE_CHAT_NAME_EVENT,
+      SocketEventEnum.UPDATE_CHAT_NAME_EVENT,
       updatedChat
     );
   });

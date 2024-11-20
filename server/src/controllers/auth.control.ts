@@ -8,7 +8,7 @@ import {
   setSessionTokenCookie,
 } from "../utils/authSession.js";
 import { comparePassword, hashPassword } from "../utils/services.js";
-import { AuthErrorEnum } from "../utils/constants.js";
+import { ErrorEventEnum } from "../utils/constants.js";
 
 const registerController = asyncHandler(async (req: Request, res: Response) => {
   const {
@@ -28,13 +28,12 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (existingUser) {
-    console.log("User already exists with this email or username");
     return res
       .status(400)
       .json(
         new ApiResponse(
           400,
-          AuthErrorEnum.ALREADY_EXISTS,
+          ErrorEventEnum.ALREADY_EXISTS,
           "User already exists with this email or username"
         )
       );
@@ -53,8 +52,6 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
       avatar: {
         select: {
           imageURL: true,
-          description: true,
-          id: true,
         },
       },
     },
@@ -93,8 +90,6 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
       avatar: {
         select: {
           imageURL: true,
-          description: true,
-          id: true,
         },
       },
     },
@@ -106,7 +101,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
       .json(
         new ApiResponse(
           400,
-          AuthErrorEnum.USER_NOT_FOUND,
+          ErrorEventEnum.USER_NOT_FOUND,
           "User not found, please signup instead."
         )
       );
@@ -123,7 +118,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
       .json(
         new ApiResponse(
           400,
-          AuthErrorEnum.INVALID_CREDENTIALS,
+          ErrorEventEnum.INVALID_CREDENTIALS,
           "Invalid credentials!"
         )
       );
