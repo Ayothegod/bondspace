@@ -18,6 +18,7 @@ export const SocketEventEnum = Object.freeze({
   JOIN_SPACE_EVENT: "joinSpace",
   LEAVE_SPACE_EVENT: "leaveSpace",
   UPDATE_SPACE_NAME_EVENT: "updateSpaceName",
+  END_SPACE: "endSpace",
 });
 
 export const ErrorEventEnum = Object.freeze({

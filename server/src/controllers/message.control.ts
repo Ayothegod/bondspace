@@ -8,7 +8,7 @@ import { emitSocketEvent } from "../utils/socket.js";
 
 // DONE:
 const getAllMessages = asyncHandler(async (req: Request, res: Response) => {
-  const { chatId, messageId } = req.params;
+  const { chatId } = req.params;
   const { spaceId } = req.body;
 
   const selectedChat = await prisma.chat.findUnique({
@@ -45,11 +45,11 @@ const getAllMessages = asyncHandler(async (req: Request, res: Response) => {
         select: {
           id: true,
           username: true,
-          avatar: {
-            select: {
-              imageURL: true,
-            },
-          },
+          // avatar: {
+          //   select: {
+          //     imageURL: true,
+          //   },
+          // },
           email: true,
         },
       },

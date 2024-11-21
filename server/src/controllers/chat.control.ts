@@ -8,11 +8,10 @@ import { emitSocketEvent } from "../utils/socket.js";
 
 // DONE:
 const getChatDetails = asyncHandler(async (req: Request, res: Response) => {
-  const { chatId, spaceId } = req.params;
+  const { spaceId } = req.params;
 
   const chat = await prisma.chat.findUnique({
     where: {
-      id: chatId,
       spaceId: spaceId,
     },
     include: {
@@ -61,13 +60,12 @@ const getChatDetails = asyncHandler(async (req: Request, res: Response) => {
 
 // DONE:
 const renameChat = asyncHandler(async (req: Request, res: Response) => {
-  const { chatId, spaceId } = req.params;
+  const { chatId } = req.params;
   const { name } = req.body;
 
   const chat = await prisma.chat.findUnique({
     where: {
       id: chatId,
-      spaceId: spaceId,
     },
   });
 

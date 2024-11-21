@@ -20,7 +20,7 @@ router
   .route("/:spaceId")
   .get(validate, getSpaceDetails)
   .patch(validate, renameSpace)
-  .delete(validate);
+  // .delete(validate);
 
 // NOTE: space participants
 router
@@ -28,37 +28,5 @@ router
   .post(validate, addNewParticipantToSpace)
   .delete(validate, removeParticipantFromSpace);
 
-// router.route("/leave/s/:spaceId").delete(validate);
-
 export default router;
 
-// why does the user get added to the spaxc but the user is not added to the chat under the space??
-
-//     const updatedSpace = await prisma.space.update({
-//       where: {
-//         id: spaceId,
-//       },
-//       data: {
-//         participants: {
-//           connect: {
-//             id: participantId,
-//           },
-//         },
-//         Chat: {
-//           update: {
-//             id: participantId,
-//           },
-//         },
-//       },
-//       include: {
-//         participants: {
-//           select: {
-//             id: true,
-//             username: true,
-//             avatar: true,
-//             email: true,
-//           },
-//         },
-//         Chat: true
-//       },
-//     });

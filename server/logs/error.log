@@ -154,3 +154,14 @@
 [20 Nov, 2024 - 21:30:17:3017] [31merror[39m: [31mInvalid access token[39m
 [20 Nov, 2024 - 21:32:35:3235] [31merror[39m: [31mInvalid access token[39m
 [20 Nov, 2024 - 22:33:55:3355] [31merror[39m: [31mInvalid access token[39m
+[21 Nov, 2024 - 02:44:26:4426] [31merror[39m: [31mParticipant already in the space.[39m
+[21 Nov, 2024 - 13:23:49:2349] [31merror[39m: [31m[39m
+[31mInvalid `prisma.space.update()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/space.control.ts:295:43[39m
+
+[31m  292   throw new ApiError(404, "Space does not exist");[39m
+[31m  293 }[39m
+[31m  294 [39m
+[31m→ 295 const updatedSpace = await prisma.space.update([39m
+[31mOperations timed out after `N/A`. Context: The database failed to respond to a query within the configured timeout — see https://pris.ly/d/sqlite-connector for more details. Database: /home/ayomide/code/hacks/bondspace/server/prisma/./dev.db[39m
+[21 Nov, 2024 - 13:23:56:2356] [31merror[39m: [31mInvalid access token[39m

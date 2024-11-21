@@ -8,8 +8,11 @@ const router = Router();
 router.use(verifyCookie);
 
 router
-  .route("/:spaceId/:chatId")
+  .route("/:spaceId")
   .get(validate, getChatDetails)
+
+  router
+  .route("/:chatId")
   .patch(validate, renameChat);
 
 export default router;

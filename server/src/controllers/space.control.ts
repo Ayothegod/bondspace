@@ -50,6 +50,7 @@ const createASpace = asyncHandler(async (req: Request, res: Response) => {
   }
 
   newSpace.participants.forEach((participant) => {
+    if (participant.id === req.user?.id) return;
     // emit event to the creator with newSpace as payload
     emitSocketEvent(
       req,
@@ -245,7 +246,7 @@ const removeParticipantFromSpace = asyncHandler(
 // DONE:
 const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
   const { spaceId } = req.params;
-  console.log(spaceId);
+  // console.log(spaceId);
 
   const space = await prisma.space.findUnique({
     where: {
