@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       height:{
-        body: "calc(100vh - 56px)"
+        body: "calc(100vh - (56px + 64px))"
       },
       borderRadius: {
         lg: "var(--radius)",

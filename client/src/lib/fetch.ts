@@ -73,6 +73,11 @@ export const deleteMessageFunc = (chatId: string, messageId: string) => {
   return axiosInstance.delete(`/message/${chatId}/${messageId}`);
 };
 
+// NOTE: user
+export const getUserProfile = (userId: string) => {
+  return axiosInstance.get(`/auth/user/${userId}`);
+};
+
 
 // const endSpace = (spaceId: string) => {
 //   return axiosInstance.delete(`/space/${spaceId}`);

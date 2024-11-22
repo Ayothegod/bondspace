@@ -14,26 +14,24 @@ const mountJoinSpaceEvent = (socket: Socket) => {
 
 const mountJoinChatEvent = (socket: Socket) => {
   socket.on(SocketEventEnum.JOIN_CHAT_EVENT, (chatId) => {
-    console.log(`User joined  chat`);
     socket.join(chatId);
-    // console.log(`Socket ${socket.id} joined chat ${chatId}`);
+    // console.log(`User joined  chat`); 
     // console.log("Rooms after joining:", Array.from(socket.rooms));
   });
 };
 
 const mountParticipantTypingEvent = (socket: Socket) => {
   socket.on(SocketEventEnum.TYPING_EVENT, (chatId) => {
-    // console.log(`User typing from chat 🤝: `, chatId);
+    console.log(`User typing from chat 🤝: `, chatId);
     socket.in(chatId).emit(SocketEventEnum.TYPING_EVENT, chatId);
   });
 };
 
 const mountParticipantStoppedTypingEvent = (socket: Socket) => {
   socket.on(SocketEventEnum.STOP_TYPING_EVENT, (chatId) => {
+    console.log(`User stopped typing from chat 🤝: `, chatId);
     socket.in(chatId).emit(SocketEventEnum.STOP_TYPING_EVENT, chatId);
-    // console.log(`User stopped typing from chat 🤝: `, chatId);
     // console.log("Rooms:", socket.rooms); 
-
   });
 };
 

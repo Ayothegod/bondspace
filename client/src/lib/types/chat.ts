@@ -11,6 +11,14 @@ export interface UserInterface {
   fullname?: string;
 }
 
+export interface UserProfile {
+  id: string;
+  avatar: Avatar;
+  username: string;
+  email: string;
+  fullname: string;
+}
+
 export interface APIStatusResponseInterface {
   data: any;
   message: string;

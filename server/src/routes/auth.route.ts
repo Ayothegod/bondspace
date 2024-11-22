@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   forgetPasswordController,
+  userProfile,
   loginController,
   registerController,
 } from "../controllers/auth.control.js";
@@ -13,6 +14,11 @@ router.route("/register").post(registerController);
 router.route("/login").post(loginController);
 router
   .route("/forgot-password")
+
   .post(verifyCookie, validate, forgetPasswordController);
+
+router.use(verifyCookie);
+
+router.route("/user/:id").get(userProfile);
 
 export default router;

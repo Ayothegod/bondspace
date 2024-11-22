@@ -3,6 +3,7 @@ import {
   UserInterface,
   ChatItemInterface,
   MessageInterface,
+  UserProfile,
   // ChatMessageInterface
 } from "@/lib/types/chat";
 import { create } from "zustand";
@@ -38,6 +39,26 @@ export const useAuthStore = create<authStore>()(
     }
   )
 );
+
+interface userStore {
+  userProfile: UserProfile | null;
+  setUserProfile: (userProfile: UserProfile) => void;
+  displayUserProfile: boolean;
+  setDisplayUserProfile: () => void;
+}
+
+export const useUserStore = create<userStore>((set) => ({
+  userProfile: null,
+  setUserProfile: (userProfile) =>
+    set(() => {
+      return { userProfile: userProfile };
+    }),
+  displayUserProfile: false,
+  setDisplayUserProfile: () =>
+    set((state) => ({
+      displayUserProfile: !state.displayUserProfile,
+    })),
+}));
 
 interface spaceStore {
   space: SpaceInterface | null;
@@ -124,53 +145,51 @@ export const useMessageStore = create<messageStore>((set) => ({
     }),
 }));
 
+// const deleteChatMessage = async () => {
+// //   //ONClick delete the message and reload the chat when deleteMessage socket gives any response in chat.tsx
+// //   //use request handler to prevent any errors
 
+// //   await requestHandler(
+// //     async () => await deleteMessage(message.chat, message._id),
+// //     null,
+// //     (res) => {
+// //       setMessages((prev) => prev.filter((msg) => msg._id !== res.data._id));
+// //       updateChatLastMessageOnDeletion(message.chat, message);
+// //     },
+// //     alert
+// //   );
+// };
 
-  // const deleteChatMessage = async () => {
-  // //   //ONClick delete the message and reload the chat when deleteMessage socket gives any response in chat.tsx
-  // //   //use request handler to prevent any errors
+// const handleOnMessageChange = () => {
+//   // // Update the message state with the current input value
+//   // setMessage(e.target.value);
 
-  // //   await requestHandler(
-  // //     async () => await deleteMessage(message.chat, message._id),
-  // //     null,
-  // //     (res) => {
-  // //       setMessages((prev) => prev.filter((msg) => msg._id !== res.data._id));
-  // //       updateChatLastMessageOnDeletion(message.chat, message);
-  // //     },
-  // //     alert
-  // //   );
-  // };
+//   // // If socket doesn't exist or isn't connected, exit the function
+//   // if (!socket || !isConnected) return;
 
-  // const handleOnMessageChange = () => {
-  //   // // Update the message state with the current input value
-  //   // setMessage(e.target.value);
+//   // // Check if the user isn't already set as typing
+//   // if (!selfTyping) {
+//   //   // Set the user as typing
+//   //   setSelfTyping(true);
 
-  //   // // If socket doesn't exist or isn't connected, exit the function
-  //   // if (!socket || !isConnected) return;
+//   //   // Emit a typing event to the server for the current chat
+//   //   socket.emit(TYPING_EVENT, currentChat.current?._id);
+//   // }
 
-  //   // // Check if the user isn't already set as typing
-  //   // if (!selfTyping) {
-  //   //   // Set the user as typing
-  //   //   setSelfTyping(true);
+//   // // Clear the previous timeout (if exists) to avoid multiple setTimeouts from running
+//   // if (typingTimeoutRef.current) {
+//   //   clearTimeout(typingTimeoutRef.current);
+//   // }
 
-  //   //   // Emit a typing event to the server for the current chat
-  //   //   socket.emit(TYPING_EVENT, currentChat.current?._id);
-  //   // }
+//   // // Define a length of time (in milliseconds) for the typing timeout
+//   // const timerLength = 3000;
 
-  //   // // Clear the previous timeout (if exists) to avoid multiple setTimeouts from running
-  //   // if (typingTimeoutRef.current) {
-  //   //   clearTimeout(typingTimeoutRef.current);
-  //   // }
+//   // // Set a timeout to stop the typing indication after the timerLength has passed
+//   // typingTimeoutRef.current = setTimeout(() => {
+//   //   // Emit a stop typing event to the server for the current chat
+//   //   socket.emit(STOP_TYPING_EVENT, currentChat.current?._id);
 
-  //   // // Define a length of time (in milliseconds) for the typing timeout
-  //   // const timerLength = 3000;
-
-  //   // // Set a timeout to stop the typing indication after the timerLength has passed
-  //   // typingTimeoutRef.current = setTimeout(() => {
-  //   //   // Emit a stop typing event to the server for the current chat
-  //   //   socket.emit(STOP_TYPING_EVENT, currentChat.current?._id);
-
-  //   //   // Reset the user's typing state
-  //   //   setSelfTyping(false);
-  //   // }, timerLength);
-  // };
+//   //   // Reset the user's typing state
+//   //   setSelfTyping(false);
+//   // }, timerLength);
+// };

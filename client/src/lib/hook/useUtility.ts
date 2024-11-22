@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AxiosResponse } from "axios";
-import { APIStatusResponseInterface, ChatListItemInterface, UserInterface } from "../types/chat";
+import {
+  APIStatusResponseInterface,
+  ChatItemInterface,
+  UserInterface,
+} from "../types/chat";
 
 export const isBrowser = typeof window !== "undefined";
 
@@ -62,33 +66,47 @@ export const fetcher = async (
   return { data, error, isLoading };
 };
 
-export const getChatObjectMetadata = (
-  chat: ChatListItemInterface, 
-  loggedInUser: UserInterface 
+export const getUserMetadata = (
+  chat: ChatItemInterface,
+  loggedInUser: UserInterface
 ) => {
-  const lastMessage = chat.lastMessage?.content
-    ? chat.lastMessage?.content
-    :  "No messages yet"
+  const player = chat.participants.find((p) => p.id !== loggedInUser?.id);
+  console.log(player);
 
-  if (chat.isGroupGame) {
-    return {
-      avatar: "https://via.placeholder.com/100x100.png",
-      title: chat.name, 
-      description: `${chat.players.length} members in the chat`,
-      lastMessage: chat.lastMessage
-        ? chat.lastMessage?.sender?.username + ": " + lastMessage
-        : lastMessage,
-    };
-  } else {
-    const player = chat.players.find(
-      (p) => p.id !== loggedInUser?.id
-    );
-
-    return {
-      avatar: player?.avatar, 
-      title: player?.username, 
-      description: player?.email,
-      lastMessage,
-    };
-  }
+  return {
+    avatar: player?.avatar,
+    title: player?.username,
+    description: player?.email,
+  };
 };
+
+// export const getChatObjectMetadata = (
+//   chat: ChatItemInterface,
+//   loggedInUser: UserInterface
+// ) => {
+//   const lastMessage = chat.lastMessage?.content
+//     ? chat.lastMessage?.content
+//     :  "No messages yet"
+
+//   if (chat.isGroupGame) {
+//     return {
+//       avatar: "https://via.placeholder.com/100x100.png",
+//       title: chat.name,
+//       description: `${chat.players.length} members in the chat`,
+//       lastMessage: chat.lastMessage
+//         ? chat.lastMessage?.sender?.username + ": " + lastMessage
+//         : lastMessage,
+//     };
+//   } else {
+//     const player = chat.players.find(
+//       (p) => p.id !== loggedInUser?.id
+//     );
+
+//     return {
+//       avatar: player?.avatar,
+//       title: player?.username,
+//       description: player?.email,
+//       lastMessage,
+//     };
+//   }
+// };

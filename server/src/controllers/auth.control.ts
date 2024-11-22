@@ -146,4 +146,51 @@ const forgetPasswordController = asyncHandler(
   }
 );
 
-export { registerController, loginController, forgetPasswordController };
+const userProfile = asyncHandler(async (req: Request, res: Response) => {
+  const { id: userId } = req.params;
+
+  // Validate body data
+  // console.log(password, userName);
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      avatar: {
+        select: {
+          imageURL: true,
+        },
+      },
+    },
+  });
+
+  if (!user) {
+    return res
+      .status(400)
+      .json(
+        new ApiResponse(
+          400,
+          ErrorEventEnum.USER_NOT_FOUND,
+          "User not found, please check again."
+        )
+      );
+  }
+
+  const { id, email, username, avatar, fullname } = user;
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { id, email, username, avatar, fullname },
+        "User profile returned successfully!"
+      )
+    );
+});
+
+export {
+  registerController,
+  loginController,
+  forgetPasswordController,
+  userProfile,
+};

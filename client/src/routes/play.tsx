@@ -10,8 +10,9 @@ import {
   sendMessageFunc,
   SocketEventEnum,
   updateChatName,
+  getUserProfile,
 } from "@/lib/fetch";
-import { fetcher, LocalStorage } from "@/lib/hook/useUtility";
+import { fetcher, getUserMetadata, LocalStorage } from "@/lib/hook/useUtility";
 import {
   ChatItemInterface,
   MessageInterface,
@@ -24,12 +25,25 @@ import {
   useChatStore,
   useMessageStore,
   useSpaceStore,
+  useUserStore,
 } from "@/lib/store/stateStore";
 import Header from "@/components/sections/Header";
-import { MessageCircle, Pen, Send } from "lucide-react";
+import {
+  Loader,
+  LoaderIcon,
+  LucideArrowDownWideNarrow,
+  MessageCircle,
+  MoreVertical,
+  Pen,
+  Send,
+  Settings,
+  Users,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import moment from "moment";
+import UserProfileModal from "@/components/sections/UserProfileModal";
 
 interface CurrentSpace {
   state: {
@@ -42,6 +56,8 @@ export default function Play() {
   const { space, setSpace } = useSpaceStore();
   const { messages, setMessages } = useMessageStore();
   const { user } = useAuthStore();
+  const { setUserProfile, displayUserProfile, setDisplayUserProfile } =
+    useUserStore();
 
   const { socket } = useSocket();
   const { toast } = useToast();
@@ -50,7 +66,6 @@ export default function Play() {
   const currentSpace = useRef<CurrentSpace | null>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [loadingSpace, setLoadingSpace] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
 
@@ -67,7 +82,7 @@ export default function Play() {
 
   // DONE: space
   const getSpace = async () => {
-    const { error, data, isLoading } = await fetcher(
+    const { error, data } = await fetcher(
       async () => await getSpaceDetails(space?.id as string)
     );
     if (error) {
@@ -76,13 +91,12 @@ export default function Play() {
         variant: "destructive",
       });
     }
-    setLoadingSpace(isLoading);
     setSpace("updateState", data?.data);
   };
 
   // DONE:
   const renameSpace = async () => {
-    const { error, data, isLoading } = await fetcher(
+    const { error, data } = await fetcher(
       async () => await renameSpaceFunc(space?.id as string, spaceName)
     );
     if (error) {
@@ -97,7 +111,6 @@ export default function Play() {
 
     setStartSpaceNameUpdate(!startSpaceNameUpdate);
     setSpaceName("");
-    setLoadingSpace(isLoading);
     setSpace("updateState", data?.data);
   };
 
@@ -170,21 +183,22 @@ export default function Play() {
     if (!chat || !socket) return;
     socket.emit(SocketEventEnum.STOP_TYPING_EVENT, chat?.id);
     console.log("send chat");
+
+    const { error, data } = await fetcher(
+      async () => await sendMessageFunc(chat.id, message)
+    );
+
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    setMessage("");
+    setMessages("addMessage", undefined, data?.data);
   };
 
-  // const { error, data } = await fetcher(
-  //   async () => await sendMessageFunc(chat.id, message)
-  // );
-
-  // if (error) {
-  //   return toast({
-  //     description: `${error}`,
-  //     variant: "destructive",
-  //   });
-  // }
-  // setMessage("");
-  // setMessages("addMessage", undefined, data?.data);
-
+  // PENDING:
   const handleOnMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
     if (!socket || !isConnected) return;
@@ -228,8 +242,8 @@ export default function Play() {
 
   // NOTE: TODO: PENDING: WARN: NOTE: TODO: PENDING: WARN:
 
-  // NOTE:
   const onConnect = () => {
+    // NOTE:
     setIsConnected(true);
   };
 
@@ -293,17 +307,10 @@ export default function Play() {
     setMessages("addMessage", undefined, message);
   };
 
-  const handleOnSocketTyping = (spaceId: string) => {
-    // if (!chat) return;
-    console.log("start typing", spaceId);
+  const handleOnSocketTyping = (chatId: string) => {
+    console.log("start typing", chatId);
     setIsTyping(true);
   };
-
-  // const handleOnSocketStopTyping = (chatId: string) => {
-  //   // if (!chat) return;
-  //   console.log("stop typing", chatId);
-  //   // setIsTyping(false);
-  // };
 
   const onEndSpace = () => {
     // PENDING:
@@ -330,13 +337,12 @@ export default function Play() {
 
     const joinChat = () => {
       socket.emit(SocketEventEnum.JOIN_CHAT_EVENT, chat.id);
-      console.log(`Joined chat room: ${chat.id}`);
+      // console.log(`Joined chat room: ${chat.id}`);
     };
 
     // Fallback: Emit after a short delay
     const timeoutId = setTimeout(() => {
       if (!socket.connected) {
-        console.log("Socket not connected, attempting join...");
         joinChat();
       }
     }, 500);
@@ -358,15 +364,14 @@ export default function Play() {
 
     socket.on(SocketEventEnum.CONNECTED_EVENT, onConnect);
     socket.on(SocketEventEnum.DISCONNECT_EVENT, onDisconnect);
+
     const handleOnSocketStopTyping = (chatId: string) => {
       console.log("STOP_TYPING_EVENT received for chat:", chatId);
-      setIsTyping(false); // Uncomment if required
+      setIsTyping(false);
     };
 
-    socket.on(SocketEventEnum.STOP_TYPING_EVENT, handleOnSocketStopTyping);
-
     socket.on(SocketEventEnum.TYPING_EVENT, handleOnSocketTyping);
-    // socket.on(SocketEventEnum.STOP_TYPING_EVENT, handleOnSocketStopTyping);
+    socket.on(SocketEventEnum.STOP_TYPING_EVENT, handleOnSocketStopTyping);
 
     // NOTE: chat
     socket.on(SocketEventEnum.UPDATE_CHAT_NAME_EVENT, onChatNameChange);
@@ -407,10 +412,25 @@ export default function Play() {
     };
   }, [socket, chat]);
 
+  const getProfile = async (userId: string) => {
+
+    const { error, data } = await fetcher(
+      async () => await getUserProfile(userId as string)
+    );
+
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    setUserProfile(data?.data);
+  };
+
   return (
     <div className="contain">
       <Header />
-      <div>
+      <div className="h-16 border">
         <p>
           spaceId: <span className="text-special">{space?.id}</span>
         </p>
@@ -437,78 +457,116 @@ export default function Play() {
       </div>
 
       <div className="flex w-full py-2 h-body gap-2">
-        <div className="max-w-[70%] w-full border flex-shrink-0">
-          {space?.participants.map((participant) => (
+        {/* NOTE: space users - game space */}
+        <div className="hidden lg:max-w-[70%] w-full border flex-shrink-0">
+          {/* {space?.participants.map((participant) => (
             <div key={participant.id}>
               <p>{participant.username}</p>
             </div>
-          ))}
-        </div>
-
-        <div className="w-full flex-grow flex flex-col gap-1">
-          <div className="bg-secondary p-1 w-full rounded-md">
-            <p className="w-max bg-secondary-top p-1 rounded-lg text-primary">
-              Camera
-            </p>
-          </div>
-
-          <div className="bg-secondary p-2 w-full rounded-md">
-            <p className="">
-              Show: <span className="text-special">All Table</span>
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2">
-            <div className="bg-secondary w-full p-1 rounded-md">Chat</div>
-            <div className="bg-secondary w-full p-1 rounded-md">Chat</div>
-            <div className="bg-secondary w-full p-1 rounded-md">Chat</div>
-          </div>
-
-          <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col gap-1">
-            <div className="flex items-center flex-wrap gap-2 text-primary">
-              <p className="text-xs">
-                Id: <span className="text-special">{chat?.id}</span>
-              </p>
-
-              <div className="flex items-center flex-col gap-2">
-                <aside className="flex items-start gap-1 flex-shrink-0">
-                  <MessageCircle className="h-5 w-5" />
-                  <p>{chat?.name || "Space chat"}</p>
-                  <Pen
-                    className="h-4 w-4 text-special cursor-pointer"
-                    onClick={() => setStartChatNameUpdate(!startChatNameUpdate)}
-                  />
-                </aside>
-                {startChatNameUpdate && (
-                  <aside className="flex items-center flex-col gap-1 flex-grow">
-                    <Input
-                      value={chatName}
-                      placeholder="Update Chat name"
-                      type="text"
-                      onChange={(e) => setChatName(e.target.value)}
-                    />
-                    <Button onClick={renameChat}>Update name</Button>
-                  </aside>
-                )}
-              </div>
+          ))} */}
+          <div className="grid grid-cols-3 grid-rows-3 gap-4 max-h-full">
+            <div className="grid grid-rows-3 gap-2">
+              <div className="bg-gray-200 p-4">Item 1</div>
+              <div className="bg-gray-300 p-4">Item 2</div>
+              <div className="bg-gray-400 p-4">Item 3</div>
             </div>
 
-            <div className="my-10">
+            <div className="row-span-3 bg-blue-200 p-4">Item 4</div>
+
+            <div className="grid grid-rows-3 gap-2">
+              <div className="bg-gray-200 p-4">Item 5</div>
+              <div className="bg-gray-300 p-4">Item 6</div>
+              <div className="bg-gray-400 p-4">Item 7</div>
+            </div>
+          </div>
+        </div>
+
+        {/* NOTE: chat */}
+        <div className=" w-full flex-grow flex flex-col">
+          {/* NOTE: tabs */}
+          <div className="grid grid-cols-4 gap-2 mb-2">
+            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
+              <div className="group-hover:text-special flex gap-1">
+                <MessageCircle className="h-5 w-5" />{" "}
+                <span className="">{messages.length}</span>
+              </div>
+            </div>
+            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
+              <div className="group-hover:text-special flex gap-1">
+                <Users className="h-5 w-5" />{" "}
+                <span className="">{space?.participants.length}</span>
+              </div>
+            </div>
+            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
+              <div className="group-hover:text-special flex gap-1">
+                <LucideArrowDownWideNarrow className="h-5 w-5" />{" "}
+              </div>
+            </div>
+            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
+              <Settings className="h-5 w-5 group-hover:text-special" />
+            </div>
+          </div>
+
+          <div className="hidden bg-secondary flex-grow rounded-sm p-1 lg:flex flex-col w-full">
+            <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
+              <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
+                <MessageCircle className="h-5 w-5" />
+                <p className="">{chat?.name || "Space chat"}</p>
+              </aside>
+            </div>
+
+            {/* NOTE: chat messages */}
+            <div className="max-h-96 overflow-y-scroll py-1 flex flex-col gap-0.5">
               {loadingChat ? (
                 <div className="flex justify-center items-center h-[calc(100%-88px)]">
                   <Skeleton className="w-14 h-4 rounded-full bg-primary" />
                 </div>
               ) : (
                 messages.map((message) => (
-                  <div key={message.id}>
-                    <p>{message.content}</p>
+                  <div
+                    key={message.id}
+                    className="py-2 px-2 hover:bg-secondary-top rounded-md cursor-pointer group"
+                  >
+                    <div className="flex items- gap-2 justify-between">
+                      <p className="text-xs text-special">
+                        {message.sender.username}
+                      </p>
+                      <small className="inline-flex flex-shrink-0 w-max">
+                        {moment(message.createdAt)
+                          .add("TIME_ZONE", "hours")
+                          .fromNow(true)}
+
+                        <MoreVertical className="h-5 w-5 cursor-pointer" />
+                      </small>
+                    </div>
+                    <p className=" group-hover:text-primary">
+                      {message.content}
+                    </p>
                   </div>
                 ))
               )}
             </div>
 
-            <form onSubmit={sendChatMessage}>
-              <div className="flex mt-auto items-center gap-2">
+            {/* NOTE: Send message */}
+            <div className="mt-auto border-t border-t-white/5 pt-2 ">
+              {isTyping && (
+                <div className="flex items-center gap-2 mb-1 animate-pulse">
+                  <LoaderIcon className="h-5 w-5 animate-spin" />
+                  <small>A user is typing</small>
+                </div>
+              )}
+
+              {selfTyping && (
+                <div className="flex items-center gap-2 mb-1 animate-pulse">
+                  <LoaderIcon className="h-5 w-5 animate-spin" />
+                  <small>You are typing a message</small>
+                </div>
+              )}
+
+              <form
+                onSubmit={sendChatMessage}
+                className="flex items-center gap-2"
+              >
                 <Input
                   className=""
                   placeholder="Send a message"
@@ -521,11 +579,62 @@ export default function Play() {
                     onClick={sendChatMessage}
                   />
                 </aside>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
 
-          {/* <div className="border w-full ">
+          <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
+            <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
+              <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
+                <Users className="h-5 w-5" />
+                <p>Space Participants</p>
+              </aside>
+            </div>
+
+            <div className="flex flex-col gap-3 py-2">
+              {space?.participants.map((participant) => (
+                <div
+                  key={participant.id}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <img
+                    src={
+                      participant?.avatar?.imageURL
+                        ? participant?.avatar?.imageURL
+                        : "https://via.placeholder.com/100x100.png"
+                    }
+                    alt="user-avatar"
+                    className="border border-special h-8 w-8 rounded-full"
+                  />
+
+                  <div className="group">
+                    <p
+                      className="text-xs group-hover:underline"
+                      onClick={() => {
+                        setDisplayUserProfile();
+                        getProfile(participant.id);
+                      }}
+                    >
+                      {participant.id}
+                    </p>
+                    <p className="text-sm text-special">
+                      {participant.username}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {displayUserProfile && <UserProfileModal />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+{
+  /* <div className="border w-full ">
           All Chats
           {loadingChats ? (
             <div className="flex justify-center items-center h-[calc(100%-88px)]">
@@ -561,9 +670,24 @@ export default function Play() {
               />
             ))
           )}
-        </div> */}
-        </div>
-      </div>
-    </div>
-  );
+        </div> */
+}
+
+// update chat name
+{
+  /* <Pen
+                    className="h-4 w-4 text-special cursor-pointer"
+                    onClick={() => setStartChatNameUpdate(!startChatNameUpdate)}
+                {startChatNameUpdate && (
+                  <aside className="flex items-center flex-col gap-1 flex-grow">
+                    <Input
+                      value={chatName}
+                      placeholder="Update Chat name"
+                      type="text"
+                      onChange={(e) => setChatName(e.target.value)}
+                    />
+                    <Button onClick={renameChat}>Update name</Button>
+                  </aside>
+                )}
+                  /> */
 }

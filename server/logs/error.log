@@ -394,3 +394,12 @@
 [31m     })[39m
 
 [31mArgument `where` of type ChatWhereUniqueInput needs at least one of `id` or `spaceId` arguments. Available options are marked with ?.[39m
+[22 Nov, 2024 - 22:48:53:4853] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:49:18:4918] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:49:38:4938] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:49:39:4939] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:49:40:4940] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:49:48:4948] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:51:49:5149] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:52:24:5224] [31merror[39m: [31mInvalid access token[39m
+[22 Nov, 2024 - 22:52:46:5246] [31merror[39m: [31mInvalid access token[39m
