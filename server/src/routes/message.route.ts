@@ -12,9 +12,10 @@ const router = Router();
 router.use(verifyCookie);
 
 router
-  .route("/:chatId")
+  .route("/:spaceId")
   .get(validate, getAllMessages)
-  .post(validate, sendMessage);
+
+router.route("/:chatId").post(validate, sendMessage);
 
 router.route("/:chatId/:messageId").delete(validate, deleteMessage);
 

@@ -37,7 +37,7 @@ export default function JoinSpace() {
       description: `${data?.message}`,
     });
 
-    setSpace("updateStore", data?.data);
+    setSpace("updateState", data?.data);
     return navigate("/play");
   };
 

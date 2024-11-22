@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosResponse } from "axios";
 import { APIStatusResponseInterface } from "./types/chat";
@@ -13,130 +14,70 @@ export const axiosInstance = axios.create({
   timeout: 12000,
 });
 
-// const logoutUser = () => {
-//   return axiosInstance.post("users/logout");
-// };
+export const SocketEventEnum = Object.freeze({
+  CONNECTED_EVENT: "connected",
+  DISCONNECT_EVENT: "disconnect",
+  SOCKET_ERROR_EVENT: "socketError",
 
-// NOTE: space resource
-const createSpace = (name: string) => {
+  NEW_MESSAGE: "newMessage",
+  MESSAGE_DELETE_EVENT: "messageDeleted",
+  TYPING_EVENT: "typing",
+  STOP_TYPING_EVENT: "stopTyping",
+
+  UPDATE_CHAT_NAME_EVENT: "updateChatName",
+  JOIN_CHAT_EVENT: "joinChat",
+
+  NEW_SPACE_EVENT: "newSpace",
+  JOIN_SPACE_EVENT: "joinSpace",
+  LEAVE_SPACE_EVENT: "leaveSpace",
+  UPDATE_SPACE_NAME_EVENT: "updateSpaceName",
+  END_SPACE: "endSpace",
+});
+
+// NOTE: space
+export const createSpace = (name: string) => {
   return axiosInstance.post("/space/", { name });
 };
 
-const getSpaceDetails = (spaceId: string) => {
+export const joinSpace = (spaceId: string, participantId: string) => {
+  return axiosInstance.post(`/space/${spaceId}/${participantId}`);
+};
+
+export const getSpaceDetails = (spaceId: string) => {
   return axiosInstance.get(`/space/${spaceId}`);
 };
 
-const renameSpace = (spaceId: string) => {
-  return axiosInstance.patch(`/space/${spaceId}`);
+export const renameSpaceFunc = (spaceId: string, name: string) => {
+  return axiosInstance.patch(`/space/${spaceId}`, { name });
 };
 
-const endSpace = (spaceId: string) => {
-  return axiosInstance.delete(`/space/${spaceId}`);
+// NOTE: chat
+export const getChatsDetails = (spaceId: string) => {
+  return axiosInstance.get(`/chat/${spaceId}`);
 };
 
-// NOTE: space participants
-const joinSpace = (spaceId: string, participantId: string) => {
-  return axiosInstance.post(`/space/${spaceId}/${participantId}`);
+export const updateChatName = (chatId: string, name: string) => {
+  return axiosInstance.patch(`/chat/${chatId}`, { name });
 };
 
-const leaveSpace = (spaceId: string, participantId: string) => {
-  return axiosInstance.post(`/space/${spaceId}/${participantId}`);
+// NOTE: message
+export const getChatMessagesFunc = (spaceId: string) => {
+  return axiosInstance.get(`/message/${spaceId}`);
 };
 
-// NOTE: users
-const getAvailableUsers = () => {
-  return axiosInstance.get("/chat/users");
+export const sendMessageFunc = (chatId: string, content: string) => {
+  return axiosInstance.post(`/message/${chatId}`, { content });
 };
 
-const getUserChats = () => {
-  return axiosInstance.get(`/chat`);
+export const deleteMessageFunc = (chatId: string, messageId: string) => {
+  return axiosInstance.delete(`/message/${chatId}/${messageId}`);
 };
 
-const createUserChat = (receiverId: string) => {
-  return axiosInstance.post(`/chat/c/${receiverId}`);
-};
 
-const createGroupChat = (data: { name: string; participants: string[] }) => {
-  return axiosInstance.post(`/chat/group`, data);
-};
+// const endSpace = (spaceId: string) => {
+//   return axiosInstance.delete(`/space/${spaceId}`);
+// };
 
-const getGroupInfo = (chatId: string) => {
-  return axiosInstance.get(`/chat/group/${chatId}`);
-};
-
-const updateGroupName = (chatId: string, name: string) => {
-  return axiosInstance.patch(`/chat/group/${chatId}`, { name });
-};
-
-const deleteGroup = (chatId: string) => {
-  return axiosInstance.delete(`/chats/group/${chatId}`);
-};
-
-const deleteOneOnOneChat = (chatId: string) => {
-  return axiosInstance.delete(`/chats/remove/${chatId}`);
-};
-
-const addParticipantToGroup = (chatId: string, participantId: string) => {
-  return axiosInstance.post(`chats/group/${chatId}/${participantId}`);
-};
-
-const removeParticipantFromGroup = (chatId: string, participantId: string) => {
-  return axiosInstance.delete(`chats/group/${chatId}/${participantId}`);
-};
-
-const getChatMessages = (chatId: string) => {
-  return axiosInstance.get(`/messages/${chatId}`);
-};
-
-const sendMessage = (chatId: string, content: string, attachments: File[]) => {
-  const formData = new FormData();
-  if (content) {
-    formData.append("content", content);
-  }
-  attachments?.map((file) => {
-    formData.append("attachments", file);
-  });
-  return axiosInstance.post(`/chat-app/messages/${chatId}`, formData);
-};
-
-const deleteMessage = (chatId: string, messageId: string) => {
-  return axiosInstance.delete(`/chat-app/messages/${chatId}/${messageId}`);
-};
-
-// Export all the API functions
-export {
-  addParticipantToGroup,
-  createGroupChat,
-  createUserChat,
-  deleteGroup,
-  deleteOneOnOneChat,
-  getAvailableUsers,
-  getChatMessages,
-  getGroupInfo,
-  getUserChats,
-  // logoutUser,
-  removeParticipantFromGroup,
-  sendMessage,
-  updateGroupName,
-  deleteMessage,
-  createSpace,
-  joinSpace,
-  leaveSpace,
-  endSpace,
-  getSpaceDetails,
-  renameSpace,
-};
-
-// const fetchData = async () => {
-//   try {
-//     const response = await axios.get(
-//       "http://localhost:3000/api/auth/get-user",
-//       {
-//         withCredentials: true,
-//       }
-//     );
-//     console.log(response.data);
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
+// const leaveSpace = (spaceId: string, participantId: string) => {
+//   return axiosInstance.post(`/space/${spaceId}/${participantId}`);
 // };

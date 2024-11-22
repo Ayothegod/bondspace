@@ -1,41 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useSocket } from "@/lib/context/useSocketContext";
-import { getChatMessages, getSpaceDetails, getUserChats } from "@/lib/fetch";
+import {
+  getChatMessagesFunc,
+  getChatsDetails,
+  getSpaceDetails,
+  renameSpaceFunc,
+  sendMessageFunc,
+  SocketEventEnum,
+  updateChatName,
+} from "@/lib/fetch";
 import { fetcher, LocalStorage } from "@/lib/hook/useUtility";
 import {
-  ChatListItemInterface,
-  ChatMessageInterface,
+  ChatItemInterface,
+  MessageInterface,
   SpaceInterface,
 } from "@/lib/types/chat";
 import { useEffect, useRef, useState } from "react";
-import Logout from "./logout";
-import { ChatItem } from "@/components/sections/chat/ChatItem";
-import { useChatStore, useSpaceStore } from "@/lib/store/stateStore";
+// import { ChatItem } from "@/components/sections/chat/ChatItem";
+import {
+  useAuthStore,
+  useChatStore,
+  useMessageStore,
+  useSpaceStore,
+} from "@/lib/store/stateStore";
 import Header from "@/components/sections/Header";
-import { MessageCircle, Send } from "lucide-react";
+import { MessageCircle, Pen, Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
-const CONNECTED_EVENT = "connected";
-const DISCONNECT_EVENT = "disconnect";
-const JOIN_CHAT_EVENT = "joinChat";
-const NEW_CHAT_EVENT = "newChat";
-const TYPING_EVENT = "typing";
-const STOP_TYPING_EVENT = "stopTyping";
-const MESSAGE_RECEIVED_EVENT = "messageReceived";
-const LEAVE_CHAT_EVENT = "leaveChat";
-const UPDATE_GROUP_NAME_EVENT = "updateGroupName";
-const MESSAGE_DELETE_EVENT = "messageDeleted";
-
-// const CONNECTED_EVENT = "connected";
-// const DISCONNECT_EVENT = "disconnect";
-const NEW_SPACE_EVENT = "newSpace";
-const JOIN_SPACE_EVENT = "joinSpace";
-const LEAVE_SPACE_EVENT = "leaveSpace";
-const SOCKET_ERROR_EVENT = "socketError";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 interface CurrentSpace {
   state: {
@@ -44,150 +38,181 @@ interface CurrentSpace {
 }
 
 export default function Play() {
-  const { allChats, setChats, creatingChat } = useChatStore();
+  const { chat, setChat } = useChatStore();
   const { space, setSpace } = useSpaceStore();
+  const { messages, setMessages } = useMessageStore();
+  const { user } = useAuthStore();
 
   const { socket } = useSocket();
   const { toast } = useToast();
 
   const [isConnected, setIsConnected] = useState(false);
   const currentSpace = useRef<CurrentSpace | null>(null);
-  // const currentChat = useRef<ChatListItemInterface | null>(null);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const [loadingSpace, setLoadingSpace] = useState(false);
-  // const [loadingChats, setLoadingChats] = useState(false);
+  const [loadingChat, setLoadingChat] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(false);
 
-  // const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [spaceName, setSpaceName] = useState("");
+  const [startSpaceNameUpdate, setStartSpaceNameUpdate] = useState(false);
 
-  // const [loadingMessages, setLoadingMessages] = useState(false);
-  // const [messages, setMessages] = useState<ChatMessageInterface[]>([]);
-  // const [unreadMessages, setUnreadMessages] = useState<ChatMessageInterface[]>(
-  //   []
-  // );
-  // const [isTyping, setIsTyping] = useState(false);
-  // const [selfTyping, setSelfTyping] = useState(false);
-  // const [message, setMessage] = useState("");
+  const [chatName, setChatName] = useState("");
+  const [startChatNameUpdate, setStartChatNameUpdate] = useState(false);
+
+  const [message, setMessage] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [selfTyping, setSelfTyping] = useState(false);
   // const [localSearchQuery, setLocalSearchQuery] = useState("");
 
-  // const updateChatLastMessage = (
-  //   chatToUpdateId: string,
-  //   message: ChatMessageInterface
-  // ) => {
-  //   const chatToUpdate = allChats.find((chat) => chat.id === chatToUpdateId)!;
+  // DONE: space
+  const getSpace = async () => {
+    const { error, data, isLoading } = await fetcher(
+      async () => await getSpaceDetails(space?.id as string)
+    );
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    setLoadingSpace(isLoading);
+    setSpace("updateState", data?.data);
+  };
 
-  //   chatToUpdate.lastMessage = message;
+  // DONE:
+  const renameSpace = async () => {
+    const { error, data, isLoading } = await fetcher(
+      async () => await renameSpaceFunc(space?.id as string, spaceName)
+    );
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    toast({
+      description: `${data?.message}`,
+    });
 
-  //   chatToUpdate.updatedAt = message?.updatedAt;
+    setStartSpaceNameUpdate(!startSpaceNameUpdate);
+    setSpaceName("");
+    setLoadingSpace(isLoading);
+    setSpace("updateState", data?.data);
+  };
 
-  //   setChats("updateChatLastMessage", chatToUpdate);
-  // };
+  // DONE: chat
+  const renameChat = async () => {
+    const { error, data, isLoading } = await fetcher(
+      async () => await updateChatName(chat?.id as string, chatName)
+    );
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    toast({
+      description: `${data?.message}`,
+    });
 
-  // const updateChatLastMessageOnDeletion = async (
-  //   chatToUpdateId: string, //ChatId to find the chat
-  //   message: ChatMessageInterface //The deleted message
-  // ) => {
-  //   const chatToUpdate = allChats.find((chat) => chat.id === chatToUpdateId)!;
+    setStartChatNameUpdate(!startChatNameUpdate);
+    setChatName("");
+    setLoadingChat(isLoading);
+    setChat("updateChat", data?.data);
+  };
 
-  //   if (chatToUpdate.lastMessage?.id === message.id) {
-  //     const { error, isLoading, data } = await fetcher(
-  //       async () => await getChatMessages(chatToUpdateId)
-  //     );
+  // DONE:
+  const getSpaceChats = async () => {
+    const { error, data, isLoading } = await fetcher(
+      async () => await getChatsDetails(space?.id as string)
+    );
 
-  //     if (error) {
-  //       return toast({
-  //         description: `${error}`,
-  //         variant: "destructive",
-  //       });
-  //     }
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    // console.log("chat:", data?.data)
 
-  //     setLoadingChats(isLoading);
-  //     chatToUpdate.lastMessage = data?.data;
-  //     setChats("updateChat", ...allChats);
-  //   }
-  // };
+    setLoadingChat(isLoading);
+    setChat("updateChat", data?.data);
+  };
 
-  // const getMessages = async () => {
-  //   if (!currentChat.current?.id)
-  //     return toast({
-  //       description: `No chat is selected`,
-  //       variant: "destructive",
-  //     });
+  // DONE:
+  const getMessages = async () => {
+    if (!space)
+      return toast({
+        description: `No space is active`,
+        variant: "destructive",
+      });
 
-  //   if (!socket)
-  //     return toast({
-  //       description: `Socket not available`,
-  //       variant: "destructive",
-  //     });
+    setLoadingMessages(!loadingMessages);
+    const { error, data } = await fetcher(
+      async () => await getChatMessagesFunc(space?.id as string)
+    );
 
-  //   // Emit an event to join the current chat
-  //   socket.emit(JOIN_CHAT_EVENT, currentChat.current?.id);
+    setLoadingMessages(!loadingMessages);
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
 
-  //   setUnreadMessages(
-  //     unreadMessages.filter((msg) => msg.chat !== currentChat.current?.id)
-  //   );
+    setMessages("updateMessage", data?.data);
+  };
 
-  //   // Make an async request to fetch chat messages for the current chat
-  //   setLoadingMessages(true);
-  //   const { error, isLoading, data } = await fetcher(
-  //     async () => await getChatMessages(currentChat.current?.id || "")
-  //   );
-  //   setLoadingMessages(false);
+  // DONE:
+  const sendChatMessage = async (e: any) => {
+    e.preventDefault();
+    if (!chat || !socket) return;
+    socket.emit(SocketEventEnum.STOP_TYPING_EVENT, chat?.id);
+    console.log("send chat");
+  };
 
-  //   if (error) {
-  //     return toast({
-  //       description: `${error}`,
-  //       variant: "destructive",
-  //     });
-  //   }
-  //   setMessages(data?.data || []);
-  // };
+  // const { error, data } = await fetcher(
+  //   async () => await sendMessageFunc(chat.id, message)
+  // );
 
-  // const getChats = async () => {
-  //   const { error, data, isLoading } = await fetcher(
-  //     async () => await getUserChats()
-  //   );
+  // if (error) {
+  //   return toast({
+  //     description: `${error}`,
+  //     variant: "destructive",
+  //   });
+  // }
+  // setMessage("");
+  // setMessages("addMessage", undefined, data?.data);
 
-  //   if (error) {
-  //     return toast({
-  //       description: `${error}`,
-  //       variant: "destructive",
-  //     });
-  //   }
-  //   setLoadingChats(isLoading);
-  //   // console.log("All user chat:", data?.data);
-  //   setChats("updateChat", undefined, data?.data);
-  // };
+  const handleOnMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+    if (!socket || !isConnected) return;
 
-  // const sendChatMessage = async () => {
-  //   if (!currentChat.current?.id || !socket) return;
+    // // Check if the user isn't already set as typing
+    if (!selfTyping) {
+      setSelfTyping(true);
+      socket.emit(SocketEventEnum.TYPING_EVENT, user?.id);
+    }
 
-  //   // Emit a STOP_TYPING_EVENT to inform other users/participants that typing has stopped
-  //   socket.emit(STOP_TYPING_EVENT, currentChat.current?.id);
+    // Clear the previous timeout (if exists) to avoid multiple setTimeouts from running
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
 
-  //   // Use the requestHandler to send the message and handle potential response or error
-  //   // await requestHandler(
-  //   //   // Try to send the chat message with the given message and attached files
-  //   //   async () =>
-  //   //     await sendMessage(
-  //   //       currentChat.current?._id || "", // Chat ID or empty string if not available
-  //   //       message, // Actual text message
-  //   //       attachedFiles // Any attached files
-  //   //     ),
-  //   //   null,
-  //   //   // On successful message sending, clear the message input and attached files, then update the UI
-  //   //   (res) => {
-  //   //     setMessage(""); // Clear the message input
-  //   //     setAttachedFiles([]); // Clear the list of attached files
-  //   //     setMessages((prev) => [res.data, ...prev]); // Update messages in the UI
-  //   //     updateChatLastMessage(currentChat.current?._id || "", res.data); // Update the last message in the chat
-  //   //   },
+    // Define a length of time (in milliseconds) for the typing timeout
+    const timerLength = 3000;
 
-  //   //   // If there's an error during the message sending process, raise an alert
-  //   //   alert
-  //   // );
-  // };
+    // Set a timeout to stop the typing indication after the timerLength has passed
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit(SocketEventEnum.STOP_TYPING_EVENT, user?.id);
 
-  // const deleteChatMessage = async (message: ChatMessageInterface) => {
+      // Reset the user's typing state
+      setSelfTyping(false);
+    }, timerLength);
+  };
+
+  // const deleteChatMessage = async (message: ChatItemInterface) => {
   //   //ONClick delete the message and reload the chat when deleteMessage socket gives any response in chat.tsx
   //   //use request handler to prevent any errors
   //   // await requestHandler(
@@ -201,49 +226,57 @@ export default function Play() {
   //   // );
   // };
 
-  // const handleOnMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   // Update the message state with the current input value
-  //   setMessage(e.target.value);
+  // NOTE: TODO: PENDING: WARN: NOTE: TODO: PENDING: WARN:
 
-  //   // If socket doesn't exist or isn't connected, exit the function
-  //   if (!socket || !isConnected) return;
+  // NOTE:
+  const onConnect = () => {
+    setIsConnected(true);
+  };
 
-  //   // Check if the user isn't already set as typing
-  //   if (!selfTyping) {
-  //     // Set the user as typing
-  //     setSelfTyping(true);
+  // NOTE:
+  const onDisconnect = () => {
+    setIsConnected(false);
+  };
 
-  //     // Emit a typing event to the server for the current chat
-  //     socket.emit(TYPING_EVENT, currentChat.current?.id);
-  //   }
+  // NOTE:
+  const onSpaceNameChange = (space: SpaceInterface) => {
+    toast({
+      description: "Space name changed successfully.",
+    });
+    setSpace("updateState", space);
+  };
 
-  //   // Clear the previous timeout (if exists) to avoid multiple setTimeouts from running
-  //   if (typingTimeoutRef.current) {
-  //     clearTimeout(typingTimeoutRef.current);
-  //   }
+  // NOTE:
+  const onChatNameChange = (chat: ChatItemInterface) => {
+    toast({
+      description: "Chat name changed successfully.",
+    });
+    setChat("updateChat", chat);
+  };
 
-  //   // Define a length of time (in milliseconds) for the typing timeout
-  //   const timerLength = 3000;
+  // NOTE:
+  const onNewSpace = (space: any) => {
+    toast({
+      description: "New space created successfully.",
+    });
+    setSpace("updateState", space);
+  };
 
-  //   // Set a timeout to stop the typing indication after the timerLength has passed
-  //   typingTimeoutRef.current = setTimeout(() => {
-  //     // Emit a stop typing event to the server for the current chat
-  //     socket.emit(STOP_TYPING_EVENT, currentChat.current?.id);
+  // NOTE:
+  const onJoinSpace = (space: SpaceInterface) => {
+    toast({
+      description: "A new user joined the space.",
+    });
+    setSpace("updateState", space);
+  };
 
-  //     // Reset the user's typing state
-  //     setSelfTyping(false);
-  //   }, timerLength);
-  // };
-
-  // const handleOnSocketTyping = (chatId: string) => {
-  //   if (chatId !== currentChat.current?.id) return;
-  //   setIsTyping(true);
-  // };
-
-  // const handleOnSocketStopTyping = (chatId: string) => {
-  //   if (chatId !== currentChat.current?.id) return;
-  //   setIsTyping(false);
-  // };
+  // NOTE:
+  const onLeaveSpace = (space: SpaceInterface) => {
+    toast({
+      description: "A user left the space.",
+    });
+    setSpace("updateState", space);
+  };
 
   // const onMessageDelete = (message: ChatMessageInterface) => {
   //   if (message?.chat !== currentChat.current?.id) {
@@ -255,143 +288,153 @@ export default function Play() {
   //   updateChatLastMessageOnDeletion(message.chat, message);
   // };
 
-  // const onMessageReceived = (message: ChatMessageInterface) => {
-  //   // Check if the received message belongs to the currently active chat
-  //   if (message?.chat !== currentChat.current?.id) {
-  //     // If not, update the list of unread messages
-  //     setUnreadMessages((prev) => [message, ...prev]);
-  //   } else {
-  //     // If it belongs to the current chat, update the messages list for the active chat
-  //     setMessages((prev) => [message, ...prev]);
-  //   }
+  const onNewMessage = (message: MessageInterface) => {
+    // NOTE:
+    setMessages("addMessage", undefined, message);
+  };
 
-  //   updateChatLastMessage(message.chat || "", message);
+  const handleOnSocketTyping = (spaceId: string) => {
+    // if (!chat) return;
+    console.log("start typing", spaceId);
+    setIsTyping(true);
+  };
+
+  // const handleOnSocketStopTyping = (chatId: string) => {
+  //   // if (!chat) return;
+  //   console.log("stop typing", chatId);
+  //   // setIsTyping(false);
   // };
 
-  const onConnect = () => {
-    setIsConnected(true);
+  const onEndSpace = () => {
+    // PENDING:
+    // AI summarise space duration etc
+    // Maybe timeframe/durationn of space too
+    console.log("Space ended");
   };
 
-  const onDisconnect = () => {
-    setIsConnected(false);
-  };
-
-  // const onNewChat = (chat: ChatListItemInterface) => {
-  //   // console.log("New chat", chat);
-  //   setChats("addChat", chat);
-  // };
-
-  // const onChatLeave = (chat: ChatListItemInterface) => {
-  //   if (chat.id === currentChat.current?.id) {
-  //     currentChat.current = null;
-  //     LocalStorage.remove("currentChat");
-  //   }
-
-  //   setChats("filterChat", chat);
-  // };
-
-  // const onGroupNameChange = (chat: ChatListItemInterface) => {
-  //   if (chat.id === currentChat.current?.id) {
-  //     currentChat.current = chat;
-
-  //     // Save the updated chat details to local storage
-  //     LocalStorage.set("currentChat", chat);
-  //   }
-
-  //   setChats("groupNameChange", chat);
-  // };
-  // console.log(currentSpace.current?.state.space.id);
-
-  // DONE:
-  const getSpace = async () => {
-    const { error, data, isLoading } = await fetcher(
-      async () => await getSpaceDetails(space?.id as string)
-    );
-    if (error) {
-      return toast({
-        description: `${error}`,
-        variant: "destructive",
-      });
-    }
-    setLoadingSpace(isLoading);
-    setSpace("updateStore", data?.data);
-  };
-
-  // WARN:
-  const onNewSpace = (space: any) => {
-    console.log(space);
-  };
-
-  // DONE:
-  const onJoinSpace = (space: SpaceInterface) => {
-    toast({
-      description: "A new user joined the space.",
-    });
-    setSpace("updateStore", space);
-  };
-
-  const onLeaveSpace = () => {};
-
-  // console.log(currentSpace.current?.state.space.name);
   useEffect(() => {
     getSpace();
 
     const _currentSpace = LocalStorage.get("active-space");
 
     if (_currentSpace) {
-      // console.log("Current chat: ", _currentSpace.state);
-
       currentSpace.current = _currentSpace;
-      // If the socket connection exists, emit an event to join the specific chat using its ID.
-      socket?.emit(JOIN_CHAT_EVENT, _currentSpace?.state.space.id);
-      // getChat()
-      // getMessages();
+      socket?.emit(SocketEventEnum.JOIN_SPACE_EVENT, space?.id);
     }
-  }, []);
+    getSpaceChats();
+    getMessages();
+  }, [socket]);
+
+  useEffect(() => {
+    if (!socket || !chat) return;
+
+    const joinChat = () => {
+      socket.emit(SocketEventEnum.JOIN_CHAT_EVENT, chat.id);
+      console.log(`Joined chat room: ${chat.id}`);
+    };
+
+    // Fallback: Emit after a short delay
+    const timeoutId = setTimeout(() => {
+      if (!socket.connected) {
+        console.log("Socket not connected, attempting join...");
+        joinChat();
+      }
+    }, 500);
+
+    if (socket.connected) {
+      joinChat();
+    } else {
+      socket.on("connect", joinChat);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+      socket.off("connect", joinChat);
+    };
+  }, [socket, chat]);
 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on(CONNECTED_EVENT, onConnect);
-    socket.on(DISCONNECT_EVENT, onDisconnect);
+    socket.on(SocketEventEnum.CONNECTED_EVENT, onConnect);
+    socket.on(SocketEventEnum.DISCONNECT_EVENT, onDisconnect);
+    const handleOnSocketStopTyping = (chatId: string) => {
+      console.log("STOP_TYPING_EVENT received for chat:", chatId);
+      setIsTyping(false); // Uncomment if required
+    };
 
-    socket.on(NEW_SPACE_EVENT, onNewSpace);
-    socket.on(JOIN_SPACE_EVENT, onJoinSpace);
-    socket.on(LEAVE_SPACE_EVENT, onLeaveSpace);
+    socket.on(SocketEventEnum.STOP_TYPING_EVENT, handleOnSocketStopTyping);
 
-    socket.on(SOCKET_ERROR_EVENT, onDisconnect);
+    socket.on(SocketEventEnum.TYPING_EVENT, handleOnSocketTyping);
+    // socket.on(SocketEventEnum.STOP_TYPING_EVENT, handleOnSocketStopTyping);
 
-    // socket.on(TYPING_EVENT, handleOnSocketTyping);
-    // socket.on(STOP_TYPING_EVENT, handleOnSocketStopTyping);
-    // socket.on(MESSAGE_RECEIVED_EVENT, onMessageReceived);
-    // socket.on(NEW_CHAT_EVENT, onNewChat);
-    // socket.on(LEAVE_CHAT_EVENT, onChatLeave);
-    // socket.on(UPDATE_GROUP_NAME_EVENT, onGroupNameChange);
+    // NOTE: chat
+    socket.on(SocketEventEnum.UPDATE_CHAT_NAME_EVENT, onChatNameChange);
+    // socket.on(SocketEventEnum.JOIN_CHAT_EVENT, onJoinChat);
+
+    // NOTE: message
+    socket.on(SocketEventEnum.NEW_MESSAGE, onNewMessage);
     // socket.on(MESSAGE_DELETE_EVENT, onMessageDelete);
 
+    // NOTE: space
+    socket.on(SocketEventEnum.NEW_SPACE_EVENT, onNewSpace);
+    socket.on(SocketEventEnum.JOIN_SPACE_EVENT, onJoinSpace);
+    socket.on(SocketEventEnum.LEAVE_SPACE_EVENT, onLeaveSpace);
+    socket.on(SocketEventEnum.UPDATE_SPACE_NAME_EVENT, onSpaceNameChange);
+    socket.on(SocketEventEnum.END_SPACE, onEndSpace);
+
+    // NOTE: error
+    socket.on(SocketEventEnum.SOCKET_ERROR_EVENT, onDisconnect);
+
     return () => {
-      socket.off(CONNECTED_EVENT, onConnect);
-      socket.off(DISCONNECT_EVENT, onDisconnect);
+      socket.off(SocketEventEnum.CONNECTED_EVENT, onConnect);
+      socket.off(SocketEventEnum.DISCONNECT_EVENT, onDisconnect);
 
-      socket.off(NEW_SPACE_EVENT, onConnect);
-      socket.off(JOIN_SPACE_EVENT, onDisconnect);
-      socket.off(LEAVE_SPACE_EVENT, onDisconnect);
+      socket.off(SocketEventEnum.NEW_MESSAGE, onNewMessage);
+      socket.off(SocketEventEnum.TYPING_EVENT, handleOnSocketTyping);
+      socket.off(SocketEventEnum.STOP_TYPING_EVENT, handleOnSocketStopTyping);
 
-      socket.off(SOCKET_ERROR_EVENT, onDisconnect);
+      socket.off(SocketEventEnum.NEW_SPACE_EVENT, onNewSpace);
+      socket.off(SocketEventEnum.JOIN_SPACE_EVENT, onJoinSpace);
+      socket.off(SocketEventEnum.LEAVE_SPACE_EVENT, onLeaveSpace);
+      socket.off(SocketEventEnum.UPDATE_SPACE_NAME_EVENT, onSpaceNameChange);
+      socket.off(SocketEventEnum.END_SPACE, onEndSpace);
 
-      // socket.off(TYPING_EVENT, handleOnSocketTyping);
-      // socket.off(STOP_TYPING_EVENT, handleOnSocketStopTyping);
-      // socket.off(MESSAGE_RECEIVED_EVENT, onMessageReceived);
-      // socket.off(NEW_CHAT_EVENT, onNewChat);
-      // socket.off(LEAVE_CHAT_EVENT, onChatLeave);
-      // socket.off(UPDATE_GROUP_NAME_EVENT, onGroupNameChange);
+      socket.off(SocketEventEnum.SOCKET_ERROR_EVENT, onDisconnect);
+
+      socket.off(SocketEventEnum.UPDATE_CHAT_NAME_EVENT, onChatNameChange);
       // socket.off(MESSAGE_DELETE_EVENT, onMessageDelete);
     };
-  }, [socket, allChats]);
+  }, [socket, chat]);
 
   return (
     <div className="contain">
       <Header />
+      <div>
+        <p>
+          spaceId: <span className="text-special">{space?.id}</span>
+        </p>
+        <div className="flex items-center gap-2">
+          <aside className="flex items-start gap-1 flex-shrink-0">
+            <p>{space?.name}</p>{" "}
+            <Pen
+              className="h-4 w-4 text-special cursor-pointer"
+              onClick={() => setStartSpaceNameUpdate(!startSpaceNameUpdate)}
+            />
+          </aside>
+          {startSpaceNameUpdate && (
+            <aside className="flex items-center gap-2 flex-grow">
+              <Input
+                value={spaceName}
+                placeholder="Update space name"
+                type="text"
+                onChange={(e) => setSpaceName(e.target.value)}
+              />
+              <Button onClick={renameSpace}>Update name</Button>
+            </aside>
+          )}
+        </div>
+      </div>
 
       <div className="flex w-full py-2 h-body gap-2">
         <div className="max-w-[70%] w-full border flex-shrink-0">
@@ -422,19 +465,64 @@ export default function Play() {
           </div>
 
           <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col gap-1">
-            <div className="flex items-center gap-2 text-primary">
-              <MessageCircle />
-              <p>Space chat</p>
+            <div className="flex items-center flex-wrap gap-2 text-primary">
+              <p className="text-xs">
+                Id: <span className="text-special">{chat?.id}</span>
+              </p>
+
+              <div className="flex items-center flex-col gap-2">
+                <aside className="flex items-start gap-1 flex-shrink-0">
+                  <MessageCircle className="h-5 w-5" />
+                  <p>{chat?.name || "Space chat"}</p>
+                  <Pen
+                    className="h-4 w-4 text-special cursor-pointer"
+                    onClick={() => setStartChatNameUpdate(!startChatNameUpdate)}
+                  />
+                </aside>
+                {startChatNameUpdate && (
+                  <aside className="flex items-center flex-col gap-1 flex-grow">
+                    <Input
+                      value={chatName}
+                      placeholder="Update Chat name"
+                      type="text"
+                      onChange={(e) => setChatName(e.target.value)}
+                    />
+                    <Button onClick={renameChat}>Update name</Button>
+                  </aside>
+                )}
+              </div>
             </div>
 
-            <div>Hello, chat here</div>
-
-            <div className="flex mt-auto items-center gap-2">
-              <Input className="" placeholder="Send a message" />
-              <aside className="bg-special text-black p-1 rounded cursor-pointer group">
-                <Send className="w-max group-hover:translate-x-1 duration-300 group-hover:rotate-45" />
-              </aside>
+            <div className="my-10">
+              {loadingChat ? (
+                <div className="flex justify-center items-center h-[calc(100%-88px)]">
+                  <Skeleton className="w-14 h-4 rounded-full bg-primary" />
+                </div>
+              ) : (
+                messages.map((message) => (
+                  <div key={message.id}>
+                    <p>{message.content}</p>
+                  </div>
+                ))
+              )}
             </div>
+
+            <form onSubmit={sendChatMessage}>
+              <div className="flex mt-auto items-center gap-2">
+                <Input
+                  className=""
+                  placeholder="Send a message"
+                  value={message}
+                  onChange={(e) => handleOnMessageChange(e)}
+                />
+                <aside className="bg-special text-black p-1 rounded cursor-pointer group">
+                  <Send
+                    className="w-max group-hover:translate-x-1 duration-300 group-hover:rotate-45"
+                    onClick={sendChatMessage}
+                  />
+                </aside>
+              </div>
+            </form>
           </div>
 
           {/* <div className="border w-full ">

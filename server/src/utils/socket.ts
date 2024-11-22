@@ -7,20 +7,33 @@ import { validateSessionToken } from "./authSession.js";
 
 const mountJoinSpaceEvent = (socket: Socket) => {
   socket.on(SocketEventEnum.JOIN_SPACE_EVENT, (spaceId) => {
-    console.log(`User joined the space 🤝. chatId: `, spaceId);
+    console.log(`User joined space`);
     socket.join(spaceId);
   });
 };
 
+const mountJoinChatEvent = (socket: Socket) => {
+  socket.on(SocketEventEnum.JOIN_CHAT_EVENT, (chatId) => {
+    console.log(`User joined  chat`);
+    socket.join(chatId);
+    // console.log(`Socket ${socket.id} joined chat ${chatId}`);
+    // console.log("Rooms after joining:", Array.from(socket.rooms));
+  });
+};
+
 const mountParticipantTypingEvent = (socket: Socket) => {
-  socket.on(SocketEventEnum.TYPING_EVENT, (spaceId) => {
-    socket.in(spaceId).emit(SocketEventEnum.TYPING_EVENT, spaceId);
+  socket.on(SocketEventEnum.TYPING_EVENT, (chatId) => {
+    // console.log(`User typing from chat 🤝: `, chatId);
+    socket.in(chatId).emit(SocketEventEnum.TYPING_EVENT, chatId);
   });
 };
 
 const mountParticipantStoppedTypingEvent = (socket: Socket) => {
-  socket.on(SocketEventEnum.STOP_TYPING_EVENT, (spaceId) => {
-    socket.in(spaceId).emit(SocketEventEnum.STOP_TYPING_EVENT, spaceId);
+  socket.on(SocketEventEnum.STOP_TYPING_EVENT, (chatId) => {
+    socket.in(chatId).emit(SocketEventEnum.STOP_TYPING_EVENT, chatId);
+    // console.log(`User stopped typing from chat 🤝: `, chatId);
+    // console.log("Rooms:", socket.rooms); 
+
   });
 };
 
@@ -48,22 +61,20 @@ const initializeSocketIO = (io: Server) => {
 
       socket.join(user.id);
       socket.emit(SocketEventEnum.CONNECTED_EVENT, `${user.id}`);
-      console.log("User connected 🗼. userId: ", user.id);
-
-      // socket.emit(SocketEventEnum.CONNECTED_EVENT, `${user.id.toString()}`);
+      console.log("User connected: ", user.id);
 
       mountJoinSpaceEvent(socket);
+      mountJoinChatEvent(socket)
       mountParticipantTypingEvent(socket);
       mountParticipantStoppedTypingEvent(socket);
 
       socket.on(SocketEventEnum.DISCONNECT_EVENT, () => {
-        console.log("user has disconnected 🚫. userId: " + socket.user?.id);
+        console.log("user has disconnected 🚫: " + socket.user?.id);
         if (socket.user?.id) {
           socket.leave(socket.user.id);
         }
       });
     } catch (error) {
-      console.error("An unexpected error occurred Here");
       socket.emit(
         SocketEventEnum.SOCKET_ERROR_EVENT,
         "Something went wrong while connecting the space to the socket."

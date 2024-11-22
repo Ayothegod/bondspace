@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Avatar {
-  id: string;
-  description: string
   imageURL: string;
 }
 
 export interface UserInterface {
   id: string;
-  avatar: Avatar
+  avatar: Avatar;
   username: string;
   email: string;
   fullname?: string;
@@ -30,29 +28,30 @@ export interface SpaceInterface {
   participants: UserInterface[];
 }
 
-export interface ChatListItemInterface {
+export interface ChatItemInterface {
   id: string;
-  gameType: string;
   status: boolean;
   createdAt: Date;
-  name: string;
-  isGroupGame: boolean;
-
-  lastMessage?: ChatMessageInterface;
-  messages: ChatMessageInterface[];
-  players: UserInterface[];
   updatedAt: string;
+
+  name: string;
+  spaceId: string;
+
+  messages: MessageInterface[];
+  participants: UserInterface[];
 }
 
-export interface ChatMessageInterface {
+export interface MessageInterface {
   id: string;
-  sender: Pick<UserInterface, "id"  | "email" | "username">;
   content: string;
-  chat: string;
-  attachments: {
-    url: string;
-    id: string;
-  }[];
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
+  chatId: string;
+  senderId: string;
+  sentiment?: string | null;
+  sender: {
+    id: string;
+    username: string;
+    email: string;
+  };
 }

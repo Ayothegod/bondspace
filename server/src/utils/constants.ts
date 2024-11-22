@@ -9,7 +9,7 @@ export const SocketEventEnum = Object.freeze({
   TYPING_EVENT: "typing",
   STOP_TYPING_EVENT: "stopTyping",
 
-  // JOIN_CHAT_EVENT: "joinChat",
+  JOIN_CHAT_EVENT: "joinChat",
   // LEAVE_CHAT_EVENT: "leaveChat",
   // NEW_CHAT_EVENT: "newChat",
   UPDATE_CHAT_NAME_EVENT: "updateChatName",

@@ -8,13 +8,11 @@ import { emitSocketEvent } from "../utils/socket.js";
 
 // DONE:
 const getAllMessages = asyncHandler(async (req: Request, res: Response) => {
-  const { chatId } = req.params;
-  const { spaceId } = req.body;
+  const { spaceId } = req.params;
 
   const selectedChat = await prisma.chat.findUnique({
     where: {
-      id: chatId,
-      spaceId: spaceId,
+     spaceId: spaceId
     },
     include: {
       participants: true,
@@ -35,7 +33,7 @@ const getAllMessages = asyncHandler(async (req: Request, res: Response) => {
 
   const messages = await prisma.message.findMany({
     where: {
-      chatId: chatId,
+      chatId: selectedChat.id,
     },
     orderBy: {
       createdAt: "asc",
@@ -45,11 +43,11 @@ const getAllMessages = asyncHandler(async (req: Request, res: Response) => {
         select: {
           id: true,
           username: true,
-          // avatar: {
-          //   select: {
-          //     imageURL: true,
-          //   },
-          // },
+          avatar: {
+            select: {
+              imageURL: true,
+            },
+          },
           email: true,
         },
       },
@@ -64,12 +62,11 @@ const getAllMessages = asyncHandler(async (req: Request, res: Response) => {
 // DONE:
 const sendMessage = asyncHandler(async (req: Request, res: Response) => {
   const { chatId } = req.params;
-  const { content, spaceId } = req.body;
+  const { content } = req.body;
 
   const chat = await prisma.chat.findUnique({
     where: {
       id: chatId,
-      spaceId: spaceId,
     },
     include: {
       participants: true,
@@ -120,12 +117,10 @@ const sendMessage = asyncHandler(async (req: Request, res: Response) => {
 // DONE:
 const deleteMessage = asyncHandler(async (req: Request, res: Response) => {
   const { chatId, messageId } = req.params;
-  const { spaceId } = req.body;
 
   const chat = await prisma.chat.findUnique({
     where: {
       id: chatId,
-      spaceId: spaceId,
     },
     include: {
       participants: true,
