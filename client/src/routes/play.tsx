@@ -45,6 +45,9 @@ import { Button } from "@/components/ui/button";
 import moment from "moment";
 import UserProfileModal from "@/components/sections/UserProfileModal";
 
+import testWhite from "@/assets/white/Clovers_A_white.png";
+import testBlack from "@/assets/black/Clovers_A_black.png";
+
 interface CurrentSpace {
   state: {
     space: SpaceInterface;
@@ -412,8 +415,8 @@ export default function Play() {
     };
   }, [socket, chat]);
 
+  // DONE:
   const getProfile = async (userId: string) => {
-
     const { error, data } = await fetcher(
       async () => await getUserProfile(userId as string)
     );
@@ -430,40 +433,50 @@ export default function Play() {
   return (
     <div className="contain">
       <Header />
-      <div className="h-16 border">
-        <p>
-          spaceId: <span className="text-special">{space?.id}</span>
-        </p>
-        <div className="flex items-center gap-2">
-          <aside className="flex items-start gap-1 flex-shrink-0">
-            <p>{space?.name}</p>{" "}
-            <Pen
-              className="h-4 w-4 text-special cursor-pointer"
-              onClick={() => setStartSpaceNameUpdate(!startSpaceNameUpdate)}
-            />
-          </aside>
+      <div className="h-16 border bg-secondary rounded-md relative px-2 flex items-center justify-between overflow-hidden">
+        <aside className="flex items-center gap-1">
+          <p className="text-primary text-xl font-bold">{space?.name}</p>{" "}
+          <Pen
+            className="h-4 w-4 text-special cursor-pointer"
+            onClick={() => setStartSpaceNameUpdate(!startSpaceNameUpdate)}
+          />
+        </aside>
+        <div>
           {startSpaceNameUpdate && (
             <aside className="flex items-center gap-2 flex-grow">
               <Input
                 value={spaceName}
-                placeholder="Update space name"
+                placeholder=" space name"
+                className="w-max"
                 type="text"
                 onChange={(e) => setSpaceName(e.target.value)}
               />
-              <Button onClick={renameSpace}>Update name</Button>
+              <Button size="sm" onClick={renameSpace}>
+                Update
+              </Button>
             </aside>
           )}
         </div>
+
+        <img
+          src={testBlack}
+          alt=""
+          className={`absolute top-0 right-4 rotate-12 h-40 w-32 ${
+            startSpaceNameUpdate && "-z-10"
+          }`}
+        />
+        <img
+          src={testWhite}
+          alt=""
+          className={`absolute top-0 right-28 -rotate-12 h-40 w-32 ${
+            startSpaceNameUpdate && "-z-10"
+          }`}
+        />
       </div>
 
       <div className="flex w-full py-2 h-body gap-2">
         {/* NOTE: space users - game space */}
-        <div className="hidden lg:max-w-[70%] w-full border flex-shrink-0">
-          {/* {space?.participants.map((participant) => (
-            <div key={participant.id}>
-              <p>{participant.username}</p>
-            </div>
-          ))} */}
+        <div className=" lg:max-w-[70%] w-full border flex-shrink-0">
           <div className="grid grid-cols-3 grid-rows-3 gap-4 max-h-full">
             <div className="grid grid-rows-3 gap-2">
               <div className="bg-gray-200 p-4">Item 1</div>
@@ -471,7 +484,9 @@ export default function Play() {
               <div className="bg-gray-400 p-4">Item 3</div>
             </div>
 
-            <div className="row-span-3 bg-blue-200 p-4">Item 4</div>
+            <div className="row-span-3 border p-4">
+              <img src={testWhite} alt="" className="h-18 w-14" />
+            </div>
 
             <div className="grid grid-rows-3 gap-2">
               <div className="bg-gray-200 p-4">Item 5</div>
@@ -481,8 +496,8 @@ export default function Play() {
           </div>
         </div>
 
-        {/* NOTE: chat */}
-        <div className=" w-full flex-grow flex flex-col">
+        {/* NOTE: second section */}
+        <div className="hidden w-full flex-grow lg:flex flex-col">
           {/* NOTE: tabs */}
           <div className="grid grid-cols-4 gap-2 mb-2">
             <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
@@ -507,7 +522,9 @@ export default function Play() {
             </div>
           </div>
 
-          <div className="hidden bg-secondary flex-grow rounded-sm p-1 lg:flex flex-col w-full">
+          {/* NOTE: Chat */}
+
+          <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
             <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
               <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
                 <MessageCircle className="h-5 w-5" />
@@ -516,7 +533,7 @@ export default function Play() {
             </div>
 
             {/* NOTE: chat messages */}
-            <div className="max-h-96 overflow-y-scroll py-1 flex flex-col gap-0.5">
+            <div className="max-h-80 overflow-y-scroll py-1 flex flex-col gap-0.5">
               {loadingChat ? (
                 <div className="flex justify-center items-center h-[calc(100%-88px)]">
                   <Skeleton className="w-14 h-4 rounded-full bg-primary" />
@@ -583,7 +600,8 @@ export default function Play() {
             </div>
           </div>
 
-          <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
+          {/* NOTE: participants */}
+          <div className="hidden bg-secondary flex-grow rounded-sm p-1 fle flex-col w-full">
             <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
               <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
                 <Users className="h-5 w-5" />
