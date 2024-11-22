@@ -523,7 +523,6 @@ export default function Play() {
           </div>
 
           {/* NOTE: Chat */}
-
           <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
             <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
               <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">

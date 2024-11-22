@@ -16576,3 +16576,9 @@
 [23 Nov, 2024 - 00:13:40:1340] [35mhttp[39m: [35m::1 GET /api/v1/chat/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 304 - 10.477 ms[39m
 [23 Nov, 2024 - 00:13:40:1340] [35mhttp[39m: [35m::1 GET /api/v1/message/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 304 - 11.268 ms[39m
 [23 Nov, 2024 - 00:14:01:141] [35mhttp[39m: [35m::1 POST /api/v1/message/32d58206-1800-4924-98f4-9322ea57dab4 200 - 166.332 ms[39m
+[23 Nov, 2024 - 00:15:01:151] [35mhttp[39m: [35m::1 GET /api/v1/space/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 304 - 29.412 ms[39m
+[23 Nov, 2024 - 00:15:01:151] [35mhttp[39m: [35m::1 GET /api/v1/chat/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 200 - 37.402 ms[39m
+[23 Nov, 2024 - 00:15:01:151] [35mhttp[39m: [35m::1 GET /api/v1/message/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 200 - 36.565 ms[39m
+[23 Nov, 2024 - 00:15:02:152] [35mhttp[39m: [35m::1 GET /api/v1/space/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 304 - 13.965 ms[39m
+[23 Nov, 2024 - 00:15:02:152] [35mhttp[39m: [35m::1 GET /api/v1/chat/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 200 - 15.495 ms[39m
+[23 Nov, 2024 - 00:15:02:152] [35mhttp[39m: [35m::1 GET /api/v1/message/e661f5ab-fc2e-438b-88a0-c5ddaaa20382 200 - 16.805 ms[39m
