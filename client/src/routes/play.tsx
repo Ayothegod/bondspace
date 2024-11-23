@@ -43,6 +43,7 @@ import { parseAsString, useQueryState } from "nuqs";
 import ChatSection from "@/components/sections/chat/Chat";
 import ParticipantsSection from "@/components/sections/space/ParticipantsSection";
 import SettingsSection from "@/components/sections/space/SettingsSection";
+import { useNavigate } from "react-router-dom";
 
 interface CurrentSpace {
   state: {
@@ -59,6 +60,7 @@ export default function Play() {
 
   const { socket } = useSocket();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [isConnected, setIsConnected] = useState(false);
   const currentSpace = useRef<CurrentSpace | null>(null);
@@ -113,7 +115,8 @@ export default function Play() {
     );
 
     if (error) {
-      return toast({
+      return 
+      toast({
         description: `${error}`,
         variant: "destructive",
       });
@@ -353,6 +356,16 @@ export default function Play() {
     parseAsString.withDefault("chat")
   );
 
+  useEffect(() => {
+    if (!space) {
+      return navigate("/onboard", {});
+    }
+  }, [space, navigate]);
+
+  if (!space) {
+    return;
+  }
+
   return (
     <div className="contain">
       <Header />
@@ -521,9 +534,9 @@ export default function Play() {
             />
           )}
 
-          {action === "participant" && <ParticipantsSection/>}
+          {action === "participant" && <ParticipantsSection />}
 
-          {action === "settings" && <SettingsSection/>}
+          {action === "settings" && <SettingsSection />}
 
           {displayUserProfile && <UserProfileModal />}
         </div>

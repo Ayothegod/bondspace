@@ -12,6 +12,7 @@ interface authStore {
   user: UserInterface | null;
   setUser: (user?: UserInterface) => void;
   logout: () => void;
+  clearUser: () => void;
 }
 
 export const useAuthStore = create<authStore>()(
@@ -24,14 +25,13 @@ export const useAuthStore = create<authStore>()(
         }),
       logout: () =>
         set((state) => {
-          console.log("logout cicked!");
-
           if (state.user) {
             return { user: null };
           }
           return { user: null };
           // return state;
         }),
+      clearUser: () => set(() => ({ user: null })),
     }),
     {
       name: "auth-data",
@@ -66,6 +66,7 @@ interface spaceStore {
     space?: SpaceInterface
     // chatId?: string
   ) => void;
+  clearSpace: () => void;
 }
 
 export const useSpaceStore = create<spaceStore>()(
@@ -79,6 +80,7 @@ export const useSpaceStore = create<spaceStore>()(
           }
           return { space: state.space };
         }),
+      clearSpace: () => set(() => ({ space: null })),
     }),
     {
       name: "active-space",
@@ -95,6 +97,7 @@ interface chatStore {
   ) => void;
   creatingChat: boolean;
   setCreatingChat: () => void;
+  clearChat: () => void;
 }
 
 // WARN: conver setChats to switch case type - maybe?
@@ -110,6 +113,7 @@ export const useChatStore = create<chatStore>((set) => ({
       }
       return { chat: state.chat };
     }),
+  clearChat: () => set(() => ({ chat: null })),
 }));
 
 interface messageStore {
@@ -143,6 +147,3 @@ export const useMessageStore = create<messageStore>((set) => ({
       return { messages: state.messages };
     }),
 }));
-
-
-

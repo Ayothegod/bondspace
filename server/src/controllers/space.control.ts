@@ -41,6 +41,9 @@ const createASpace = asyncHandler(async (req: Request, res: Response) => {
           },
           email: true,
         },
+        orderBy: {
+          createdAt:"asc"
+        }
       },
     },
   });
@@ -129,6 +132,9 @@ const addNewParticipantToSpace = asyncHandler(
             },
             email: true,
           },
+          orderBy: {
+            createdAt:"asc"
+          }
         },
       },
     });
@@ -218,6 +224,9 @@ const removeParticipantFromSpace = asyncHandler(
             },
             email: true,
           },
+          orderBy: {
+            createdAt:"asc"
+          }
         },
       },
     });
@@ -264,6 +273,9 @@ const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
           },
           email: true,
         },
+        orderBy: {
+          createdAt:"asc"
+        }
       },
     },
   });
@@ -311,6 +323,9 @@ const renameSpace = asyncHandler(async (req: Request, res: Response) => {
           },
           email: true,
         },
+        orderBy: {
+          createdAt:"asc"
+        }
       },
     },
   });

@@ -51,6 +51,14 @@ export const renameSpaceFunc = (spaceId: string, name: string) => {
   return axiosInstance.patch(`/space/${spaceId}`, { name });
 };
 
+export const leaveSpaceFunc = (spaceId: string, participantId: string) => {
+  return axiosInstance.delete(`/space/${spaceId}/${participantId}`);
+};
+
+//export const endSpaceFunc = (spaceId: string) => {
+//   return axiosInstance.delete(`/space/${spaceId}`);
+// };
+
 // NOTE: chat
 export const getChatsDetails = (spaceId: string) => {
   return axiosInstance.get(`/chat/${spaceId}`);
@@ -78,11 +86,3 @@ export const getUserProfile = (userId: string) => {
   return axiosInstance.get(`/auth/user/${userId}`);
 };
 
-
-// const endSpace = (spaceId: string) => {
-//   return axiosInstance.delete(`/space/${spaceId}`);
-// };
-
-// const leaveSpace = (spaceId: string, participantId: string) => {
-//   return axiosInstance.post(`/space/${spaceId}/${participantId}`);
-// };
