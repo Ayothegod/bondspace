@@ -5,7 +5,7 @@ export default function UserProfileModal() {
   const { userProfile, setDisplayUserProfile } = useUserStore();
 
   return (
-    <div className="fixed inset-0 bg-[rgba(0,0,0,.7)] flex items-center justify-center h-screen text-primary px-4 md:px-8">
+    <div className="fixed inset-0 bg-[rgba(0,0,0,.8)] backdrop-blur-md flex items-center justify-center h-screen text-primary px-4 md:px-8">
       <div
         className="absolute top-2 right-2 bg-secondary-top p-2 rounded-md cursor-pointer group"
         onClick={setDisplayUserProfile}

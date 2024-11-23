@@ -48,6 +48,8 @@ import UserProfileModal from "@/components/sections/UserProfileModal";
 import testWhite from "@/assets/white/Clovers_A_white.png";
 import testBlack from "@/assets/black/Clovers_A_black.png";
 
+import { parseAsString, useQueryState } from "nuqs";
+
 interface CurrentSpace {
   state: {
     space: SpaceInterface;
@@ -94,6 +96,7 @@ export default function Play() {
         variant: "destructive",
       });
     }
+
     setSpace("updateState", data?.data);
   };
 
@@ -430,9 +433,24 @@ export default function Play() {
     setUserProfile(data?.data);
   };
 
+  const [action, setAction] = useQueryState(
+    "action",
+    parseAsString.withDefault("chat")
+  );
+
+  if (action === "chat") {
+    console.log("hello Chat");
+  }
+
+  if (action === "settings") {
+    console.log("hello settings");
+  }
+  // console.log(action);
+
   return (
     <div className="contain">
       <Header />
+
       <div className="h-16 border bg-secondary rounded-md relative px-2 flex items-center justify-between overflow-hidden">
         <aside className="flex items-center gap-1">
           <p className="text-primary text-xl font-bold">{space?.name}</p>
@@ -478,155 +496,52 @@ export default function Play() {
 
       <div className="flex w-full py-2 h-body gap-2">
         {/* NOTE: space users - game space */}
-        <div className=" lg:max-w-[70%] w-full flex-shrink-0 h-full rounded-md overflow-hidden grid grid-cols-3">
-          {/* NOTE: First Column */}
-          <div className="grid grid-rows-3 h-grid-body gap-2">
-            {space?.participants.slice(0, 3).map((participant) => (
-              <div
-                key={participant.id}
-                className="bg-gray-800 p-4 flex items-center justify-center"
-              >
-                <img src={testWhite} alt="Static Image" className="h-18 w-14" />
-                {participant.username}
-              </div>
-            ))}
-          </div>
-
-          {/* Middle Column (Independent, Static Content) */}
-          <div className="row-span-3 border p-4">
-            <img src={testWhite} alt="Static Image" className="h-18 w-14" />
-          </div>
-
-          {/* Second Column */}
-          <div className="grid grid-rows-3 gap-2 h-full">
-            {space?.participants.slice(0, 3).map((participant) => (
-              <div
-                key={participant.id}
-                className="bg-gray-300 p-4 flex items-center justify-center"
-              >
-                {participant.username}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* NOTE: second section */}
-        <div className="hidden w-full flex-grow lg:flex flex-col max-h-full">
-          {/* NOTE: tabs */}
-          <div className="grid grid-cols-4 gap-2 mb-2">
-            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
-              <div className="group-hover:text-special flex gap-1">
-                <MessageCircle className="h-5 w-5" />{" "}
-                <span className="">{messages.length}</span>
-              </div>
-            </div>
-            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
-              <div className="group-hover:text-special flex gap-1">
-                <Users className="h-5 w-5" />{" "}
-                <span className="">{space?.participants.length}</span>
-              </div>
-            </div>
-            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
-              <div className="group-hover:text-special flex gap-1">
-                <LucideArrowDownWideNarrow className="h-5 w-5" />{" "}
-              </div>
-            </div>
-            <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
-              <Settings className="h-5 w-5 group-hover:text-special" />
-            </div>
-          </div>
-
-          {/* NOTE: Chat */}
-          <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
-            <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
-              <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
-                <MessageCircle className="h-5 w-5" />
-                <p className="">{chat?.name || "Space chat"}</p>
-              </aside>
-            </div>
-
-            {/* NOTE: chat messages */}
-            <div className="max-h-80 overflow-y-scroll py-1 flex flex-col gap-0.5">
-              {loadingChat ? (
-                <div className="flex justify-center items-center h-[calc(100%-88px)]">
-                  <Skeleton className="w-14 h-4 rounded-full bg-primary" />
-                </div>
-              ) : (
-                messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className="py-2 px-2 hover:bg-secondary-top rounded-md cursor-pointer group"
-                  >
-                    <div className="flex items- gap-2 justify-between">
-                      <p className="text-xs text-special">
-                        {message.sender.username}
-                      </p>
-                      <small className="inline-flex flex-shrink-0 w-max">
-                        {moment(message.createdAt)
-                          .add("TIME_ZONE", "hours")
-                          .fromNow(true)}
-
-                        <MoreVertical className="h-5 w-5 cursor-pointer" />
-                      </small>
-                    </div>
-                    <p className=" group-hover:text-primary">
-                      {message.content}
-                    </p>
-                  </div>
-                ))
-              )}
-            </div>
-
-            {/* NOTE: Send message */}
-            <div className="mt-auto border-t border-t-white/5 pt-2 ">
-              {isTyping && (
-                <div className="flex items-center gap-2 mb-1 animate-pulse">
-                  <LoaderIcon className="h-5 w-5 animate-spin" />
-                  <small>A user is typing</small>
-                </div>
-              )}
-
-              {selfTyping && (
-                <div className="flex items-center gap-2 mb-1 animate-pulse">
-                  <LoaderIcon className="h-5 w-5 animate-spin" />
-                  <small>You are typing a message</small>
-                </div>
-              )}
-
-              <form
-                onSubmit={sendChatMessage}
-                className="flex items-center gap-2"
-              >
-                <Input
-                  className=""
-                  placeholder="Send a message"
-                  value={message}
-                  onChange={(e) => handleOnMessageChange(e)}
-                />
-                <aside className="bg-special text-black p-1 rounded cursor-pointer group">
-                  <Send
-                    className="w-max group-hover:translate-x-1 duration-300 group-hover:rotate-45"
-                    onClick={sendChatMessage}
-                  />
-                </aside>
-              </form>
-            </div>
-          </div>
-
-          {/* NOTE: participants */}
-          <div className="hidden bg-secondary flex-grow rounded-sm p-1 fle flex-col w-full">
-            <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
-              <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
-                <Users className="h-5 w-5" />
-                <p>Space Participants</p>
-              </aside>
-            </div>
-
-            <div className="flex flex-col gap-3 py-2">
-              {space?.participants.map((participant) => (
+        <div className=" lg:max-w-[70%] w-full flex-shrink-0 h-full rounded-md overflow-hidde">
+          <div className="grid grid-cols-3 h-ful">
+            <div
+              className={`grid grid-rows-3 gap-2 ${
+                space?.participants.length && space.participants.length > 6
+                  ? "h-grid-body-extra debug"
+                  : "h-grid-body debug"
+              }`}
+            >
+              {space?.participants.slice(0, 3).map((participant) => (
                 <div
                   key={participant.id}
-                  className="flex items-center gap-2 cursor-pointer"
+                  className="bg-gray-800 p-4 flex items-center justify-center"
+                >
+                  <img
+                    src={testWhite}
+                    alt="Static Image"
+                    className="h-18 w-14"
+                  />
+                  {participant.username}
+                </div>
+              ))}
+            </div>
+
+            <div className="row-span-3 p-4">
+              <img src={testWhite} alt="Static Image" className="h-18 w-14" />
+            </div>
+
+            <div className="grid grid-rows-3 gap-2 h-full">
+              {space?.participants.slice(3, 6).map((participant) => (
+                <div
+                  key={participant.id}
+                  className="bg-gray-300 p-4 flex items-center justify-center"
+                >
+                  {participant.username}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden md:block pt-2 h-20">
+            <div className="bg-secondary h-full grid grid-cols-4 gap-2 p-2">
+              {space?.participants.slice(6, 10).map((participant) => (
+                <div
+                  key={participant.id}
+                  className="bg-secondary-top rounded-md p-4 flex items-center justify-center gap-2 cursor-pointer group"
                 >
                   <img
                     src={
@@ -635,27 +550,186 @@ export default function Play() {
                         : "https://via.placeholder.com/100x100.png"
                     }
                     alt="user-avatar"
-                    className="border border-special h-8 w-8 rounded-full"
+                    className="h-8 w-8 rounded-full"
                   />
 
-                  <div className="group">
-                    <p
-                      className="text-xs group-hover:underline"
-                      onClick={() => {
-                        setDisplayUserProfile();
-                        getProfile(participant.id);
-                      }}
-                    >
-                      {participant.id}
-                    </p>
-                    <p className="text-sm text-special">
-                      {participant.username}
-                    </p>
-                  </div>
+                  <p
+                    className="text-sm font-semibold group-hover:underline group-hover:text-special"
+                    onClick={() => {
+                      setDisplayUserProfile();
+                      getProfile(participant.id);
+                    }}
+                  >
+                    {participant.username}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+
+        {/* NOTE: second section */}
+        <div className="hidden w-full flex-grow lg:flex flex-col max-h-full">
+          {/* NOTE: tabs */}
+          <div className="grid grid-cols-4 gap-2 mb-2">
+            <div
+              className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group"
+              onClick={() => setAction("chat")}
+            >
+              <div className="group-hover:text-special flex gap-1">
+                <MessageCircle className="h-5 w-5" />{" "}
+                <span className="">{messages.length}</span>
+              </div>
+            </div>
+            <div
+              className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group"
+              onClick={() => setAction("participant")}
+            >
+              <div className="group-hover:text-special flex gap-1">
+                <Users className="h-5 w-5" />{" "}
+                <span className="">{space?.participants.length}</span>
+              </div>
+            </div>
+            <div
+              className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group"
+              onClick={() => setAction("leaderboard")}
+            >
+              <div className="group-hover:text-special flex gap-1">
+                <LucideArrowDownWideNarrow className="h-5 w-5" />{" "}
+              </div>
+            </div>
+            <div
+              className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group"
+              onClick={() => setAction("settings")}
+            >
+              <Settings className="h-5 w-5 group-hover:text-special" />
+            </div>
+          </div>
+
+          {/* NOTE: Chat */}
+          {action === "chat" && (
+            <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
+              <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
+                <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
+                  <MessageCircle className="h-5 w-5" />
+                  <p className="">{chat?.name || "Space chat"}</p>
+                </aside>
+              </div>
+
+              {/* NOTE: chat messages */}
+              <div className="max-h-80 overflow-y-scroll py-1 flex flex-col gap-0.5">
+                {loadingChat ? (
+                  <div className="flex justify-center items-center h-[calc(100%-88px)]">
+                    <Skeleton className="w-14 h-4 rounded-full bg-primary" />
+                  </div>
+                ) : (
+                  messages.map((message) => (
+                    <div
+                      key={message.id}
+                      className="py-2 px-2 hover:bg-secondary-top rounded-md cursor-pointer group"
+                    >
+                      <div className="flex items- gap-2 justify-between">
+                        <p className="text-xs text-special">
+                          {message.sender.username}
+                        </p>
+                        <small className="inline-flex flex-shrink-0 w-max">
+                          {moment(message.createdAt)
+                            .add("TIME_ZONE", "hours")
+                            .fromNow(true)}
+
+                          <MoreVertical className="h-5 w-5 cursor-pointer" />
+                        </small>
+                      </div>
+                      <p className=" group-hover:text-primary">
+                        {message.content}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* NOTE: Send message */}
+              <div className="mt-auto border-t border-t-white/5 pt-2 ">
+                {isTyping && (
+                  <div className="flex items-center gap-2 mb-1 animate-pulse">
+                    <LoaderIcon className="h-5 w-5 animate-spin" />
+                    <small>A user is typing</small>
+                  </div>
+                )}
+
+                {selfTyping && (
+                  <div className="flex items-center gap-2 mb-1 animate-pulse">
+                    <LoaderIcon className="h-5 w-5 animate-spin" />
+                    <small>You are typing a message</small>
+                  </div>
+                )}
+
+                <form
+                  onSubmit={sendChatMessage}
+                  className="flex items-center gap-2"
+                >
+                  <Input
+                    className=""
+                    placeholder="Send a message"
+                    value={message}
+                    onChange={(e) => handleOnMessageChange(e)}
+                  />
+                  <aside className="bg-special text-black p-1 rounded cursor-pointer group">
+                    <Send
+                      className="w-max group-hover:translate-x-1 duration-300 group-hover:rotate-45"
+                      onClick={sendChatMessage}
+                    />
+                  </aside>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* NOTE: participants */}
+          {action === "participant" && (
+            <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
+              <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
+                <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
+                  <Users className="h-5 w-5" />
+                  <p>Space Participants</p>
+                </aside>
+              </div>
+
+              <div className="flex flex-col gap-3 py-2">
+                {space?.participants.map((participant) => (
+                  <div
+                    key={participant.id}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <img
+                      src={
+                        participant?.avatar?.imageURL
+                          ? participant?.avatar?.imageURL
+                          : "https://via.placeholder.com/100x100.png"
+                      }
+                      alt="user-avatar"
+                      className="h-8 w-8 rounded-full"
+                    />
+
+                    <div className="group">
+                      <p
+                        className="text-xs group-hover:underline"
+                        onClick={() => {
+                          setDisplayUserProfile();
+                          getProfile(participant.id);
+                        }}
+                      >
+                        {participant.id}
+                      </p>
+                      <p className="text-sm text-special">
+                        {participant.username}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {displayUserProfile && <UserProfileModal />}
         </div>

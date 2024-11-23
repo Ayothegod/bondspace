@@ -7,6 +7,7 @@ export default {
       height:{
         body: "calc(100vh - (56px + 64px))",
         "grid-body": "calc(100vh - (56px + 64px + 16px))",
+        "grid-body-extra": "calc(100vh - (56px + 64px + 16px + 80px))",
 
       },
       borderRadius: {
