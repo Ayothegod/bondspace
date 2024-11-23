@@ -6,9 +6,9 @@ import {
   getChatMessagesFunc,
   getChatsDetails,
   getSpaceDetails,
+  getUserProfile,
   renameSpaceFunc,
   SocketEventEnum,
-  getUserProfile,
 } from "@/lib/fetch";
 import { fetcher, LocalStorage } from "@/lib/hook/useUtility";
 import {
@@ -41,6 +41,8 @@ import testBlack from "@/assets/black/Clovers_A_black.png";
 
 import { parseAsString, useQueryState } from "nuqs";
 import ChatSection from "@/components/sections/chat/Chat";
+import ParticipantsSection from "@/components/sections/space/ParticipantsSection";
+import SettingsSection from "@/components/sections/space/SettingsSection";
 
 interface CurrentSpace {
   state: {
@@ -52,7 +54,7 @@ export default function Play() {
   const { chat, setChat } = useChatStore();
   const { space, setSpace } = useSpaceStore();
   const { messages, setMessages } = useMessageStore();
-  const { setUserProfile, displayUserProfile, setDisplayUserProfile } =
+  const { displayUserProfile, setDisplayUserProfile, setUserProfile } =
     useUserStore();
 
   const { socket } = useSocket();
@@ -144,6 +146,20 @@ export default function Play() {
     }
 
     setMessages("updateMessage", data?.data);
+  };
+
+  const getProfile = async (userId: string) => {
+    const { error, data } = await fetcher(
+      async () => await getUserProfile(userId as string)
+    );
+
+    if (error) {
+      return toast({
+        description: `${error}`,
+        variant: "destructive",
+      });
+    }
+    setUserProfile(data?.data);
   };
 
   // const deleteChatMessage = async (message: ChatItemInterface) => {
@@ -332,21 +348,6 @@ export default function Play() {
     };
   }, [socket, chat]);
 
-  // DONE:
-  const getProfile = async (userId: string) => {
-    const { error, data } = await fetcher(
-      async () => await getUserProfile(userId as string)
-    );
-
-    if (error) {
-      return toast({
-        description: `${error}`,
-        variant: "destructive",
-      });
-    }
-    setUserProfile(data?.data);
-  };
-
   const [action, setAction] = useQueryState(
     "action",
     parseAsString.withDefault("chat")
@@ -511,7 +512,6 @@ export default function Play() {
             </div>
           </div>
 
-          {/* NOTE: Chat */}
           {action === "chat" && (
             <ChatSection
               chat={chat}
@@ -521,51 +521,9 @@ export default function Play() {
             />
           )}
 
-          {/* NOTE: participants */}
-          {action === "participant" && (
-            <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
-              <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
-                <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
-                  <Users className="h-5 w-5" />
-                  <p>Space Participants</p>
-                </aside>
-              </div>
+          {action === "participant" && <ParticipantsSection/>}
 
-              <div className="flex flex-col gap-3 py-2">
-                {space?.participants.map((participant) => (
-                  <div
-                    key={participant.id}
-                    className="flex items-center gap-2 cursor-pointer"
-                  >
-                    <img
-                      src={
-                        participant?.avatar?.imageURL
-                          ? participant?.avatar?.imageURL
-                          : "https://via.placeholder.com/100x100.png"
-                      }
-                      alt="user-avatar"
-                      className="h-8 w-8 rounded-full"
-                    />
-
-                    <div className="group">
-                      <p
-                        className="text-xs group-hover:underline"
-                        onClick={() => {
-                          setDisplayUserProfile();
-                          getProfile(participant.id);
-                        }}
-                      >
-                        {participant.id}
-                      </p>
-                      <p className="text-sm text-special">
-                        {participant.username}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {action === "settings" && <SettingsSection/>}
 
           {displayUserProfile && <UserProfileModal />}
         </div>
