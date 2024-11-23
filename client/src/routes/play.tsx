@@ -7,12 +7,10 @@ import {
   getChatsDetails,
   getSpaceDetails,
   renameSpaceFunc,
-  sendMessageFunc,
   SocketEventEnum,
-  updateChatName,
   getUserProfile,
 } from "@/lib/fetch";
-import { fetcher, getUserMetadata, LocalStorage } from "@/lib/hook/useUtility";
+import { fetcher, LocalStorage } from "@/lib/hook/useUtility";
 import {
   ChatItemInterface,
   MessageInterface,
@@ -21,7 +19,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 // import { ChatItem } from "@/components/sections/chat/ChatItem";
 import {
-  useAuthStore,
   useChatStore,
   useMessageStore,
   useSpaceStore,
@@ -29,26 +26,21 @@ import {
 } from "@/lib/store/stateStore";
 import Header from "@/components/sections/Header";
 import {
-  Loader,
-  LoaderIcon,
   LucideArrowDownWideNarrow,
   MessageCircle,
-  MoreVertical,
   Pen,
-  Send,
   Settings,
   Users,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import moment from "moment";
 import UserProfileModal from "@/components/sections/UserProfileModal";
 
 import testWhite from "@/assets/white/Clovers_A_white.png";
 import testBlack from "@/assets/black/Clovers_A_black.png";
 
 import { parseAsString, useQueryState } from "nuqs";
+import ChatSection from "@/components/sections/chat/Chat";
 
 interface CurrentSpace {
   state: {
@@ -60,7 +52,6 @@ export default function Play() {
   const { chat, setChat } = useChatStore();
   const { space, setSpace } = useSpaceStore();
   const { messages, setMessages } = useMessageStore();
-  const { user } = useAuthStore();
   const { setUserProfile, displayUserProfile, setDisplayUserProfile } =
     useUserStore();
 
@@ -69,7 +60,6 @@ export default function Play() {
 
   const [isConnected, setIsConnected] = useState(false);
   const currentSpace = useRef<CurrentSpace | null>(null);
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const [loadingChat, setLoadingChat] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
@@ -77,13 +67,7 @@ export default function Play() {
   const [spaceName, setSpaceName] = useState("");
   const [startSpaceNameUpdate, setStartSpaceNameUpdate] = useState(false);
 
-  const [chatName, setChatName] = useState("");
-  const [startChatNameUpdate, setStartChatNameUpdate] = useState(false);
-
-  const [message, setMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [selfTyping, setSelfTyping] = useState(false);
-  // const [localSearchQuery, setLocalSearchQuery] = useState("");
 
   // DONE: space
   const getSpace = async () => {
@@ -118,27 +102,6 @@ export default function Play() {
     setStartSpaceNameUpdate(!startSpaceNameUpdate);
     setSpaceName("");
     setSpace("updateState", data?.data);
-  };
-
-  // DONE: chat
-  const renameChat = async () => {
-    const { error, data, isLoading } = await fetcher(
-      async () => await updateChatName(chat?.id as string, chatName)
-    );
-    if (error) {
-      return toast({
-        description: `${error}`,
-        variant: "destructive",
-      });
-    }
-    toast({
-      description: `${data?.message}`,
-    });
-
-    setStartChatNameUpdate(!startChatNameUpdate);
-    setChatName("");
-    setLoadingChat(isLoading);
-    setChat("updateChat", data?.data);
   };
 
   // DONE:
@@ -181,55 +144,6 @@ export default function Play() {
     }
 
     setMessages("updateMessage", data?.data);
-  };
-
-  // DONE:
-  const sendChatMessage = async (e: any) => {
-    e.preventDefault();
-    if (!chat || !socket) return;
-    socket.emit(SocketEventEnum.STOP_TYPING_EVENT, chat?.id);
-    console.log("send chat");
-
-    const { error, data } = await fetcher(
-      async () => await sendMessageFunc(chat.id, message)
-    );
-
-    if (error) {
-      return toast({
-        description: `${error}`,
-        variant: "destructive",
-      });
-    }
-    setMessage("");
-    setMessages("addMessage", undefined, data?.data);
-  };
-
-  // PENDING:
-  const handleOnMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
-    if (!socket || !isConnected) return;
-
-    // // Check if the user isn't already set as typing
-    if (!selfTyping) {
-      setSelfTyping(true);
-      socket.emit(SocketEventEnum.TYPING_EVENT, user?.id);
-    }
-
-    // Clear the previous timeout (if exists) to avoid multiple setTimeouts from running
-    if (typingTimeoutRef.current) {
-      clearTimeout(typingTimeoutRef.current);
-    }
-
-    // Define a length of time (in milliseconds) for the typing timeout
-    const timerLength = 3000;
-
-    // Set a timeout to stop the typing indication after the timerLength has passed
-    typingTimeoutRef.current = setTimeout(() => {
-      socket.emit(SocketEventEnum.STOP_TYPING_EVENT, user?.id);
-
-      // Reset the user's typing state
-      setSelfTyping(false);
-    }, timerLength);
   };
 
   // const deleteChatMessage = async (message: ChatItemInterface) => {
@@ -438,15 +352,6 @@ export default function Play() {
     parseAsString.withDefault("chat")
   );
 
-  if (action === "chat") {
-    console.log("hello Chat");
-  }
-
-  if (action === "settings") {
-    console.log("hello settings");
-  }
-  // console.log(action);
-
   return (
     <div className="contain">
       <Header />
@@ -537,11 +442,11 @@ export default function Play() {
           </div>
 
           <div className="hidden md:block pt-2 h-20">
-            <div className="bg-secondary h-full grid grid-cols-4 gap-2 p-2">
+            <div className="bg-secondary h-full grid grid-cols-4 gap-2 place-items-center px-2">
               {space?.participants.slice(6, 10).map((participant) => (
                 <div
                   key={participant.id}
-                  className="bg-secondary-top rounded-md p-4 flex items-center justify-center gap-2 cursor-pointer group"
+                  className="bg-secondary-top rounded-md p-3 flex items-center justify-center gap-2 cursor-pointer group h-max w-full"
                 >
                   <img
                     src={
@@ -608,81 +513,12 @@ export default function Play() {
 
           {/* NOTE: Chat */}
           {action === "chat" && (
-            <div className="bg-secondary flex-grow rounded-sm p-1 flex flex-col w-full">
-              <div className="flex w-full justify-between gap-2 border-b border-b-white/5 py-1">
-                <aside className="flex items-start gap-1 flex-shrink-0 text-primary ">
-                  <MessageCircle className="h-5 w-5" />
-                  <p className="">{chat?.name || "Space chat"}</p>
-                </aside>
-              </div>
-
-              {/* NOTE: chat messages */}
-              <div className="max-h-80 overflow-y-scroll py-1 flex flex-col gap-0.5">
-                {loadingChat ? (
-                  <div className="flex justify-center items-center h-[calc(100%-88px)]">
-                    <Skeleton className="w-14 h-4 rounded-full bg-primary" />
-                  </div>
-                ) : (
-                  messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className="py-2 px-2 hover:bg-secondary-top rounded-md cursor-pointer group"
-                    >
-                      <div className="flex items- gap-2 justify-between">
-                        <p className="text-xs text-special">
-                          {message.sender.username}
-                        </p>
-                        <small className="inline-flex flex-shrink-0 w-max">
-                          {moment(message.createdAt)
-                            .add("TIME_ZONE", "hours")
-                            .fromNow(true)}
-
-                          <MoreVertical className="h-5 w-5 cursor-pointer" />
-                        </small>
-                      </div>
-                      <p className=" group-hover:text-primary">
-                        {message.content}
-                      </p>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {/* NOTE: Send message */}
-              <div className="mt-auto border-t border-t-white/5 pt-2 ">
-                {isTyping && (
-                  <div className="flex items-center gap-2 mb-1 animate-pulse">
-                    <LoaderIcon className="h-5 w-5 animate-spin" />
-                    <small>A user is typing</small>
-                  </div>
-                )}
-
-                {selfTyping && (
-                  <div className="flex items-center gap-2 mb-1 animate-pulse">
-                    <LoaderIcon className="h-5 w-5 animate-spin" />
-                    <small>You are typing a message</small>
-                  </div>
-                )}
-
-                <form
-                  onSubmit={sendChatMessage}
-                  className="flex items-center gap-2"
-                >
-                  <Input
-                    className=""
-                    placeholder="Send a message"
-                    value={message}
-                    onChange={(e) => handleOnMessageChange(e)}
-                  />
-                  <aside className="bg-special text-black p-1 rounded cursor-pointer group">
-                    <Send
-                      className="w-max group-hover:translate-x-1 duration-300 group-hover:rotate-45"
-                      onClick={sendChatMessage}
-                    />
-                  </aside>
-                </form>
-              </div>
-            </div>
+            <ChatSection
+              chat={chat}
+              loadingChat={loadingChat}
+              isConnected={isConnected}
+              isTyping={isTyping}
+            />
           )}
 
           {/* NOTE: participants */}
@@ -736,63 +572,4 @@ export default function Play() {
       </div>
     </div>
   );
-}
-
-{
-  /* <div className="border w-full ">
-          All Chats
-          {loadingChats ? (
-            <div className="flex justify-center items-center h-[calc(100%-88px)]">
-              <Skeleton className="w-14 h-4 rounded-full bg-primary" />
-            </div>
-          ) : (
-            [...allChats].map((chat) => (
-              <ChatItem
-                chat={chat}
-                isActive={chat.id === currentChat.current?.id}
-                unreadCount={
-                  unreadMessages.filter((n) => n.chat === chat.id).length
-                }
-                onClick={(chat) => {
-                  if (
-                    currentChat.current?.id &&
-                    currentChat.current?.id === chat.id
-                  )
-                    return;
-                  LocalStorage.set("currentChat", chat);
-                  currentChat.current = chat;
-                  setMessage("");
-                  // getMessages();
-                }}
-                key={chat.id}
-                onChatDelete={(chatId) => {
-                  setChats("filterChat", undefined, undefined, chatId);
-                  if (currentChat.current?.id === chatId) {
-                    currentChat.current = null;
-                    LocalStorage.remove("currentChat");
-                  }
-                }}
-              />
-            ))
-          )}
-        </div> */
-}
-
-// update chat name
-{
-  /* <Pen
-                    className="h-4 w-4 text-special cursor-pointer"
-                    onClick={() => setStartChatNameUpdate(!startChatNameUpdate)}
-                {startChatNameUpdate && (
-                  <aside className="flex items-center flex-col gap-1 flex-grow">
-                    <Input
-                      value={chatName}
-                      placeholder="Update Chat name"
-                      type="text"
-                      onChange={(e) => setChatName(e.target.value)}
-                    />
-                    <Button onClick={renameChat}>Update name</Button>
-                  </aside>
-                )}
-                  /> */
 }
