@@ -5,7 +5,9 @@ export default {
   theme: {
     extend: {
       height:{
-        body: "calc(100vh - (56px + 64px))"
+        body: "calc(100vh - (56px + 64px))",
+        "grid-body": "calc(100vh - (56px + 64px + 16px))",
+
       },
       borderRadius: {
         lg: "var(--radius)",

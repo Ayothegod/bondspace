@@ -435,7 +435,9 @@ export default function Play() {
       <Header />
       <div className="h-16 border bg-secondary rounded-md relative px-2 flex items-center justify-between overflow-hidden">
         <aside className="flex items-center gap-1">
-          <p className="text-primary text-xl font-bold">{space?.name}</p>{" "}
+          <p className="text-primary text-xl font-bold">{space?.name}</p>
+          <p className="text-primary text-xl font-bold">{space?.id}</p>
+
           <Pen
             className="h-4 w-4 text-special cursor-pointer"
             onClick={() => setStartSpaceNameUpdate(!startSpaceNameUpdate)}
@@ -476,28 +478,40 @@ export default function Play() {
 
       <div className="flex w-full py-2 h-body gap-2">
         {/* NOTE: space users - game space */}
-        <div className=" lg:max-w-[70%] w-full border flex-shrink-0">
-          <div className="grid grid-cols-3 grid-rows-3 gap-4 max-h-full">
-            <div className="grid grid-rows-3 gap-2">
-              <div className="bg-gray-200 p-4">Item 1</div>
-              <div className="bg-gray-300 p-4">Item 2</div>
-              <div className="bg-gray-400 p-4">Item 3</div>
-            </div>
+        <div className=" lg:max-w-[70%] w-full flex-shrink-0 h-full rounded-md overflow-hidden grid grid-cols-3">
+          {/* NOTE: First Column */}
+          <div className="grid grid-rows-3 h-grid-body gap-2">
+            {space?.participants.slice(0, 3).map((participant) => (
+              <div
+                key={participant.id}
+                className="bg-gray-800 p-4 flex items-center justify-center"
+              >
+                <img src={testWhite} alt="Static Image" className="h-18 w-14" />
+                {participant.username}
+              </div>
+            ))}
+          </div>
 
-            <div className="row-span-3 border p-4">
-              <img src={testWhite} alt="" className="h-18 w-14" />
-            </div>
+          {/* Middle Column (Independent, Static Content) */}
+          <div className="row-span-3 border p-4">
+            <img src={testWhite} alt="Static Image" className="h-18 w-14" />
+          </div>
 
-            <div className="grid grid-rows-3 gap-2">
-              <div className="bg-gray-200 p-4">Item 5</div>
-              <div className="bg-gray-300 p-4">Item 6</div>
-              <div className="bg-gray-400 p-4">Item 7</div>
-            </div>
+          {/* Second Column */}
+          <div className="grid grid-rows-3 gap-2 h-full">
+            {space?.participants.slice(0, 3).map((participant) => (
+              <div
+                key={participant.id}
+                className="bg-gray-300 p-4 flex items-center justify-center"
+              >
+                {participant.username}
+              </div>
+            ))}
           </div>
         </div>
 
         {/* NOTE: second section */}
-        <div className="hidden w-full flex-grow lg:flex flex-col">
+        <div className="hidden w-full flex-grow lg:flex flex-col max-h-full">
           {/* NOTE: tabs */}
           <div className="grid grid-cols-4 gap-2 mb-2">
             <div className="bg-secondary w-full p-1 rounded-md flex items-center justify-center cursor-pointer text-sm group">
