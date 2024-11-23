@@ -61,7 +61,7 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
-  const { id, email, username, avatar } = user;
+  const { id, email, username, avatar, fullname } = user;
 
   // console.log(token, session);
   setSessionTokenCookie(res, token);
@@ -71,7 +71,7 @@ const registerController = asyncHandler(async (req: Request, res: Response) => {
     .json(
       new ApiResponse(
         200,
-        { id, email, username, avatar },
+        { id, email, username, avatar, fullname },
         "User registered successfully"
       )
     );
@@ -126,7 +126,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
 
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
-  const { id, email, username, avatar } = user;
+  const { id, email, username, avatar,fullname } = user;
 
   // console.log(token, session);
   setSessionTokenCookie(res, token);
@@ -134,7 +134,7 @@ const loginController = asyncHandler(async (req: Request, res: Response) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, { id, email, username, avatar }, "Login successful!")
+      new ApiResponse(200, { id, email, username, avatar, fullname }, "Login successful!")
     );
 });
 

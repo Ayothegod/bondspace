@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addNewParticipantToSpace,
   createASpace,
+  endSpace,
   getSpaceDetails,
   removeParticipantFromSpace,
   renameSpace,
@@ -20,7 +21,7 @@ router
   .route("/:spaceId")
   .get(validate, getSpaceDetails)
   .patch(validate, renameSpace)
-  // .delete(validate);
+  .delete(validate, endSpace);
 
 // NOTE: space participants
 router

@@ -13,11 +13,6 @@ const createASpace = asyncHandler(async (req: Request, res: Response) => {
     data: {
       name: name,
       status: "started",
-      participants: {
-        connect: {
-          id: req.user?.id,
-        },
-      },
       Chat: {
         create: {
           participants: {
@@ -29,35 +24,55 @@ const createASpace = asyncHandler(async (req: Request, res: Response) => {
         },
       },
     },
-    include: {
-      participants: {
-        select: {
-          id: true,
-          username: true,
-          avatar: {
-            select: {
-              imageURL: true,
-            },
-          },
-          email: true,
-        },
-        orderBy: {
-          createdAt:"asc"
-        }
-      },
-    },
   });
 
   if (!newSpace) {
     throw new ApiError(404, "Error while creating space.");
   }
 
-  newSpace.participants.forEach((participant) => {
-    if (participant.id === req.user?.id) return;
+  await prisma.userSpace.create({
+    data: {
+      userId: req.user?.id as string,
+      spaceId: newSpace.id,
+    },
+  });
+
+  const spaceWithParticipants = await prisma.space.findUnique({
+    where: { id: newSpace.id },
+    include: {
+      participants: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              avatar: {
+                select: {
+                  imageURL: true,
+                },
+              },
+              email: true,
+              fullname: true,
+            },
+          },
+        },
+        orderBy: {
+          joinedAt: "asc",
+        },
+      },
+    },
+  });
+
+  if (!spaceWithParticipants) {
+    throw new ApiError(404, "This space is not available.");
+  }
+
+  spaceWithParticipants.participants.forEach((participant) => {
+    if (participant.user.id === req.user?.id) return;
     // emit event to the creator with newSpace as payload
     emitSocketEvent(
       req,
-      participant.id,
+      participant.user.id,
       SocketEventEnum.NEW_SPACE_EVENT,
       newSpace
     );
@@ -65,21 +80,20 @@ const createASpace = asyncHandler(async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(201, newSpace, "Space created successfully"));
+    .json(
+      new ApiResponse(201, spaceWithParticipants, "Space created successfully")
+    );
 });
 
-// DONE:
 const addNewParticipantToSpace = asyncHandler(
   async (req: Request, res: Response) => {
     const { spaceId, participantId } = req.params;
-    console.log(spaceId, participantId);
 
     const space = await prisma.space.findUnique({
-      where: {
-        id: spaceId,
-      },
+      where: { id: spaceId },
       include: {
-        participants:true
+        participants: true,
+        Chat: true,
       },
     });
 
@@ -88,69 +102,71 @@ const addNewParticipantToSpace = asyncHandler(
     }
 
     const alreadyAParticipant = space.participants.some((participant) => {
-      return participant.id === participantId;
+      return participant.userId === participantId;
     });
 
     if (alreadyAParticipant) {
       throw new ApiError(400, "Participant already in the space.");
     }
 
-    const updatedSpace = await prisma.space.update({
-      where: {
-        id: spaceId,
-      },
+    await prisma.userSpace.create({
       data: {
-        participants: {
-          connect: {
-            id: participantId,
+        userId: participantId,
+        spaceId: spaceId,
+      },
+    });
+
+    if (space.Chat) {
+      await prisma.chat.update({
+        where: { id: space.Chat.id },
+        data: {
+          participants: {
+            connect: {
+              id: participantId,
+            },
           },
         },
-        Chat: {
-          update: {
-            where: {
-              spaceId: spaceId,
-            },
-            data: {
-              participants: {
-                connect: {
-                  id: participantId,
+      });
+    }
+
+    const updatedSpace = await prisma.space.findUnique({
+      where: { id: spaceId },
+      include: {
+        participants: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                email: true,
+                fullname: true,
+                avatar: {
+                  select: {
+                    imageURL: true,
+                  },
                 },
               },
             },
           },
-        },
-      },
-      include: {
-        participants: {
-          select: {
-            id: true,
-            username: true,
-            avatar: {
-              select: {
-                imageURL: true,
-              },
-            },
-            email: true,
-          },
           orderBy: {
-            createdAt:"asc"
-          }
+            joinedAt: "asc",
+          },
         },
       },
     });
 
     if (!updatedSpace) {
-      throw new ApiError(500, "Unable to add user to space.");
+      throw new ApiError(400, "Unable to add user to space.");
     }
 
     updatedSpace.participants.forEach((participant) => {
-      if (participant.id === req.user?.id) return;
+      if (participant.userId === req.user?.id) return;
 
       emitSocketEvent(
         req,
-        participant.id,
+        participant.userId,
         SocketEventEnum.JOIN_SPACE_EVENT,
-        updatedSpace
+        space
       );
     });
 
@@ -166,17 +182,21 @@ const addNewParticipantToSpace = asyncHandler(
   }
 );
 
-// DONE:
 const removeParticipantFromSpace = asyncHandler(
   async (req: Request, res: Response) => {
     const { spaceId, participantId } = req.params;
+
+    if (req.user?.id !== participantId) {
+      throw new ApiError(400, "You are not authorized to remove another user.");
+    }
 
     const space = await prisma.space.findUnique({
       where: {
         id: spaceId,
       },
       include: {
-        participants:true
+        participants: true,
+        Chat: true,
       },
     });
 
@@ -185,23 +205,27 @@ const removeParticipantFromSpace = asyncHandler(
     }
 
     const isParticipant = space.participants.some(
-      (participant) => participant.id === participantId
+      (participant) => participant.userId === participantId
     );
 
     if (!isParticipant) {
       throw new ApiError(400, "Participant does not exist in the space");
     }
 
+    await prisma.userSpace.delete({
+      where: {
+        userId_spaceId: {
+          userId: participantId,
+          spaceId,
+        },
+      },
+    });
+
     const updatedSpace = await prisma.space.update({
       where: {
         id: spaceId,
       },
       data: {
-        participants: {
-          disconnect: {
-            id: participantId,
-          },
-        },
         Chat: {
           update: {
             participants: {
@@ -215,18 +239,23 @@ const removeParticipantFromSpace = asyncHandler(
       include: {
         participants: {
           select: {
-            id: true,
-            username: true,
-            avatar: {
+            user: {
               select: {
-                imageURL: true,
+                id: true,
+                username: true,
+                email: true,
+                fullname: true,
+                avatar: {
+                  select: {
+                    imageURL: true,
+                  },
+                },
               },
             },
-            email: true,
           },
           orderBy: {
-            createdAt:"asc"
-          }
+            joinedAt: "asc",
+          },
         },
       },
     });
@@ -236,11 +265,11 @@ const removeParticipantFromSpace = asyncHandler(
     }
 
     updatedSpace.participants.forEach((participant) => {
-      if (participant.id === req.user?.id) return;
+      // if (participant.user.id === req.user?.id) return;
 
       emitSocketEvent(
         req,
-        participant.id,
+        participant.user.id,
         SocketEventEnum.LEAVE_SPACE_EVENT,
         updatedSpace
       );
@@ -252,10 +281,8 @@ const removeParticipantFromSpace = asyncHandler(
   }
 );
 
-// DONE:
 const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
   const { spaceId } = req.params;
-  // console.log(spaceId);
 
   const space = await prisma.space.findUnique({
     where: {
@@ -263,24 +290,29 @@ const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
     },
     include: {
       participants: {
-        select: {
-          id: true,
-          username: true,
-          avatar: {
+        include: {
+          user: {
             select: {
-              imageURL: true,
+              id: true,
+              username: true,
+              avatar: {
+                select: {
+                  imageURL: true,
+                },
+              },
+              email: true,
+              fullname: true,
             },
           },
-          email: true,
         },
         orderBy: {
-          createdAt:"asc"
-        }
+          joinedAt: "asc",
+        },
       },
     },
   });
 
-  if (!getSpaceDetails) {
+  if (!space) {
     throw new ApiError(404, "Space does not exist");
   }
 
@@ -289,7 +321,42 @@ const getSpaceDetails = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200, space, "Space fetched successfully"));
 });
 
-// DONE:
+const getUsersInSpace = asyncHandler(async (req: Request, res: Response) => {
+  const { spaceId } = req.params;
+
+  const usersInSpace = await prisma.userSpace.findMany({
+    where: {
+      spaceId: spaceId,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          fullname: true,
+          avatar: {
+            select: {
+              imageURL: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      joinedAt: "asc",
+    },
+  });
+
+  if (!usersInSpace) {
+    throw new ApiError(404, "Space does not exist");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, usersInSpace, "Space fetched successfully"));
+});
+
 const renameSpace = asyncHandler(async (req: Request, res: Response) => {
   const { spaceId } = req.params;
   const { name } = req.body;
@@ -313,19 +380,24 @@ const renameSpace = asyncHandler(async (req: Request, res: Response) => {
     },
     include: {
       participants: {
-        select: {
-          id: true,
-          username: true,
-          avatar: {
+        include: {
+          user: {
             select: {
-              imageURL: true,
+              id: true,
+              username: true,
+              avatar: {
+                select: {
+                  imageURL: true,
+                },
+              },
+              email: true,
+              fullname: true,
             },
           },
-          email: true,
         },
         orderBy: {
-          createdAt:"asc"
-        }
+          joinedAt: "asc",
+        },
       },
     },
   });
@@ -337,7 +409,7 @@ const renameSpace = asyncHandler(async (req: Request, res: Response) => {
   updatedSpace.participants.forEach((participant) => {
     emitSocketEvent(
       req,
-      participant.id,
+      participant.user.id,
       SocketEventEnum.UPDATE_SPACE_NAME_EVENT,
       updatedSpace
     );
@@ -350,64 +422,66 @@ const renameSpace = asyncHandler(async (req: Request, res: Response) => {
     );
 });
 
-// DANGER:
-// const deleteGroupChat = asyncHandler(async (req: Request, res: Response) => {
-//   const { chatId } = req.params;
+const endSpace = asyncHandler(async (req: Request, res: Response) => {
+  const { spaceId } = req.params;
 
-//   const groupChat = await prisma.gameSession.findUnique({
-//     where: {
-//       id: chatId,
-//       isGroupGame: true,
-//     },
-//   });
+  const space = await prisma.space.findUnique({
+    where: {
+      id: spaceId,
+    },
+  });
 
-//   if (!groupChat) {
-//     throw new ApiError(404, "Group chat does not exist");
-//   }
+  if (!space) {
+    throw new ApiError(404, "Space does not exist");
+  }
 
-//   // // only admin can change the name
-//   // if (groupChat.admin?.toString() !== req.user._id?.toString()) {
-//   //   throw new ApiError(404, "You are not an admin");
-//   // }
+  const deletedSpace = await prisma.space.delete({
+    where: {
+      id: spaceId,
+    },
+    include: {
+      participants: {
+        select: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+              fullname: true,
+              avatar: {
+                select: {
+                  imageURL: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          joinedAt: "asc",
+        },
+      },
+    },
+  });
 
-//   const deletedGroupChat = await prisma.gameSession.delete({
-//     where: {
-//       id: chatId,
-//     },
-//     include: {
-//       players: {
-//         select: {
-//           id: true,
-//           username: true,
-//           avatar: true,
-//           email: true,
-//         },
-//       },
-//     },
-//   });
+  if (!deletedSpace) {
+    throw new ApiError(500, "Unable to end space.");
+  }
 
-//   if (!deletedGroupChat) {
-//     throw new ApiError(500, "Internal server error");
-//   }
+  deletedSpace.participants.forEach((participant) => {
+    emitSocketEvent(req, participant.user.id, SocketEventEnum.END_SPACE, null);
+  });
 
-//   deletedGroupChat.players.forEach((player) => {
-//     // if (player.id.toString() === req.user?.id.toString()) return;
-
-//     // emit event to other participants with new chat as a payload
-//     emitSocketEvent(
-//       req,
-//       player.id?.toString(),
-//       ChatEventEnum.LEAVE_CHAT_EVENT,
-//       deletedGroupChat
-//     );
-//   });
-
-//   return res
-//     .status(200)
-//     .json(new ApiResponse(200, {}, "Group chat deleted successfully"));
-// });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, null, "Space ended successfully"));
+});
 
 export {
-  addNewParticipantToSpace, createASpace, getSpaceDetails, removeParticipantFromSpace, renameSpace
+  addNewParticipantToSpace,
+  createASpace,
+  getSpaceDetails,
+  removeParticipantFromSpace,
+  renameSpace,
+  getUsersInSpace,
+  endSpace,
 };
-

@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// spaces        Space[]        @relation("UserSpaces")
+// participants  User[]    @relation("UserSpaces")
+// outgoingConnections Connection[] @relation("RequestingConnections")
+// incomingConnections Connection[] @relation("AcceptingConnections")
+
 model User {
   id            String         @id @default(uuid())
   username      String         @unique
@@ -15,26 +20,81 @@ model User {
   password      String
   createdAt     DateTime       @default(now())
   avatar        Avatar?
-  spaces        Space[]        @relation("UserSpaces")
+  spaces        UserSpace[]
   messages      Message[]
   notifications Notification[]
   sessions      Session[]
   chats         Chat[]
+  games         Player[]
+}
 
-  // outgoingConnections Connection[] @relation("RequestingConnections")
-  // incomingConnections Connection[] @relation("AcceptingConnections")
+model UserSpace {
+  userId   String
+  spaceId  String
+  joinedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  space    Space    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+
+  @@id([userId, spaceId]) // Composite primary key
 }
 
 model Space {
-  id            String    @id @default(uuid())
+  id            String      @id @default(uuid())
   status        String // "ongoing", "finished", "started"
-  participants  User[]    @relation("UserSpaces")
+  participants  UserSpace[]
   spaceDuration DateTime?
   name          String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   endedAt       DateTime?
   Chat          Chat?
+  games         Game[]
+}
+
+model Game {
+  id           String   @id @default(uuid())
+  status       String   @default("waiting") // "ongoing", "finished", "waiting"
+  currentRound Int      @default(0) // Tracks the current round number
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  spaceId      String
+  Space        Space    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+
+  rounds  Round[]
+  players Player[]
+}
+
+model Round {
+  id        String    @id @default(uuid())
+  roundNum  Int // The number of this round (e.g., 1, 2, 3)
+  status    String    @default("ongoing") // "ongoing", "finished"
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  gameId    String
+  Game      Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  actions   Action[]
+}
+
+model Player {
+  id       String   @id @default(uuid())
+  userId   String
+  gameId   String
+  Game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  joinedAt DateTime @default(now())
+  chips    Int      @default(1000)
+  actions  Action[]
+  User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Action {
+  id        String   @id @default(uuid())
+  type      String // "fold", "bet", "raise", "call", "check"
+  amount    Int? // Amount of chips (if applicable)
+  createdAt DateTime @default(now())
+  playerId  String
+  roundId   String
+  Player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  Round     Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
 }
 
 model Chat {
@@ -78,13 +138,16 @@ model Session {
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
-// model UserSpace {
-//   userId    String
-//   spaceId    String
-//   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   space      Space      @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-//   @@id([userId, spaceId]) 
-// }
+model Notification {
+  id          String   @id @default(uuid())
+  content     String
+  type        String // e.g., "friend_request", "game_invite"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  recipientId String
+  recipient   User     @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  read        Boolean  @default(false)
+}
 
 // model Connection {
 //   id          String   @id @default(uuid())
@@ -96,14 +159,3 @@ model Session {
 //   createdAt   DateTime @default(now())
 //   updatedAt   DateTime @updatedAt
 // }
-
-model Notification {
-  id          String   @id @default(uuid())
-  content     String
-  type        String // e.g., "friend_request", "game_invite"
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  recipientId String
-  recipient   User     @relation(fields: [recipientId], references: [id], onDelete: Cascade)
-  read        Boolean  @default(false)
-}
