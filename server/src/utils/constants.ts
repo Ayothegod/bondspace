@@ -5,13 +5,10 @@ export const SocketEventEnum = Object.freeze({
 
   NEW_MESSAGE: "newMessage",
   MESSAGE_DELETE_EVENT: "messageDeleted",
-  // MESSAGE_RECEIVED_EVENT: "messageReceived",
   TYPING_EVENT: "typing",
   STOP_TYPING_EVENT: "stopTyping",
 
   JOIN_CHAT_EVENT: "joinChat",
-  // LEAVE_CHAT_EVENT: "leaveChat",
-  // NEW_CHAT_EVENT: "newChat",
   UPDATE_CHAT_NAME_EVENT: "updateChatName",
 
   NEW_SPACE_EVENT: "newSpace",
@@ -19,7 +16,25 @@ export const SocketEventEnum = Object.freeze({
   LEAVE_SPACE_EVENT: "leaveSpace",
   UPDATE_SPACE_NAME_EVENT: "updateSpaceName",
   END_SPACE: "endSpace",
+
+  NEW_GAME_EVENT: "newGame",
+  JOIN_GAME_EVENT: "joinGame",
+  START_GAME_EVENT: "startGame",
+  END_GAME_EVENT: "endGame",
+
+  // NEW_GAME_EVENT: "newGame",
+  // JOIN_GAME_EVENT: "joinGame",
+  // START_GAME_EVENT: "startGame",
+  // END_GAME_EVENT: "endGame",
+
+  // LEAVE_SPACE_EVENT: "leaveSpace",
+  // UPDATE_SPACE_NAME_EVENT: "updateSpaceName",
+  // END_SPACE: "endSpace",
 });
+
+// ❓ Consider: Add constraints for chips to prevent negative values (can be enforced in code logic).
+
+// type String @db.VarChar(10) // Replace with enum in application code: ["fold", "bet", "raise", "call", "check"]
 
 export const ErrorEventEnum = Object.freeze({
   ALREADY_EXISTS: "ALREADY_EXISTS",
@@ -61,4 +76,3 @@ export const GenErrorEnum = Object.freeze({
     message: "Network issue, please retry.",
   },
 });
-

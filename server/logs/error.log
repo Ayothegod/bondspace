@@ -446,3 +446,19 @@
 [23 Nov, 2024 - 19:14:11:1411] [31merror[39m: [31mParticipant already in the space.[39m
 [23 Nov, 2024 - 19:36:46:3646] [31merror[39m: [31mYou are not authorized to perform this action[39m
 [23 Nov, 2024 - 19:57:04:574] [31merror[39m: [31mSpace does not exist[39m
+[24 Nov, 2024 - 02:40:58:4058] [31merror[39m: [31m[39m
+[31mInvalid `prisma.game.create()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/game.control.ts:12:37[39m
+
+[31m   9 const createGame = asyncHandler(async (req: Request, res: Response) => {[39m
+[31m  10   const { spaceId } = req.body;[39m
+[31m  11 [39m
+[31m→ 12   const newGame = await prisma.game.create([39m
+[31mForeign key constraint violated: `foreign key`[39m
+[24 Nov, 2024 - 02:44:34:4434] [31merror[39m: [31mSpace not found[39m
+[24 Nov, 2024 - 03:12:47:1247] [31merror[39m: [31mUser is already in the game[39m
+[24 Nov, 2024 - 03:12:50:1250] [31merror[39m: [31mUser is already in the game[39m
+[24 Nov, 2024 - 03:13:15:1315] [31merror[39m: [31mUser is already in the game[39m
+[24 Nov, 2024 - 03:13:19:1319] [31merror[39m: [31mUser is already in the game[39m
+[24 Nov, 2024 - 03:14:18:1418] [31merror[39m: [31mPlayer is already in the game[39m
+[24 Nov, 2024 - 03:14:29:1429] [31merror[39m: [31mPlayer is already in the game[39m

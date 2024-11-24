@@ -77,12 +77,14 @@ model Round {
 
 model Player {
   id       String   @id @default(uuid())
-  userId   String
-  gameId   String
-  Game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   joinedAt DateTime @default(now())
   chips    Int      @default(1000)
   actions  Action[]
+  
+  gameId   String
+  Game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  userId   String
   User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

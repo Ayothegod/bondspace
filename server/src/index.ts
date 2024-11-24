@@ -72,6 +72,7 @@ import authRoute from "./routes/auth.route.js";
 import chatRoute from "./routes/chat.route.js";
 import spaceRoute from "./routes/space.route.js";
 import messageRoute from "./routes/message.route.js";
+import gameRoute from "./routes/game.route.js";
 
 // ROUTES
 
@@ -80,6 +81,7 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/space", spaceRoute);
 app.use("/api/v1/message", messageRoute);
+app.use("/api/v1/game", gameRoute);
 
 const startServer = () => {
   httpServer.listen(process.env.PORT || 8090, () => {
