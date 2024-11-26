@@ -21,6 +21,8 @@ export const SocketEventEnum = Object.freeze({
   JOIN_GAME_EVENT: "joinGame",
   START_GAME_EVENT: "startGame",
   END_GAME_EVENT: "endGame",
+  LEAVE_GAME_EVENT: "leaveGame",
+
 
   // NEW_GAME_EVENT: "newGame",
   // JOIN_GAME_EVENT: "joinGame",

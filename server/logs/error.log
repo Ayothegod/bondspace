@@ -462,3 +462,17 @@
 [24 Nov, 2024 - 03:13:19:1319] [31merror[39m: [31mUser is already in the game[39m
 [24 Nov, 2024 - 03:14:18:1418] [31merror[39m: [31mPlayer is already in the game[39m
 [24 Nov, 2024 - 03:14:29:1429] [31merror[39m: [31mPlayer is already in the game[39m
+[24 Nov, 2024 - 03:28:05:285] [31merror[39m: [31m[39m
+[31mInvalid `prisma.player.delete()` invocation in[39m
+[31m/home/ayomide/code/hacks/bondspace/server/src/controllers/game.control.ts:195:38[39m
+
+[31m  192   throw new Error("Player does not exist in the game");[39m
+[31m  193 }[39m
+[31m  194 [39m
+[31m→ 195 const player = await prisma.player.delete([39m
+[31mAn operation failed because it depends on one or more records that were required but not found. Record to delete does not exist.[39m
+[24 Nov, 2024 - 03:39:28:3928] [31merror[39m: [31mgame is not defined[39m
+[24 Nov, 2024 - 03:40:48:4048] [31merror[39m: [31mgame is not defined[39m
+[24 Nov, 2024 - 03:41:02:412] [31merror[39m: [31mGame not found[39m
+[24 Nov, 2024 - 03:43:38:4338] [31merror[39m: [31mgame is not defined[39m
+[24 Nov, 2024 - 03:44:45:4445] [31merror[39m: [31mAt least 2 players are required to start the game.[39m

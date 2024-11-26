@@ -245,3 +245,36 @@ export interface MessageInterface {
 //   "message": "Participant added to space successfully.",
 //   "success": true
 // }
+
+// NOTE: initila game - create game
+
+// {
+//   "statusCode": 201,
+//   "data": {
+//     "id": "6ff36b62-09d6-4d3c-8311-910c712703f9",
+//     "status": "waiting",
+//     "currentRound": 0,
+//     "createdAt": "2024-11-24T01:46:02.681Z",
+//     "updatedAt": "2024-11-24T01:46:02.681Z",
+//     "spaceId": "1fcfcac9-64a8-404f-bbb8-5c5f6c8fa9b3",
+//     "players": [
+//       {
+//         "id": "408c495b-a1ee-449c-b7b3-10a77eec05b4",
+//         "userId": "af5151a9-73c0-458b-aaa5-1553cfddf1ee",
+//         "gameId": "6ff36b62-09d6-4d3c-8311-910c712703f9",
+//         "joinedAt": "2024-11-24T01:46:02.681Z",
+//         "chips": 1000,
+//         "User": {
+//           "email": "Fourth@gmail.com",
+//           "username": "Fourth",
+//           "id": "af5151a9-73c0-458b-aaa5-1553cfddf1ee",
+//           "avatar": null,
+//           "fullname": "Fourth Tester"
+//         }
+//       }
+//     ],
+//     "rounds": []
+//   },
+//   "message": "Game created successfully",
+//   "success": true
+// }

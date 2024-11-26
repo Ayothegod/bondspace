@@ -113,6 +113,10 @@ const joinGame = asyncHandler(async (req: Request, res: Response) => {
     },
   });
 
+  if (!player) {
+    throw new ApiError(404, "Error while adding player to game.");
+  }
+
   const gameState = await prisma.game.findUnique({
     where: {
       id: gameId,
@@ -147,7 +151,7 @@ const joinGame = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (!gameState) {
-    throw new ApiError(404, "Error while creating adding user to game.");
+    throw new ApiError(404, "Error while fetching game data.");
   }
 
   gameState.players.forEach((player) => {
@@ -166,4 +170,219 @@ const joinGame = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(201, gameState, "Player joined the game"));
 });
 
-export { createGame, joinGame };
+const leaveGame = asyncHandler(async (req: Request, res: Response) => {
+  const { gameId } = req.params;
+  const { userId, playerId } = req.body;
+
+  const existingGame = await prisma.game.findUnique({
+    where: { id: gameId },
+    include: { players: { include: { User: true } } },
+  });
+
+  if (!existingGame) {
+    throw new Error("Game not found");
+  }
+
+  const alreadyAParticipant = existingGame.players.some(
+    (player) => player.User.id === userId
+  );
+
+  if (!alreadyAParticipant) {
+    throw new Error("Player does not exist in the game");
+  }
+
+  const player = await prisma.player.delete({
+    where: {
+      userId: userId,
+      id: playerId,
+    },
+  });
+
+  if (!player) {
+    throw new ApiError(404, "Error while removing player from game.");
+  }
+
+  const gameState = await prisma.game.findUnique({
+    where: {
+      id: gameId,
+    },
+    include: {
+      players: {
+        include: {
+          User: {
+            select: {
+              email: true,
+              username: true,
+              id: true,
+              avatar: {
+                select: {
+                  imageURL: true,
+                },
+              },
+              fullname: true,
+            },
+          },
+        },
+      },
+      rounds: {
+        include: {
+          actions: true,
+        },
+        orderBy: {
+          startedAt: "asc",
+        },
+      },
+    },
+  });
+
+  if (!gameState) {
+    throw new ApiError(404, "Error while fetching game data.");
+  }
+
+  gameState.players.forEach((player) => {
+    if (player.User.id === req.user?.id) return;
+
+    emitSocketEvent(
+      req,
+      player.User.id,
+      SocketEventEnum.LEAVE_GAME_EVENT,
+      gameState
+    );
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(201, gameState, "Player leave the game"));
+});
+
+const startGame = asyncHandler(async (req: Request, res: Response) => {
+  const { gameId } = req.params;
+
+  const existingGame = await prisma.game.findUnique({
+    where: { id: gameId },
+    include: { players: { include: { User: true } } },
+  });
+
+  if (!existingGame) {
+    throw new Error("Game not found");
+  }
+
+  if (existingGame.players.length < 2) {
+    throw new Error("At least 2 players are required to start the game.");
+  }
+
+  const updatedGame = await prisma.game.update({
+    where: { id: gameId },
+    data: { status: "ongoing", currentRound: 1 },
+    include: {
+      players: {
+        include: {
+          User: {
+            select: {
+              email: true,
+              username: true,
+              id: true,
+              avatar: {
+                select: {
+                  imageURL: true,
+                },
+              },
+              fullname: true,
+            },
+          },
+        },
+      },
+      rounds: {
+        include: {
+          actions: true,
+        },
+        orderBy: {
+          startedAt: "asc",
+        },
+      },
+    },
+  });
+
+  if (!updatedGame) {
+    throw new ApiError(404, "Error while starting game.");
+  }
+
+  updatedGame.players.forEach((player) => {
+    if (player.User.id === req.user?.id) return;
+
+    emitSocketEvent(
+      req,
+      player.User.id,
+      SocketEventEnum.JOIN_GAME_EVENT,
+      updatedGame
+    );
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(201, updatedGame, "Game started"));
+});
+
+const endGame = asyncHandler(async (req: Request, res: Response) => {
+  const { gameId } = req.params;
+
+  const existingGame = await prisma.game.findUnique({
+    where: { id: gameId },
+    include: { players: { include: { User: true } } },
+  });
+
+  if (!existingGame) {
+    throw new Error("Game not found");
+  }
+
+  const updatedGame = await prisma.game.update({
+    where: { id: gameId },
+    data: { status: "finished" },
+    include: {
+      players: {
+        include: {
+          User: {
+            select: {
+              email: true,
+              username: true,
+              id: true,
+              avatar: {
+                select: {
+                  imageURL: true,
+                },
+              },
+              fullname: true,
+            },
+          },
+        },
+      },
+      rounds: {
+        include: {
+          actions: true,
+        },
+        orderBy: {
+          startedAt: "asc",
+        },
+      },
+    },
+  });
+
+  if (!updatedGame) {
+    throw new ApiError(404, "Error while ending game.");
+  }
+
+  updatedGame.players.forEach((player) => {
+    if (player.User.id === req.user?.id) return;
+
+    emitSocketEvent(
+      req,
+      player.User.id,
+      SocketEventEnum.LEAVE_GAME_EVENT,
+      updatedGame
+    );
+  });
+
+  return res.status(200).json(new ApiResponse(201, updatedGame, "Game ended"));
+});
+
+export { createGame, joinGame, leaveGame, startGame, endGame };
