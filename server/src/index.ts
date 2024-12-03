@@ -6,7 +6,6 @@ import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 
 import dotenv from "dotenv";
-import { ApiError } from "./utils/ApiError";
 import logger from "./utils/logger/winston.logger";
 import morganMiddleware from "./utils/logger/morgan.logger";
 dotenv.config({
@@ -85,11 +84,11 @@ app.use("/api/v1/game", gameRoute);
 
 const startServer = () => {
   httpServer.listen(process.env.PORT || 8090, () => {
-    logger.info(
-      `📑 Visit the documentation at: http://localhost:${
-        process.env.PORT || 8090
-      }`
-    );
+    // logger.info(
+    //   `📑 Visit the documentation at: http://localhost:${
+    //     process.env.PORT || 8090
+    //   }`
+    // );
     logger.info("⚙️  Server is running on port: " + process.env.PORT);
   });
 };
